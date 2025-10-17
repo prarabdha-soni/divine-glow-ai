@@ -6,7 +6,7 @@ import { BottomNav } from '@/components/BottomNav';
 const moments = [
   {
     id: 1,
-    videoId: "Tx3VbD4PzjI",
+    videoId: "Tl4bQBfOtbg",
     title: "Krishna Dance Meditation",
     affirmation: "I dance in devotion, releasing all that is heavy. My body is a temple moving in Krishna's rhythm.",
     mantra: "Om Namo Bhagavate Vasudevaya",
@@ -14,7 +14,7 @@ const moments = [
   },
   {
     id: 2,
-    videoId: "t8eYkDyVq2c",
+    videoId: "3YLog5mrAYM",
     title: "Hare Krishna Maha Mantra",
     affirmation: "Each breath is Krishna's flute, each heartbeat His drum. I surrender my worries to divine protection.",
     mantra: "Hare Krishna Hare Krishna, Krishna Krishna Hare Hare",
@@ -22,7 +22,7 @@ const moments = [
   },
   {
     id: 3,
-    videoId: "hfzI-yPjKzA",
+    videoId: "QQ5Oe-eyt7g",
     title: "Radha's Glow Sadhana",
     affirmation: "I am radiant with divine love. My skin reflects the light of my devotional heart.",
     mantra: "Om Shri Radhayai Namaha",
@@ -30,7 +30,7 @@ const moments = [
   },
   {
     id: 4,
-    videoId: "2qA0UJ8YbTo",
+    videoId: "lm6CLMLSZBc",
     title: "Krishna's Night Blessings",
     affirmation: "I rest in the lap of the divine mother. Sleep is my sacred surrender to Krishna's love.",
     mantra: "Om Shanti Shanti Shanti",
@@ -79,7 +79,7 @@ const DivineMoments = () => {
             {/* Bottom Info */}
             <div className="absolute bottom-24 left-0 right-0 px-6 pointer-events-none">
               <div className="max-w-md mx-auto space-y-3">
-                <div className="text-xs text-divine-saffron font-medium tracking-wide">
+                <div className="text-xs text-amber-400 font-medium tracking-wide">
                   {moment.category}
                 </div>
                 <h3 className="text-white text-xl font-semibold">

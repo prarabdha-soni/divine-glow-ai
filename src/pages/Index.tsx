@@ -10,27 +10,27 @@ const Index = () => {
     {
       icon: Leaf,
       title: "Lose weight",
-      color: "text-emerald-600"
+      color: "text-emerald-700"
     },
     {
       icon: Sparkles,
       title: "Reduce anxiety",
-      color: "text-purple-600"
+      color: "text-purple-700"
     },
     {
       icon: Sun,
       title: "Get glowing skin",
-      color: "text-amber-500"
+      color: "text-amber-800"
     },
     {
       icon: Moon,
       title: "Sleep better",
-      color: "text-indigo-600"
+      color: "text-indigo-700"
     },
     {
       icon: Heart,
       title: "Heal reproductive health",
-      color: "text-rose-600"
+      color: "text-rose-700"
     }
   ];
 
@@ -41,25 +41,8 @@ const Index = () => {
         {/* Header */}
         <div className="mb-12">
           <h1 className="text-5xl font-bold text-foreground mb-2 tracking-tight">
-            Hearts
+            Gloww
           </h1>
-          <p className="text-xl text-foreground/80 font-light">
-            by Krishna
-          </p>
-        </div>
-
-        {/* Hero Message */}
-        <div className="mb-12">
-          <div className="text-4xl mb-3">🪷</div>
-          <h2 className="text-4xl font-bold text-foreground mb-3 leading-tight">
-            Heal with Divine Love
-          </h2>
-          <p className="text-lg text-foreground/70 leading-relaxed">
-            Through Krishna's wisdom, Radha's devotion, and nature's ancient healing
-          </p>
-          <p className="text-sm text-primary/80 italic mt-3">
-            "The soul is never touched by anxiety when rooted in divine consciousness" - Bhagavad Gita
-          </p>
         </div>
 
         {/* Wellness Path Cards */}

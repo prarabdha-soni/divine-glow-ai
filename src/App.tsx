@@ -8,6 +8,7 @@ import WellnessPath from "./pages/WellnessPath";
 import DivineMoments from "./pages/DivineMoments";
 import AskRadha from "./pages/AskRadha";
 import DivineStore from "./pages/DivineStore";
+import MusicPlayerPage from "./pages/MusicPlayer";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -22,6 +23,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/wellness" element={<WellnessPath />} />
           <Route path="/moments" element={<DivineMoments />} />
+          <Route path="/music" element={<MusicPlayerPage />} />
           <Route path="/ask-radha" element={<AskRadha />} />
           <Route path="/store" element={<DivineStore />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

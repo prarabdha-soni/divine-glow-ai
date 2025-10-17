@@ -10,14 +10,14 @@ const products = {
     {
       name: "Gopi Glow Serum",
       description: "Rose & saffron radiance elixir",
-      price: "$48",
+      price: "₹3,984",
       mantra: "Radha's Radiance - 10min meditation",
       image: "🌹"
     },
     {
       name: "Sandalwood Face Mist",
       description: "Cooling & calming spray",
-      price: "$32",
+      price: "₹2,656",
       mantra: "Divine Calm - 5min chant",
       image: "🪷"
     }
@@ -26,14 +26,14 @@ const products = {
     {
       name: "Ashwagandha Calm Tonic",
       description: "Stress-relief & hormone balance",
-      price: "$38",
+      price: "₹3,154",
       mantra: "Inner Peace Mantra - 15min",
       image: "🍃"
     },
     {
       name: "Triphala Detox Blend",
       description: "Natural cleansing formula",
-      price: "$28",
+      price: "₹2,324",
       mantra: "Purification Chant - 8min",
       image: "🌿"
     }
@@ -42,14 +42,14 @@ const products = {
     {
       name: "Beauty Collagen Tea",
       description: "Herbal skin support blend",
-      price: "$24",
+      price: "₹1,992",
       mantra: "Morning Radiance Bhajan",
       image: "🫖"
     },
     {
       name: "Goddess Protein Blend",
       description: "Plant-based sattvic nutrition",
-      price: "$42",
+      price: "₹3,486",
       mantra: "Strength Mantra - 12min",
       image: "🌾"
     }
@@ -58,14 +58,14 @@ const products = {
     {
       name: "Lotus Incense Set",
       description: "Sacred aroma collection",
-      price: "$18",
+      price: "₹1,494",
       mantra: "Evening Devotion - 20min",
       image: "🪔"
     },
     {
       name: "Krishna's Flute Diffuser",
       description: "Meditative ambiance",
-      price: "$56",
+      price: "₹4,648",
       mantra: "Divine Music Meditation",
       image: "🎵"
     }

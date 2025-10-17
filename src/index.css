@@ -13,8 +13,8 @@
     --divine-rose: 340 70% 85%;
     --divine-lavender: 270 60% 80%;
     --divine-cyan: 190 60% 75%;
-    --divine-saffron: 35 85% 65%;
-    --divine-gold: 45 90% 70%;
+    --divine-saffron: 35 85% 55%;
+    --divine-gold: 45 90% 60%;
     
     /* Base Colors */
     --background: 40 20% 98%;
@@ -26,7 +26,7 @@
     --popover: 40 15% 97%;
     --popover-foreground: 260 20% 20%;
 
-    --primary: 35 85% 65%;
+    --primary: 35 85% 55%;
     --primary-foreground: 260 20% 20%;
 
     --secondary: 340 70% 85%;
@@ -43,7 +43,7 @@
 
     --border: 270 20% 90%;
     --input: 270 20% 90%;
-    --ring: 35 85% 65%;
+    --ring: 35 85% 55%;
 
     --radius: 1rem;
 
@@ -63,7 +63,7 @@
 
     --sidebar-background: 40 20% 98%;
     --sidebar-foreground: 260 20% 20%;
-    --sidebar-primary: 35 85% 65%;
+    --sidebar-primary: 35 85% 55%;
     --sidebar-primary-foreground: 260 20% 20%;
     --sidebar-accent: 270 30% 90%;
     --sidebar-accent-foreground: 260 20% 20%;
@@ -81,7 +81,7 @@
     --popover: 260 25% 15%;
     --popover-foreground: 40 20% 95%;
 
-    --primary: 35 85% 65%;
+    --primary: 35 85% 55%;
     --primary-foreground: 260 30% 10%;
 
     --secondary: 270 40% 25%;
@@ -98,11 +98,11 @@
 
     --border: 270 25% 20%;
     --input: 270 25% 20%;
-    --ring: 35 85% 65%;
+    --ring: 35 85% 55%;
     
     --sidebar-background: 260 30% 10%;
     --sidebar-foreground: 40 20% 95%;
-    --sidebar-primary: 35 85% 65%;
+    --sidebar-primary: 35 85% 55%;
     --sidebar-primary-foreground: 260 30% 10%;
     --sidebar-accent: 270 25% 20%;
     --sidebar-accent-foreground: 40 20% 95%;
@@ -140,5 +140,30 @@
   
   .wellness-card {
     @apply divine-card rounded-3xl p-6 cursor-pointer;
+  }
+  
+  .wellness-card:hover {
+    @apply shadow-lg;
+  }
+  
+  /* Improved text contrast */
+  .text-amber-800 {
+    color: hsl(32 95% 44%);
+  }
+  
+  .text-emerald-700 {
+    color: hsl(142 76% 36%);
+  }
+  
+  .text-purple-700 {
+    color: hsl(262 83% 58%);
+  }
+  
+  .text-indigo-700 {
+    color: hsl(231 48% 48%);
+  }
+  
+  .text-rose-700 {
+    color: hsl(330 81% 60%);
   }
 }
