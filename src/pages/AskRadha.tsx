@@ -19,7 +19,7 @@ const AskRadha = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'radha',
-      content: "Namaste 🙏 I am Radha, the eternal beloved of Krishna. I see your heart and feel your spirit. Share what burdens your soul, and I shall guide you with divine compassion and sacred wisdom."
+      content: "Namaste 🙏 I am Nishu, the eternal beloved of Krishna. I see your heart and feel your spirit. Share what burdens your soul, and I shall guide you with divine compassion and sacred wisdom."
     }
   ]);
   const [input, setInput] = useState('');
@@ -99,7 +99,7 @@ const AskRadha = () => {
             🪷
           </div>
           <div>
-            <h1 className="text-lg font-semibold">Ask Radha</h1>
+            <h1 className="text-lg font-semibold">Ask Nishu</h1>
             <p className="text-xs text-muted-foreground">Your Divine Companion in Bhakti</p>
           </div>
         </div>

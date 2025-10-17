@@ -6,10 +6,10 @@ import { MusicPlayer } from '@/components/MusicPlayer';
 
 const wellnessContent = {
   "Lose weight": {
-    videoId: "Tl4bQBfOtbg",
+    videoId: "ByD_y86a_J4",
     spiritualWisdom: "In bhakti, we dance to release attachment—not just to weight, but to all that burdens the soul. Movement becomes worship.",
     solutions: [
-      { type: "Bhakti Practice", title: "Shyama Bhajan by Sachet-Parampara", url: "https://www.youtube.com/watch?v=lm6CLMLSZBc&list=RDlm6CLMLSZBc&start_radio=1", description: "Sacred movement to release physical & emotional weight" },
+      { type: "Bhakti Practice", title: "Shyama Bhajan by Sachet-Parampara", url: "https://www.youtube.com/watch?v=ByD_y86a_J4&list=RDByD_y86a_J4", description: "Sacred movement to release physical & emotional weight" },
       { type: "Ayurvedic", title: "Triphala Weight Balance", description: "Balances Kapha, cleanses ama (toxins), supports agni (digestive fire)" },
       { type: "Sattvic Recipe", title: "Quinoa & Mung Dal Khichdi", description: "Light tridoshic meal blessed with tulsi" },
       { type: "Sacred Oil", title: "Warming Herbal Body Oil", description: "Ginger & black pepper to stimulate metabolism & prana flow" }

@@ -51,7 +51,7 @@ export const BottomNav = () => {
         />
         <NavItem 
           icon={<MessageCircle size={22} />} 
-          label="Ask Radha" 
+          label="Ask Nishu" 
           active={location.pathname === '/ask-radha'}
           onClick={() => navigate('/ask-radha')}
         />
