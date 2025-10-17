@@ -2,6 +2,7 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Play, ShoppingBag, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { MusicPlayer } from '@/components/MusicPlayer';
 
 const wellnessContent = {
   "Lose weight": {
@@ -33,6 +34,11 @@ const wellnessContent = {
   },
   "Sleep better": {
     videoId: "2qA0UJ8YbTo",
+    sleepTracks: [
+      { title: "Krishna's Flute Lullaby", artist: "Divine Sleep Series", duration: "8:30", audioUrl: "https://www.youtube.com/watch?v=2qA0UJ8YbTo" },
+      { title: "Hare Krishna Night Chant", artist: "Peaceful Mantras", duration: "10:15", audioUrl: "https://www.youtube.com/watch?v=t8eYkDyVq2c" },
+      { title: "Radha's Evening Song", artist: "Sacred Slumber", duration: "7:45", audioUrl: "https://www.youtube.com/watch?v=hfzI-yPjKzA" }
+    ],
     solutions: [
       { type: "Lullaby", title: "Krishna's Flute at Night", url: "https://www.youtube.com/watch?v=2qA0UJ8YbTo" },
       { type: "Ayurvedic", title: "Moon Milk Blend", description: "Sleep-inducing tonic" },
@@ -75,6 +81,11 @@ const WellnessPath = () => {
         </div>
 
         <div className="px-6 pt-6 space-y-6">
+          {/* Music Player for Sleep Better */}
+          {path === "Sleep better" && 'sleepTracks' in content && (
+            <MusicPlayer tracks={content.sleepTracks} />
+          )}
+
           {/* Featured Video */}
           <Card className="overflow-hidden">
             <div className="aspect-video bg-muted relative">
