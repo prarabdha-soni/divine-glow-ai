@@ -1,8 +1,11 @@
+import { useNavigate } from 'react-router-dom';
 import { Leaf, Sparkles, Sun, Moon, Heart } from 'lucide-react';
 import { WellnessCard } from '@/components/WellnessCard';
 import { BottomNav } from '@/components/BottomNav';
 
 const Index = () => {
+  const navigate = useNavigate();
+  
   const wellnessPaths = [
     {
       icon: Leaf,
@@ -63,7 +66,7 @@ const Index = () => {
               icon={path.icon}
               title={path.title}
               iconColor={path.color}
-              onClick={() => console.log(`Selected: ${path.title}`)}
+              onClick={() => navigate(`/wellness?path=${encodeURIComponent(path.title)}`)}
             />
           ))}
         </div>
