@@ -8,29 +8,33 @@ const moments = [
     id: 1,
     videoId: "Tx3VbD4PzjI",
     title: "Krishna Dance Meditation",
-    affirmation: "Move with devotion, release what weighs you down",
-    category: "Weight Loss"
+    affirmation: "I dance in devotion, releasing all that is heavy. My body is a temple moving in Krishna's rhythm.",
+    mantra: "Om Namo Bhagavate Vasudevaya",
+    category: "Kapha Balance • Weight Release"
   },
   {
     id: 2,
     videoId: "t8eYkDyVq2c",
-    title: "Hare Krishna Calm",
-    affirmation: "Breathe in peace, breathe out worry",
-    category: "Stress Relief"
+    title: "Hare Krishna Maha Mantra",
+    affirmation: "Each breath is Krishna's flute, each heartbeat His drum. I surrender my worries to divine protection.",
+    mantra: "Hare Krishna Hare Krishna, Krishna Krishna Hare Hare",
+    category: "Vata Healing • Inner Peace"
   },
   {
     id: 3,
     videoId: "hfzI-yPjKzA",
-    title: "Radiance Meditation",
-    affirmation: "Your inner light shines through your skin",
-    category: "Glowing Skin"
+    title: "Radha's Glow Sadhana",
+    affirmation: "I am radiant with divine love. My skin reflects the light of my devotional heart.",
+    mantra: "Om Shri Radhayai Namaha",
+    category: "Ojas Radiance • Gopi Beauty"
   },
   {
     id: 4,
     videoId: "2qA0UJ8YbTo",
-    title: "Krishna's Lullaby",
-    affirmation: "Rest in divine embrace, sleep comes naturally",
-    category: "Better Sleep"
+    title: "Krishna's Night Blessings",
+    affirmation: "I rest in the lap of the divine mother. Sleep is my sacred surrender to Krishna's love.",
+    mantra: "Om Shanti Shanti Shanti",
+    category: "Vata Grounding • Divine Sleep"
   }
 ];
 
@@ -74,16 +78,20 @@ const DivineMoments = () => {
             
             {/* Bottom Info */}
             <div className="absolute bottom-24 left-0 right-0 px-6 pointer-events-none">
-              <div className="max-w-md mx-auto">
-                <div className="text-xs text-divine-saffron font-medium mb-2">
+              <div className="max-w-md mx-auto space-y-3">
+                <div className="text-xs text-divine-saffron font-medium tracking-wide">
                   {moment.category}
                 </div>
-                <h3 className="text-white text-xl font-semibold mb-2">
+                <h3 className="text-white text-xl font-semibold">
                   {moment.title}
                 </h3>
-                <p className="text-white/90 text-sm italic">
+                <p className="text-white/95 text-sm leading-relaxed italic">
                   "{moment.affirmation}"
                 </p>
+                <div className="flex items-center gap-2 text-white/80 text-xs">
+                  <span className="text-base">🕉️</span>
+                  <span className="font-medium">{moment.mantra}</span>
+                </div>
               </div>
             </div>
 

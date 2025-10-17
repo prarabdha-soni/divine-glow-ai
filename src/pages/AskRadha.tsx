@@ -19,10 +19,52 @@ const AskRadha = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'radha',
-      content: "Namaste 🙏 I am Radha, your divine companion. Share what's in your heart, and I'll guide you toward peace and radiance."
+      content: "Namaste 🙏 I am Radha, the eternal beloved of Krishna. I see your heart and feel your spirit. Share what burdens your soul, and I shall guide you with divine compassion and sacred wisdom."
     }
   ]);
   const [input, setInput] = useState('');
+
+  const responses: Record<string, { message: string; bhajan: string; lifestyle: string; product: string }> = {
+    "anxious": {
+      message: "Beloved soul, your anxiety is Vata imbalance—the wind has entered your mind. Return to the stillness of Krishna's flute. Each mantra you chant grounds you back to divine earth.",
+      bhajan: "🕉️ Hare Krishna Maha Mantra Japa (108 rounds) - Shield your nervous system with divine vibration",
+      lifestyle: "🌿 Morning Sadhana: Warm sesame oil abhyanga + grounding foods (sweet potato, ghee, dates) + gentle pranayama",
+      product: "💫 Ashwagandha Rasayana Elixir - Adaptogenic root to calm Vata, restore ojas, build resilience"
+    },
+    "tired": {
+      message: "Dear one, exhaustion is your ojas depleting. Your body temple needs sattvic nourishment and surrender to rest. Even Krishna rests under the Kadamba tree.",
+      bhajan: "🎵 Krishna's Evening Lullaby - Let divine music restore your prana",
+      lifestyle: "🌙 Evening Ritual: Warm milk with cardamom & nutmeg + foot massage with ghee + gratitude prayers before bed",
+      product: "🌿 Chyawanprash Moon Milk - Ancient Ayurvedic rasayana to rebuild vitality & deep rest"
+    },
+    "stressed": {
+      message: "Sweet devotee, stress is attachment to outcomes. Offer your worries to Krishna. The Bhagavad Gita reminds us: 'You have the right to work, but not to the fruits.' Surrender.",
+      bhajan: "🎵 Govinda Jaya Jaya Kirtan - Community chanting releases oxytocin & divine grace",
+      lifestyle: "🧘‍♀️ Bhakti Practice: 20-min kirtan + cooling pranayama (sheetali breath) + sandalwood on third eye",
+      product: "🪷 Brahmi Gotu Kola Tonic - Medhya rasayana (brain tonic) to calm Pitta heat & support mental clarity"
+    },
+    "skin": {
+      message: "Radiant one, glowing skin is the mirror of a peaceful heart. Inner beauty manifests outward when you live in sattvic purity and devotional love.",
+      bhajan: "🕉️ Om Shri Radhayai Namaha - Invoke Radha's golden radiance",
+      lifestyle: "🌸 Gopi Beauty Ritual: Rose water cleanse + ubtan (turmeric, chickpea flour, milk) + ghee for lips + early sleep",
+      product: "✨ Gopi Glow Kesar Serum - Saffron & rose blessed with Radha mantra for luminous ojas"
+    }
+  };
+
+  const getResponse = (input: string): { message: string; bhajan: string; lifestyle: string; product: string } => {
+    const lowerInput = input.toLowerCase();
+    if (lowerInput.includes("anxious") || lowerInput.includes("anxiety") || lowerInput.includes("worried")) return responses.anxious;
+    if (lowerInput.includes("tired") || lowerInput.includes("sleep") || lowerInput.includes("exhausted")) return responses.tired;
+    if (lowerInput.includes("stress") || lowerInput.includes("overwhelm")) return responses.stressed;
+    if (lowerInput.includes("skin") || lowerInput.includes("glow") || lowerInput.includes("beauty")) return responses.skin;
+    
+    return {
+      message: "Beloved soul, I am Radha—the eternal beloved of Krishna. Share your heart with me. What burdens your spirit today? I am here with divine compassion.",
+      bhajan: "🕉️ Begin with Hare Krishna Maha Mantra - The universal healing vibration",
+      lifestyle: "🙏 Sacred Daily Rhythm: Brahma muhurta awakening (4-6am) + sattvic prasadam + evening kirtan + gratitude before sleep",
+      product: "💖 Tulsi Rasayana Tea - Holy basil to purify mind, body & soul"
+    };
+  };
 
   const handleSend = () => {
     if (!input.trim()) return;
@@ -30,15 +72,16 @@ const AskRadha = () => {
     const userMessage: Message = { role: 'user', content: input };
     setMessages(prev => [...prev, userMessage]);
 
-    // Simulate AI response (replace with actual AI integration)
+    // Get AI response based on keywords
     setTimeout(() => {
+      const response = getResponse(input);
       const radhaResponse: Message = {
         role: 'radha',
-        content: "I hear your heart, dear one. Let me offer you comfort through the divine path.",
+        content: response.message,
         recommendations: {
-          bhajan: "Hare Krishna Mantra - 10 minutes",
-          lifestyle: "Practice gratitude journaling each morning",
-          product: "Radha Calm Elixir - Ashwagandha blend"
+          bhajan: response.bhajan,
+          lifestyle: response.lifestyle,
+          product: response.product
         }
       };
       setMessages(prev => [...prev, radhaResponse]);
@@ -52,12 +95,12 @@ const AskRadha = () => {
       {/* Header */}
       <div className="sticky top-0 bg-card/80 backdrop-blur-lg border-b border-border z-20 px-6 py-4">
         <div className="flex items-center gap-3 max-w-md mx-auto">
-          <div className="h-10 w-10 rounded-full bg-gradient-to-br from-divine-saffron to-divine-marigold flex items-center justify-center">
-            <Sparkles className="w-5 h-5 text-white" />
+          <div className="h-10 w-10 rounded-full bg-gradient-to-br from-divine-saffron to-divine-marigold flex items-center justify-center text-xl">
+            🪷
           </div>
           <div>
             <h1 className="text-lg font-semibold">Ask Radha</h1>
-            <p className="text-xs text-muted-foreground">Your divine companion</p>
+            <p className="text-xs text-muted-foreground">Your Divine Companion in Bhakti</p>
           </div>
         </div>
       </div>

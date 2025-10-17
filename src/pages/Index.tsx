@@ -50,11 +50,15 @@ const Index = () => {
 
         {/* Hero Message */}
         <div className="mb-12">
+          <div className="text-4xl mb-3">🪷</div>
           <h2 className="text-4xl font-bold text-foreground mb-3 leading-tight">
-            Glow from within
+            Heal with Divine Love
           </h2>
-          <p className="text-lg text-foreground/70">
-            Personalized care starts here
+          <p className="text-lg text-foreground/70 leading-relaxed">
+            Through Krishna's wisdom, Radha's devotion, and nature's ancient healing
+          </p>
+          <p className="text-sm text-primary/80 italic mt-3">
+            "The soul is never touched by anxiety when rooted in divine consciousness" - Bhagavad Gita
           </p>
         </div>
 

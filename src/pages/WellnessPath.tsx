@@ -7,52 +7,62 @@ import { MusicPlayer } from '@/components/MusicPlayer';
 const wellnessContent = {
   "Lose weight": {
     videoId: "Tx3VbD4PzjI",
+    spiritualWisdom: "In bhakti, we dance to release attachment—not just to weight, but to all that burdens the soul. Movement becomes worship.",
+    ayurvedicPrinciple: "Balance Kapha dosha through warming spices, light foods, and joyful movement. Early morning is Brahma muhurta—ideal for practice.",
     solutions: [
-      { type: "Video", title: "Krishna Dance Meditation", url: "https://www.youtube.com/watch?v=Tx3VbD4PzjI" },
-      { type: "Ayurvedic", title: "Triphala Weight Balance", description: "Natural detox blend" },
-      { type: "Sattvic Recipe", title: "Quinoa & Mung Dal Bowl", description: "Light, protein-rich meal" },
-      { type: "Cosmetic", title: "Herbal Body Oil", description: "Stimulates metabolism" }
+      { type: "Bhakti Practice", title: "Krishna Dance Meditation", url: "https://www.youtube.com/watch?v=Tx3VbD4PzjI", description: "Sacred movement to release physical & emotional weight" },
+      { type: "Ayurvedic", title: "Triphala Weight Balance", description: "Balances Kapha, cleanses ama (toxins), supports agni (digestive fire)" },
+      { type: "Sattvic Recipe", title: "Quinoa & Mung Dal Khichdi", description: "Light tridoshic meal blessed with tulsi" },
+      { type: "Sacred Oil", title: "Warming Herbal Body Oil", description: "Ginger & black pepper to stimulate metabolism & prana flow" }
     ]
   },
   "Reduce anxiety": {
     videoId: "t8eYkDyVq2c",
+    spiritualWisdom: "Anxiety dissolves when the mind surrenders to Krishna's flute. Each mantra is a divine embrace that calms the storm within.",
+    ayurvedicPrinciple: "Pacify excess Vata through warm oil massage (abhyanga), sweet & grounding foods, and rhythmic devotional practice.",
     solutions: [
-      { type: "Mantra", title: "Hare Krishna Meditation", url: "https://www.youtube.com/watch?v=t8eYkDyVq2c" },
-      { type: "Ayurvedic", title: "Ashwagandha Calm", description: "Stress relief tonic" },
-      { type: "Practice", title: "Kirtan Evening Ritual", description: "15-min chanting" },
-      { type: "Cosmetic", title: "Sandalwood Face Mist", description: "Cooling & calming" }
+      { type: "Maha Mantra", title: "Hare Krishna Japa Meditation", url: "https://www.youtube.com/watch?v=t8eYkDyVq2c", description: "108 beads of divine protection, calms nervous system" },
+      { type: "Ayurvedic Rasayana", title: "Ashwagandha Calm Elixir", description: "Adaptogen for Vata, strengthens ojas (vital essence)" },
+      { type: "Evening Sadhana", title: "Kirtan Bhakti Ritual", description: "Community chanting releases oxytocin & divine grace" },
+      { type: "Aromatherapy", title: "Sandalwood Cooling Mist", description: "Pacifies Pitta & Vata, sacred temple fragrance" }
     ]
   },
   "Get glowing skin": {
     videoId: "hfzI-yPjKzA",
+    spiritualWisdom: "Radha's radiance comes from inner devotion. True beauty is the glow of a heart immersed in divine love—skincare is a sacred ritual.",
+    ayurvedicPrinciple: "Outer radiance reflects inner ojas. Balance all doshas with rose, saffron, and ghee. Morning abhyanga polishes the soul's mirror.",
     solutions: [
-      { type: "Devotional", title: "Radha Glow Meditation", url: "https://www.youtube.com/watch?v=hfzI-yPjKzA" },
-      { type: "Cosmetic", title: "Gopi Glow Serum", description: "Rose & saffron extract" },
-      { type: "Ayurvedic", title: "Turmeric Neem Cleanser", description: "Purifying formula" },
-      { type: "Nutrition", title: "Beauty Collagen Tea", description: "Herbal skin support" }
+      { type: "Radha Bhakti", title: "Gopi Glow Meditation", url: "https://www.youtube.com/watch?v=hfzI-yPjKzA", description: "Visualize Radha's golden aura surrounding your skin" },
+      { type: "Divine Elixir", title: "Gopi Glow Face Serum", description: "Kesar (saffron) & gulab (rose) blessed with Radha mantra" },
+      { type: "Ayurvedic Cleanser", title: "Turmeric Neem Ubtan", description: "Ancient purifying paste for pitta & kapha skin" },
+      { type: "Inner Beauty Tea", title: "Radiance Rasayana Blend", description: "Amalaki, rose petals, shatavari for luminous ojas" }
     ]
   },
   "Sleep better": {
     videoId: "2qA0UJ8YbTo",
+    spiritualWisdom: "Sleep is surrender to Krishna's embrace. As the gopis rest in Vrindavan, we too dissolve into divine peace at night.",
+    ayurvedicPrinciple: "Excess Vata causes sleeplessness. Ground with warm sesame oil foot massage, sweet milk with cardamom, and gentle evening prayers.",
     sleepTracks: [
       { title: "Krishna's Flute Lullaby", artist: "Divine Sleep Series", duration: "8:30", audioUrl: "https://www.youtube.com/watch?v=2qA0UJ8YbTo" },
       { title: "Hare Krishna Night Chant", artist: "Peaceful Mantras", duration: "10:15", audioUrl: "https://www.youtube.com/watch?v=t8eYkDyVq2c" },
       { title: "Radha's Evening Song", artist: "Sacred Slumber", duration: "7:45", audioUrl: "https://www.youtube.com/watch?v=hfzI-yPjKzA" }
     ],
     solutions: [
-      { type: "Lullaby", title: "Krishna's Flute at Night", url: "https://www.youtube.com/watch?v=2qA0UJ8YbTo" },
-      { type: "Ayurvedic", title: "Moon Milk Blend", description: "Sleep-inducing tonic" },
-      { type: "Practice", title: "Evening Bhajan Ritual", description: "Calming mantras" },
-      { type: "Accessory", title: "Lotus Incense", description: "Relaxing aroma" }
+      { type: "Sacred Lullaby", title: "Krishna's Flute at Night", url: "https://www.youtube.com/watch?v=2qA0UJ8YbTo", description: "Divine music that lulled baby Krishna to sleep" },
+      { type: "Ayurvedic Tonic", title: "Moon Milk (Chandra Ksheer)", description: "Warm spiced milk with ashwagandha & nutmeg to calm Vata" },
+      { type: "Evening Sadhana", title: "Sandhya Bhajan Ritual", description: "Soft kirtan & gratitude prayers before sleep" },
+      { type: "Temple Incense", title: "Lotus Night Dhoop", description: "Sacred smoke to purify sleep space & invite peace" }
     ]
   },
   "Heal reproductive health": {
     videoId: "hfzI-yPjKzA",
+    spiritualWisdom: "Honor the sacred feminine through Radha's grace. Your womb is a temple—treat it with reverence, devotion, and divine love.",
+    ayurvedicPrinciple: "Reproductive health governs ojas & shukra dhatu. Balance with cooling herbs, sweet & nourishing foods, and honoring monthly cycles as spiritual purification.",
     solutions: [
-      { type: "Devotional", title: "Divine Feminine Energy", url: "https://www.youtube.com/watch?v=hfzI-yPjKzA" },
-      { type: "Ayurvedic", title: "Shatavari Balance", description: "Hormonal support" },
-      { type: "Nutrition", title: "Goddess Blend Tea", description: "Rose & hibiscus" },
-      { type: "Cosmetic", title: "Sacred Yoni Oil", description: "Natural feminine care" }
+      { type: "Radha Shakti", title: "Divine Feminine Meditation", url: "https://www.youtube.com/watch?v=hfzI-yPjKzA", description: "Connect with Radha's nurturing energy for hormonal harmony" },
+      { type: "Rasayana Herb", title: "Shatavari Goddess Tonic", description: "Queen of herbs for women—balances hormones, nourishes shukra dhatu" },
+      { type: "Moon Cycle Tea", title: "Sacred Feminine Blend", description: "Rose, hibiscus & shatavari synced with lunar rhythms" },
+      { type: "Temple Oil", title: "Yoni Abhyanga Oil", description: "Jasmine & coconut for sacred self-massage ritual" }
     ]
   }
 };
@@ -81,6 +91,32 @@ const WellnessPath = () => {
         </div>
 
         <div className="px-6 pt-6 space-y-6">
+          {/* Spiritual Wisdom */}
+          {'spiritualWisdom' in content && (
+            <Card className="p-5 bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
+              <div className="flex gap-3">
+                <div className="text-2xl">🪷</div>
+                <div>
+                  <h3 className="font-semibold text-sm mb-2 text-primary">Krishna's Wisdom</h3>
+                  <p className="text-sm leading-relaxed italic">{content.spiritualWisdom}</p>
+                </div>
+              </div>
+            </Card>
+          )}
+
+          {/* Ayurvedic Principle */}
+          {'ayurvedicPrinciple' in content && (
+            <Card className="p-5 bg-gradient-to-br from-secondary/10 to-secondary/5 border-secondary/20">
+              <div className="flex gap-3">
+                <div className="text-2xl">🌿</div>
+                <div>
+                  <h3 className="font-semibold text-sm mb-2">Ayurvedic Principle</h3>
+                  <p className="text-sm leading-relaxed">{content.ayurvedicPrinciple}</p>
+                </div>
+              </div>
+            </Card>
+          )}
+
           {/* Music Player for Sleep Better */}
           {path === "Sleep better" && 'sleepTracks' in content && (
             <MusicPlayer tracks={content.sleepTracks} />
@@ -100,9 +136,9 @@ const WellnessPath = () => {
             </div>
           </Card>
 
-          {/* Natural Solutions */}
+          {/* Divine Solutions */}
           <div>
-            <h2 className="text-lg font-semibold mb-4">Natural Solutions</h2>
+            <h2 className="text-lg font-semibold mb-4">Sacred Healing Path</h2>
             <div className="space-y-3">
               {content.solutions.map((solution, index) => (
                 <Card key={index} className="p-4 hover:shadow-lg transition-shadow">
