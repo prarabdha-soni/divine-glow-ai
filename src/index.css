@@ -9,53 +9,55 @@
 
 @layer base {
   :root {
-    /* Divine Gradient Colors */
-    --divine-rose: 340 70% 85%;
-    --divine-lavender: 270 60% 80%;
-    --divine-cyan: 190 60% 75%;
-    --divine-saffron: 35 85% 55%;
-    --divine-gold: 45 90% 60%;
+    /* Calm App Colors */
+    --calm-blue: 200 100% 50%;
+    --calm-purple: 260 100% 70%;
+    --calm-teal: 180 100% 50%;
+    --calm-green: 120 100% 50%;
+    --calm-orange: 30 100% 60%;
+    --calm-pink: 320 100% 70%;
     
-    /* Base Colors */
-    --background: 40 20% 98%;
-    --foreground: 260 20% 20%;
+    /* Base Colors - Calm Theme */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 20%;
 
-    --card: 40 15% 97%;
-    --card-foreground: 260 20% 20%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 20%;
 
-    --popover: 40 15% 97%;
-    --popover-foreground: 260 20% 20%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 20%;
 
-    --primary: 35 85% 55%;
-    --primary-foreground: 260 20% 20%;
+    --primary: 200 100% 50%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 340 70% 85%;
-    --secondary-foreground: 260 20% 20%;
+    --secondary: 260 100% 70%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 270 30% 90%;
-    --muted-foreground: 260 15% 50%;
+    --muted: 0 0% 95%;
+    --muted-foreground: 0 0% 60%;
 
-    --accent: 190 60% 75%;
-    --accent-foreground: 260 20% 20%;
+    --accent: 180 100% 50%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 270 20% 90%;
-    --input: 270 20% 90%;
-    --ring: 35 85% 55%;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 200 100% 50%;
 
-    --radius: 1rem;
+    --radius: 0.75rem;
 
-    /* Divine Gradients */
-    --gradient-divine: linear-gradient(135deg, hsl(var(--divine-rose)), hsl(var(--divine-lavender)), hsl(var(--divine-cyan)));
-    --gradient-glow: linear-gradient(180deg, hsl(var(--divine-saffron) / 0.3), hsl(var(--divine-lavender) / 0.2));
-    --gradient-card: linear-gradient(to bottom, hsl(40 30% 99%), hsl(40 20% 96%));
+    /* Calm App Gradients */
+    --gradient-calm: linear-gradient(135deg, hsl(var(--calm-blue)), hsl(var(--calm-purple)));
+    --gradient-card: linear-gradient(to bottom, hsl(0 0% 100%), hsl(0 0% 98%));
+    --gradient-primary: linear-gradient(135deg, hsl(var(--calm-blue)), hsl(var(--calm-teal)));
+    --gradient-secondary: linear-gradient(135deg, hsl(var(--calm-purple)), hsl(var(--calm-pink)));
     
     /* Shadows */
-    --shadow-divine: 0 8px 32px hsl(var(--divine-lavender) / 0.15);
-    --shadow-soft: 0 4px 16px hsl(270 30% 70% / 0.1);
-    --shadow-glow: 0 0 40px hsl(var(--divine-saffron) / 0.2);
+    --shadow-calm: 0 4px 20px hsl(var(--calm-blue) / 0.1);
+    --shadow-soft: 0 2px 10px hsl(0 0% 0% / 0.05);
+    --shadow-card: 0 1px 3px hsl(0 0% 0% / 0.1);
     
     /* Transitions */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -123,27 +125,43 @@
 }
 
 @layer components {
-  .divine-gradient {
-    background: var(--gradient-divine);
+  .calm-gradient {
+    background: var(--gradient-calm);
   }
   
-  .divine-card {
+  .calm-card {
     background: var(--gradient-card);
-    box-shadow: var(--shadow-divine);
+    box-shadow: var(--shadow-card);
     transition: var(--transition-smooth);
   }
   
-  .divine-card:hover {
+  .calm-card:hover {
     transform: translateY(-2px);
-    box-shadow: var(--shadow-divine), var(--shadow-glow);
+    box-shadow: var(--shadow-calm);
   }
   
-  .wellness-card {
-    @apply divine-card rounded-3xl p-6 cursor-pointer;
+  .calm-blue-text {
+    color: hsl(var(--calm-blue));
   }
   
-  .wellness-card:hover {
-    @apply shadow-lg;
+  .calm-purple-text {
+    color: hsl(var(--calm-purple));
+  }
+  
+  .calm-teal-text {
+    color: hsl(var(--calm-teal));
+  }
+  
+  .calm-green-text {
+    color: hsl(var(--calm-green));
+  }
+  
+  .calm-orange-text {
+    color: hsl(var(--calm-orange));
+  }
+  
+  .calm-pink-text {
+    color: hsl(var(--calm-pink));
   }
   
   /* Improved text contrast */

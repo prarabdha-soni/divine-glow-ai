@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Home, Play, MessageCircle, ShoppingBag, Music } from 'lucide-react';
+import { Home, Moon, Search, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface NavItemProps {
@@ -29,37 +29,31 @@ export const BottomNav = () => {
   const location = useLocation();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-card/80 backdrop-blur-lg border-t border-border z-50">
+    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50">
       <div className="max-w-md mx-auto flex justify-around items-center px-4 py-2">
         <NavItem 
-          icon={<Home size={22} />} 
+          icon={<Home size={24} />} 
           label="Home" 
           active={location.pathname === '/'} 
           onClick={() => navigate('/')}
         />
         <NavItem 
-          icon={<Play size={22} />} 
-          label="Moments" 
-          active={location.pathname === '/moments'}
-          onClick={() => navigate('/moments')}
+          icon={<Moon size={24} />} 
+          label="Sleep" 
+          active={location.pathname === '/sleep'}
+          onClick={() => navigate('/sleep')}
         />
         <NavItem 
-          icon={<Music size={22} />} 
-          label="Music" 
-          active={location.pathname === '/music'}
-          onClick={() => navigate('/music')}
+          icon={<Search size={24} />} 
+          label="Discover" 
+          active={location.pathname === '/discover'}
+          onClick={() => navigate('/discover')}
         />
         <NavItem 
-          icon={<MessageCircle size={22} />} 
-          label="Ask Nishu" 
-          active={location.pathname === '/ask-radha'}
-          onClick={() => navigate('/ask-radha')}
-        />
-        <NavItem 
-          icon={<ShoppingBag size={22} />} 
-          label="Store" 
-          active={location.pathname === '/store'}
-          onClick={() => navigate('/store')}
+          icon={<User size={24} />} 
+          label="Profile" 
+          active={location.pathname === '/profile'}
+          onClick={() => navigate('/profile')}
         />
       </div>
     </nav>

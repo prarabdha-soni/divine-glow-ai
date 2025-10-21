@@ -98,12 +98,32 @@ export default {
             transform: "translateY(-10px)",
           },
         },
+        "lotus-pulse": {
+          "0%, 100%": {
+            boxShadow: "0 0 20px hsl(var(--lotus-gold) / 0.4)",
+            transform: "scale(1)",
+          },
+          "50%": {
+            boxShadow: "0 0 30px hsl(var(--lotus-gold) / 0.6)",
+            transform: "scale(1.05)",
+          },
+        },
+        "temple-glow": {
+          "0%, 100%": {
+            boxShadow: "0 8px 24px hsl(var(--temple-gold) / 0.2)",
+          },
+          "50%": {
+            boxShadow: "0 8px 32px hsl(var(--temple-gold) / 0.4)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-in": "fade-in 0.5s ease-out",
         "float": "float 3s ease-in-out infinite",
+        "lotus-pulse": "lotus-pulse 3s ease-in-out infinite",
+        "temple-glow": "temple-glow 4s ease-in-out infinite",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
