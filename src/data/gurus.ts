@@ -22,7 +22,7 @@ export const gurus: Guru[] = [
     category: 'Bhakti',
     followers: '2.5M',
     location: 'Vrindavan, India',
-    videoUrl: 'https://www.youtube.com/embed/7kKJO8LtL-M',
+    videoUrl: 'https://www.youtube.com/embed/k-mHGA2lvnU',
     featured: true,
     rating: 4.9
   },
@@ -35,7 +35,7 @@ export const gurus: Guru[] = [
     category: 'Bhakti',
     followers: '1.8M',
     location: 'Mayapur, India',
-    videoUrl: 'https://www.youtube.com/embed/8V4X0CE7fvc',
+    videoUrl: 'https://www.youtube.com/embed/bqRTmMl6VbU',
     featured: true,
     rating: 4.8
   },
@@ -48,7 +48,7 @@ export const gurus: Guru[] = [
     category: 'Storytelling',
     followers: '3.2M',
     location: 'Mumbai, India',
-    videoUrl: 'https://www.youtube.com/embed/5qap5aO4i9A',
+    videoUrl: 'https://www.youtube.com/embed/fZWbEI4s_00',
     featured: true,
     rating: 4.9
   },
@@ -61,7 +61,7 @@ export const gurus: Guru[] = [
     category: 'Yoga',
     followers: '15M',
     location: 'Coimbatore, India',
-    videoUrl: 'https://www.youtube.com/embed/8VVbqI2OjFA',
+    videoUrl: 'https://www.youtube.com/embed/8V4X0CE7fvc',
     featured: true,
     rating: 4.9
   },
@@ -274,7 +274,7 @@ export const gurus: Guru[] = [
     rating: 4.6
   },
   {
-    id: 'swami-chinmayananda',
+    id: 'swami-chinmayananda-2',
     name: 'Swami Chinmayananda',
     title: 'Vedanta Teacher & Spiritual Leader',
     description: 'Renowned Vedanta teacher who simplified complex spiritual concepts for modern seekers.',

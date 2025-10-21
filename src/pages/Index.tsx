@@ -19,7 +19,7 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen calm-bg">
+    <div className="min-h-screen krishna-bg">
       {/* Modern Krishna Background */}
       <ModernKrishnaBackground />
       
@@ -27,12 +27,12 @@ const Index = () => {
       <div className="relative z-10 px-6 pt-16 pb-6">
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center shadow-lg">
+            <div className="w-10 h-10 krishna-gradient rounded-full flex items-center justify-center shadow-lg">
               <span className="text-white font-bold text-lg">🕉️</span>
             </div>
-            <h1 className="text-2xl calm-heading calm-text">Krishna Calm</h1>
+            <h1 className="text-2xl calm-heading krishna-text">Krishna Calm</h1>
           </div>
-          <Gift size={24} className="calm-text-subtle" />
+          <Gift size={24} className="krishna-text-subtle" />
         </div>
 
         {/* Daily Streak Counter */}

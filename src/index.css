@@ -9,63 +9,73 @@
 
 @layer base {
   :root {
-    /* Calm App Colors - Exact Match */
-    --calm-blue: 200 100% 50%;
-    --calm-purple: 260 100% 70%;
-    --calm-teal: 180 100% 50%;
-    --calm-green: 120 100% 50%;
-    --calm-orange: 30 100% 60%;
-    --calm-pink: 320 100% 70%;
+    /* Radha Krishna Divine Colors - Inspired by Bhumika Sharma Image */
+    --krishna-blue: 220 100% 25%;
+    --radha-pink: 320 90% 70%;
+    --divine-gold: 45 100% 65%;
+    --lotus-white: 0 0% 98%;
+    --sacred-purple: 280 70% 55%;
+    --moonlight-silver: 200 25% 95%;
+    --krishna-dark-blue: 220 85% 15%;
+    --radha-rose: 340 95% 75%;
+    --ethereal-blue: 220 60% 85%;
+    --divine-cream: 45 30% 95%;
     
-    /* Calm Background Colors */
-    --calm-bg: 220 40% 8%;
-    --calm-card: 220 20% 12%;
-    --calm-border: 220 20% 20%;
-    --calm-text: 0 0% 95%;
-    --calm-text-muted: 0 0% 70%;
-    --calm-text-subtle: 0 0% 50%;
+    /* Radha Krishna Background Colors - Ethereal Theme */
+    --krishna-bg: 220 70% 8%;
+    --krishna-card: 220 50% 12%;
+    --krishna-border: 220 40% 25%;
+    --krishna-text: 0 0% 98%;
+    --krishna-text-muted: 0 0% 85%;
+    --krishna-text-subtle: 0 0% 70%;
     
-    /* Base Colors - Calm Theme */
-    --background: 220 40% 8%;
-    --foreground: 0 0% 95%;
+    /* Base Colors - Radha Krishna Ethereal Theme */
+    --background: 220 70% 8%;
+    --foreground: 0 0% 98%;
 
-    --card: 220 20% 12%;
-    --card-foreground: 0 0% 95%;
+    --card: 220 50% 12%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 220 20% 12%;
-    --popover-foreground: 0 0% 95%;
+    --popover: 220 50% 12%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 200 100% 50%;
+    --primary: 220 100% 25%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 260 100% 70%;
+    --secondary: 320 90% 70%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 220 20% 20%;
-    --muted-foreground: 0 0% 70%;
+    --muted: 220 40% 25%;
+    --muted-foreground: 0 0% 85%;
 
-    --accent: 180 100% 50%;
+    --accent: 45 100% 65%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 220 20% 20%;
-    --input: 220 20% 20%;
-    --ring: 200 100% 50%;
+    --border: 220 40% 25%;
+    --input: 220 40% 25%;
+    --ring: 220 100% 25%;
 
     --radius: 0.75rem;
 
-    /* Calm App Gradients */
-    --gradient-calm: linear-gradient(135deg, hsl(var(--calm-blue)), hsl(var(--calm-purple)));
-    --gradient-card: linear-gradient(to bottom, hsl(0 0% 100%), hsl(0 0% 98%));
-    --gradient-primary: linear-gradient(135deg, hsl(var(--calm-blue)), hsl(var(--calm-teal)));
-    --gradient-secondary: linear-gradient(135deg, hsl(var(--calm-purple)), hsl(var(--calm-pink)));
+    /* Radha Krishna Ethereal Gradients - Inspired by Bhumika Sharma Image */
+    --gradient-krishna: linear-gradient(135deg, hsl(var(--krishna-blue)), hsl(var(--krishna-dark-blue)));
+    --gradient-radha: linear-gradient(135deg, hsl(var(--radha-pink)), hsl(var(--radha-rose)));
+    --gradient-divine: linear-gradient(135deg, hsl(var(--krishna-blue) / 0.9), hsl(var(--radha-pink) / 0.8));
+    --gradient-lotus: linear-gradient(135deg, hsl(var(--ethereal-blue) / 0.3), hsl(var(--lotus-white) / 0.4));
+    --gradient-sacred: linear-gradient(135deg, hsl(var(--sacred-purple)), hsl(var(--divine-gold)));
+    --gradient-ethereal: linear-gradient(135deg, hsl(var(--ethereal-blue) / 0.2), hsl(var(--divine-cream) / 0.3));
+    --gradient-temple: linear-gradient(135deg, hsl(var(--krishna-blue) / 0.6), hsl(var(--ethereal-blue) / 0.4));
     
-    /* Shadows */
-    --shadow-calm: 0 4px 20px hsl(var(--calm-blue) / 0.1);
-    --shadow-soft: 0 2px 10px hsl(0 0% 0% / 0.05);
-    --shadow-card: 0 1px 3px hsl(0 0% 0% / 0.1);
+    /* Ethereal Shadows - Inspired by Bhumika Sharma Image */
+    --shadow-krishna: 0 8px 32px hsl(var(--krishna-blue) / 0.3);
+    --shadow-radha: 0 8px 32px hsl(var(--radha-pink) / 0.3);
+    --shadow-divine: 0 4px 16px hsl(var(--krishna-blue) / 0.2);
+    --shadow-lotus: 0 2px 8px hsl(var(--lotus-white) / 0.2);
+    --shadow-ethereal: 0 6px 24px hsl(var(--ethereal-blue) / 0.2);
+    --shadow-temple: 0 4px 20px hsl(var(--krishna-blue) / 0.15);
     
     /* Transitions */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -135,43 +145,78 @@
 }
 
 @layer components {
-  .calm-gradient {
-    background: var(--gradient-calm);
+  .krishna-gradient {
+    background: var(--gradient-krishna);
   }
   
-  .calm-card {
-    background: var(--gradient-card);
-    box-shadow: var(--shadow-card);
+  .radha-gradient {
+    background: var(--gradient-radha);
+  }
+  
+  .divine-gradient {
+    background: var(--gradient-divine);
+  }
+  
+  .lotus-gradient {
+    background: var(--gradient-lotus);
+  }
+  
+  .krishna-card {
+    background: hsl(var(--krishna-card));
+    box-shadow: var(--shadow-divine);
     transition: var(--transition-smooth);
   }
   
-  .calm-card:hover {
+  .krishna-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-krishna);
+  }
+  
+  .ethereal-card {
+    background: var(--gradient-ethereal);
+    box-shadow: var(--shadow-ethereal);
+    transition: var(--transition-smooth);
+  }
+  
+  .ethereal-card:hover {
     transform: translateY(-2px);
-    box-shadow: var(--shadow-calm);
+    box-shadow: var(--shadow-temple);
   }
   
-  .calm-blue-text {
-    color: hsl(var(--calm-blue));
+  .temple-gradient {
+    background: var(--gradient-temple);
   }
   
-  .calm-purple-text {
-    color: hsl(var(--calm-purple));
+  .krishna-blue-text {
+    color: hsl(var(--krishna-blue));
   }
   
-  .calm-teal-text {
-    color: hsl(var(--calm-teal));
+  .radha-pink-text {
+    color: hsl(var(--radha-pink));
   }
   
-  .calm-green-text {
-    color: hsl(var(--calm-green));
+  .divine-gold-text {
+    color: hsl(var(--divine-gold));
   }
   
-  .calm-orange-text {
-    color: hsl(var(--calm-orange));
+  .sacred-purple-text {
+    color: hsl(var(--sacred-purple));
   }
   
-  .calm-pink-text {
-    color: hsl(var(--calm-pink));
+  .lotus-white-text {
+    color: hsl(var(--lotus-white));
+  }
+  
+  .moonlight-silver-text {
+    color: hsl(var(--moonlight-silver));
+  }
+  
+  .ethereal-blue-text {
+    color: hsl(var(--ethereal-blue));
+  }
+  
+  .divine-cream-text {
+    color: hsl(var(--divine-cream));
   }
   
   /* Improved text contrast */
@@ -195,29 +240,29 @@
     color: hsl(330 81% 60%);
   }
   
-  /* Calm App Specific Styles */
-  .calm-text {
-    color: hsl(var(--calm-text));
+  /* Radha Krishna Divine Styles */
+  .krishna-text {
+    color: hsl(var(--krishna-text));
   }
   
-  .calm-text-muted {
-    color: hsl(var(--calm-text-muted));
+  .krishna-text-muted {
+    color: hsl(var(--krishna-text-muted));
   }
   
-  .calm-text-subtle {
-    color: hsl(var(--calm-text-subtle));
+  .krishna-text-subtle {
+    color: hsl(var(--krishna-text-subtle));
   }
   
-  .calm-bg {
-    background-color: hsl(var(--calm-bg));
+  .krishna-bg {
+    background-color: hsl(var(--krishna-bg));
   }
   
-  .calm-card-bg {
-    background-color: hsl(var(--calm-card));
+  .krishna-card-bg {
+    background-color: hsl(var(--krishna-card));
   }
   
-  .calm-border {
-    border-color: hsl(var(--calm-border));
+  .krishna-border {
+    border-color: hsl(var(--krishna-border));
   }
   
   /* Calm Typography */

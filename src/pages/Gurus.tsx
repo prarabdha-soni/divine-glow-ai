@@ -29,7 +29,7 @@ const Gurus = () => {
   const featuredGurus = gurus.filter(guru => guru.featured);
 
   return (
-    <div className="min-h-screen calm-bg">
+    <div className="min-h-screen krishna-bg">
       {/* Modern Krishna Background */}
       <ModernKrishnaBackground />
       
@@ -43,12 +43,12 @@ const Gurus = () => {
             >
               <ArrowLeft size={20} />
             </button>
-            <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center shadow-lg">
+            <div className="w-10 h-10 krishna-gradient rounded-full flex items-center justify-center shadow-lg">
               <span className="text-white font-bold text-lg">🕉️</span>
             </div>
-            <h1 className="text-2xl calm-heading calm-text">Spiritual Gurus</h1>
+            <h1 className="text-2xl calm-heading krishna-text">Spiritual Gurus</h1>
           </div>
-          <Search size={24} className="calm-text-subtle" />
+          <Search size={24} className="krishna-text-subtle" />
         </div>
 
         {/* Search Bar */}
@@ -59,9 +59,9 @@ const Gurus = () => {
               placeholder="Search gurus, teachings, or topics..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 text-white placeholder-white/50 px-4 py-3 pl-12 calm-body"
+              className="w-full bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 text-white placeholder-white/50 px-4 py-3 pl-12 calm-body krishna-text"
             />
-            <Search size={20} className="absolute left-4 top-1/2 transform -translate-y-1/2 calm-text-subtle" />
+            <Search size={20} className="absolute left-4 top-1/2 transform -translate-y-1/2 krishna-text-subtle" />
           </div>
         </div>
 
