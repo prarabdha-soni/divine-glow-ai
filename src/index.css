@@ -9,7 +9,7 @@
 
 @layer base {
   :root {
-    /* Calm App Colors */
+    /* Calm App Colors - Exact Match */
     --calm-blue: 200 100% 50%;
     --calm-purple: 260 100% 70%;
     --calm-teal: 180 100% 50%;
@@ -17,15 +17,23 @@
     --calm-orange: 30 100% 60%;
     --calm-pink: 320 100% 70%;
     
+    /* Calm Background Colors */
+    --calm-bg: 220 40% 8%;
+    --calm-card: 220 20% 12%;
+    --calm-border: 220 20% 20%;
+    --calm-text: 0 0% 95%;
+    --calm-text-muted: 0 0% 70%;
+    --calm-text-subtle: 0 0% 50%;
+    
     /* Base Colors - Calm Theme */
-    --background: 0 0% 100%;
-    --foreground: 0 0% 20%;
+    --background: 220 40% 8%;
+    --foreground: 0 0% 95%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 20%;
+    --card: 220 20% 12%;
+    --card-foreground: 0 0% 95%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 20%;
+    --popover: 220 20% 12%;
+    --popover-foreground: 0 0% 95%;
 
     --primary: 200 100% 50%;
     --primary-foreground: 0 0% 100%;
@@ -33,8 +41,8 @@
     --secondary: 260 100% 70%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 0 0% 95%;
-    --muted-foreground: 0 0% 60%;
+    --muted: 220 20% 20%;
+    --muted-foreground: 0 0% 70%;
 
     --accent: 180 100% 50%;
     --accent-foreground: 0 0% 100%;
@@ -42,8 +50,8 @@
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
+    --border: 220 20% 20%;
+    --input: 220 20% 20%;
     --ring: 200 100% 50%;
 
     --radius: 0.75rem;
@@ -120,7 +128,9 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
   }
 }
 
@@ -183,5 +193,50 @@
   
   .text-rose-700 {
     color: hsl(330 81% 60%);
+  }
+  
+  /* Calm App Specific Styles */
+  .calm-text {
+    color: hsl(var(--calm-text));
+  }
+  
+  .calm-text-muted {
+    color: hsl(var(--calm-text-muted));
+  }
+  
+  .calm-text-subtle {
+    color: hsl(var(--calm-text-subtle));
+  }
+  
+  .calm-bg {
+    background-color: hsl(var(--calm-bg));
+  }
+  
+  .calm-card-bg {
+    background-color: hsl(var(--calm-card));
+  }
+  
+  .calm-border {
+    border-color: hsl(var(--calm-border));
+  }
+  
+  /* Calm Typography */
+  .calm-heading {
+    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+  }
+  
+  .calm-body {
+    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+  }
+  
+  .calm-caption {
+    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 300;
+    font-size: 0.875rem;
+    line-height: 1.4;
   }
 }

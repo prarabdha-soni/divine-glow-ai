@@ -13,7 +13,60 @@ export interface KrishnaMusic {
 }
 
 export const krishnaMusicLibrary: KrishnaMusic[] = [
-  // Bhajans
+  // Peaceful Sleep Bhajans - YouTube Content
+  {
+    id: 'radhe-tere-charno-ki-dhul',
+    title: 'Radhe Tere Charno Ki Dhul Jo Mil Jaye',
+    artist: 'Bhumika Sharma',
+    duration: 300, // 5 minutes
+    category: 'bhajan',
+    description: 'Peaceful devotional song for deep sleep',
+    lyrics: 'Radhe Tere Charno Ki Dhul Jo Mil Jaye',
+    featured: true,
+    rating: 4.9,
+    plays: 12000,
+    audioUrl: 'https://www.youtube.com/watch?v=k-mHGA2lvnU'
+  },
+  {
+    id: 'raat-mein-sone-se-pahle',
+    title: 'रात में सोने से पहले जरूर सुनें ये मन को शांति देने वाले भजन',
+    artist: 'Divine Chants',
+    duration: 600, // 10 minutes
+    category: 'bhajan',
+    description: 'Peaceful bhajans for peaceful sleep',
+    lyrics: 'Sacred chants for deep sleep and spiritual peace',
+    featured: true,
+    rating: 4.8,
+    plays: 8500,
+    audioUrl: 'https://www.youtube.com/watch?v=bqRTmMl6VbU'
+  },
+  {
+    id: 'krishna-bhajan-before-sleep',
+    title: 'Krishna Bhajan Before Sleep - सांवला सलोना',
+    artist: 'Devotional Music',
+    duration: 480, // 8 minutes
+    category: 'bhajan',
+    description: 'Beautiful Krishna bhajan for peaceful sleep',
+    lyrics: 'सांवला सलोना - Krishna sleep bhajan',
+    featured: true,
+    rating: 4.9,
+    plays: 9500,
+    audioUrl: 'https://www.youtube.com/watch?v=fZWbEI4s_00'
+  },
+  {
+    id: 'radha-krishna-sleeping-peace',
+    title: 'Radha Krishna Sleeping Peace Song',
+    artist: 'Slow + Reverb',
+    duration: 900, // 15 minutes
+    category: 'bhajan',
+    description: 'Slow and peaceful Radha Krishna devotional song',
+    lyrics: 'Radha Krishna divine love for peaceful sleep',
+    featured: true,
+    rating: 4.9,
+    plays: 15000,
+    audioUrl: 'https://www.youtube.com/watch?v=8V4X0CE7fvc'
+  },
+  // Traditional Mantras
   {
     id: 'hare-krishna-mahamantra',
     title: 'Hare Krishna Mahamantra',
@@ -22,7 +75,7 @@ export const krishnaMusicLibrary: KrishnaMusic[] = [
     category: 'mantra',
     description: 'The most powerful mantra for spiritual awakening',
     lyrics: 'Hare Krishna, Hare Krishna, Krishna Krishna, Hare Hare, Hare Rama, Hare Rama, Rama Rama, Hare Hare',
-    featured: true,
+    featured: false,
     rating: 4.9,
     plays: 4500
   },

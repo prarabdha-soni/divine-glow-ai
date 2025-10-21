@@ -1,7 +1,8 @@
 import { useNavigate } from 'react-router-dom';
-import { Play, Clock, Star, Search, Filter, Heart, Zap, BookOpen, Music } from 'lucide-react';
+import { Play, Clock, Star, Search, Filter, Heart, Zap, BookOpen, Music, Moon } from 'lucide-react';
 import { BottomNav } from '@/components/BottomNav';
 import { KrishnaMusicPlayer } from '@/components/KrishnaMusicPlayer';
+import { ModernKrishnaBackground, ModernKrishnaHero } from '@/components/ModernKrishnaBackground';
 import { useState } from 'react';
 
 const Discover = () => {
@@ -99,42 +100,48 @@ const Discover = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-purple-50">
+    <div className="min-h-screen calm-bg">
+      {/* Modern Krishna Background */}
+      <ModernKrishnaBackground />
+      
       {/* Header */}
-      <div className="px-6 pt-16 pb-6">
-        <div className="flex items-center justify-between mb-6">
+      <div className="relative z-10 px-6 pt-16 pb-6">
+        <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 calm-gradient rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-sm">🕉️</span>
+            <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center shadow-lg">
+              <span className="text-white font-bold text-lg">🕉️</span>
             </div>
-            <h1 className="text-2xl font-bold text-gray-800">Discover</h1>
+            <h1 className="text-2xl font-light text-white">Discover</h1>
           </div>
           <div className="flex items-center gap-3">
-            <Search size={24} className="text-gray-600" />
-            <Filter size={24} className="text-gray-600" />
+            <Search size={24} className="text-white/60" />
+            <Filter size={24} className="text-white/60" />
           </div>
         </div>
 
         {/* Search Bar */}
-        <div className="mb-6">
+        <div className="mb-8">
           <div className="relative">
-            <Search size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <Search size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/40" />
             <input
               type="text"
               placeholder="Search mantras, bhajans, Gita teachings, Krishna stories..."
-              className="w-full pl-10 pr-4 py-3 bg-white rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-4 bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent"
             />
           </div>
         </div>
 
         {/* Categories */}
         <div className="mb-8">
-          <h2 className="text-lg font-semibold text-gray-800 mb-4">Categories</h2>
-          <div className="grid grid-cols-3 gap-3">
+          <h2 className="text-xl font-light text-white mb-4">Categories</h2>
+          <div className="flex gap-3 overflow-x-auto pb-2">
             {categories.map((category, index) => (
-              <div key={index} className="calm-card rounded-xl p-4 text-center">
-                <div className="text-2xl mb-2">{category.icon}</div>
-                <div className="text-sm font-medium text-gray-800">{category.name}</div>
+              <div
+                key={index}
+                className="flex-shrink-0 bg-white/10 backdrop-blur-xl rounded-2xl p-4 border border-white/20 min-w-[120px] text-center cursor-pointer hover:bg-white/20 transition-all duration-300"
+              >
+                <div className="text-3xl mb-3">{category.icon}</div>
+                <h3 className="text-sm font-light text-white">{category.name}</h3>
               </div>
             ))}
           </div>
@@ -143,8 +150,8 @@ const Discover = () => {
         {/* Featured Content */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-800">Featured</h2>
-            <span className="text-sm text-blue-600 font-medium">See all</span>
+            <h2 className="text-xl font-light text-white">Featured</h2>
+            <span className="text-sm text-amber-400 font-light">See all</span>
           </div>
           <div className="space-y-4">
             {featuredContent.map((content) => (
