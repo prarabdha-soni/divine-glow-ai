@@ -1,9 +1,16 @@
 import { useNavigate } from 'react-router-dom';
-import { Settings, Crown, Trophy, Calendar, Clock, Star, Download, Bell, HelpCircle, LogOut } from 'lucide-react';
+import { Settings, Crown, Trophy, Calendar, Clock, Star, Download, Bell, HelpCircle, LogOut, RefreshCw } from 'lucide-react';
 import { BottomNav } from '@/components/BottomNav';
+import { forceClearCache, getAppVersion } from '@/utils/cacheManager';
 
 const Profile = () => {
   const navigate = useNavigate();
+  
+  const handleClearCache = () => {
+    if (confirm('Clear all cache and reload app? This will sign you out.')) {
+      forceClearCache();
+    }
+  };
 
   const stats = [
     { label: 'Current Streak', value: '5 days', icon: Crown, color: 'text-yellow-500' },
@@ -23,6 +30,7 @@ const Profile = () => {
     { icon: Download, label: 'Download for Offline', arrow: true },
     { icon: Bell, label: 'Notifications', arrow: true },
     { icon: Settings, label: 'Settings', arrow: true },
+    { icon: RefreshCw, label: 'Clear Cache & Refresh', arrow: false, action: handleClearCache, info: true },
     { icon: HelpCircle, label: 'Help & Support', arrow: true },
     { icon: LogOut, label: 'Sign Out', arrow: false, danger: true }
   ];
@@ -110,8 +118,9 @@ const Profile = () => {
           {menuItems.map((item, index) => (
             <div 
               key={index} 
-              className={`calm-card rounded-xl p-4 flex items-center justify-between ${
-                item.danger ? 'text-red-600' : 'text-gray-800'
+              onClick={item.action}
+              className={`calm-card rounded-xl p-4 flex items-center justify-between cursor-pointer hover:bg-gray-50 transition-colors ${
+                item.danger ? 'text-red-600' : item.info ? 'text-blue-600' : 'text-gray-800'
               }`}
             >
               <div className="flex items-center gap-3">
@@ -123,6 +132,13 @@ const Profile = () => {
               )}
             </div>
           ))}
+          
+          {/* App Version */}
+          <div className="text-center pt-4 pb-2">
+            <p className="text-xs text-gray-400">
+              Nishu v{getAppVersion()} • Made with 💜
+            </p>
+          </div>
         </div>
       </div>
 
