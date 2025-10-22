@@ -3,39 +3,44 @@
  * Auto-clears cache for all users when version changes
  */
 
-const APP_VERSION = '2.1.0'; // Increment this when you want to force cache clear
+const APP_VERSION = '2.2.0'; // Increment this when you want to force cache clear
 const VERSION_KEY = 'nishu_app_version';
 
 /**
  * Check if app version has changed and clear cache if needed
- * Now also auto-clears cache on every load
+ * Forces hard reload for all users on version change
  */
 export const checkAndClearCache = (): void => {
   const storedVersion = localStorage.getItem(VERSION_KEY);
   const shouldClearCache = storedVersion !== APP_VERSION;
   
   if (shouldClearCache) {
-    console.log('🔄 Clearing cache for all users...');
+    console.log('🔄 New version detected! Clearing cache and reloading...');
     
-    // Clear localStorage completely
+    // Clear all storage
     localStorage.clear();
-    
-    // Clear sessionStorage
     sessionStorage.clear();
     
-    // Update version
-    localStorage.setItem(VERSION_KEY, APP_VERSION);
-    
-    // Force clear all caches
+    // Clear all caches
     if ('caches' in window) {
       caches.keys().then(names => {
-        names.forEach(name => {
-          caches.delete(name);
+        Promise.all(names.map(name => caches.delete(name))).then(() => {
+          // Set new version
+          localStorage.setItem(VERSION_KEY, APP_VERSION);
+          
+          console.log('✅ Cache cleared! Reloading...');
+          
+          // Force hard reload from server (bypass all caches)
+          window.location.reload();
         });
       });
+    } else {
+      // Set new version
+      localStorage.setItem(VERSION_KEY, APP_VERSION);
+      
+      // Force hard reload
+      window.location.reload();
     }
-    
-    console.log('✅ Cache cleared successfully!');
   }
   
   // Always set version for first-time users

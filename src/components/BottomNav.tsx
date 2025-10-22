@@ -14,8 +14,8 @@ const NavItem = ({ icon, label, active = false, onClick }: NavItemProps) => {
     <button
       onClick={onClick}
       className={cn(
-        "flex flex-col items-center gap-1 px-4 py-2 transition-colors",
-        active ? "text-primary" : "text-muted-foreground"
+        "flex flex-col items-center gap-1 px-4 py-2 transition-all duration-300",
+        active ? "text-indigo-400" : "text-slate-400 hover:text-slate-300"
       )}
     >
       {icon}
@@ -29,7 +29,7 @@ export const BottomNav = () => {
   const location = useLocation();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50">
+    <nav className="fixed bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur-xl border-t border-slate-700/50 z-50">
       <div className="max-w-md mx-auto flex justify-around items-center px-4 py-2">
         <NavItem 
           icon={<Home size={24} />} 

@@ -16,7 +16,7 @@ const Index = () => {
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 krishna-gradient rounded-full flex items-center justify-center shadow-lg">
-              <span className="text-white font-bold text-lg">🕉️</span>
+              <span className="text-white font-bold text-xl">N</span>
             </div>
             <h1 className="text-2xl calm-heading krishna-text">Nishu</h1>
           </div>

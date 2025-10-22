@@ -4,122 +4,59 @@ import { Moon, Star, Sparkles, Heart } from 'lucide-react';
 export const ModernKrishnaBackground = () => {
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none">
-      {/* Modern Krishna Temple - AI Style */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900">
-        {/* Floating Lotus Petals - Modern Style */}
-        <div className="absolute inset-0">
-          {Array.from({ length: 20 }).map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-4 h-4 opacity-20 animate-gentle-float"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 5}s`,
-                animationDuration: `${4 + Math.random() * 4}s`,
-              }}
-            >
-              <svg viewBox="0 0 24 24" fill="currentColor" className="text-pink-300">
-                <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 1H9L3 7V9H21ZM12 8C13.1 8 14 8.9 14 10C14 11.1 13.1 12 12 12C10.9 12 10 11.1 10 10C10 8.9 10.9 8 12 8Z" />
-              </svg>
-            </div>
-          ))}
-        </div>
-
-        {/* Modern Krishna Flute Scene */}
-        <div className="absolute top-1/4 right-1/4 w-64 h-64 opacity-30">
-          <div className="w-full h-full bg-gradient-to-br from-amber-200/20 to-orange-300/20 rounded-full blur-3xl" />
-        </div>
-
-        {/* Floating Om Symbols */}
+      {/* Sleep App Background - Calm & Peaceful */}
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-900 via-indigo-950 to-slate-900">
+        {/* Floating Moon Phases */}
         <div className="absolute inset-0">
           {Array.from({ length: 15 }).map((_, i) => (
             <div
               key={i}
-              className="absolute text-2xl opacity-10 animate-gentle-float"
+              className="absolute opacity-10 animate-gentle-float"
               style={{
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 6}s`,
-                animationDuration: `${5 + Math.random() * 3}s`,
+                animationDelay: `${Math.random() * 5}s`,
+                animationDuration: `${6 + Math.random() * 4}s`,
               }}
             >
-              🕉️
+              <Moon size={16 + Math.random() * 12} className="text-blue-200" />
             </div>
           ))}
         </div>
 
-        {/* Modern Krishna Silhouette */}
-        <div className="absolute bottom-0 left-0 right-0 h-96">
-          <svg
-            viewBox="0 0 400 300"
-            className="w-full h-full opacity-15"
-            fill="none"
-          >
-            {/* Modern Krishna Figure */}
-            <path
-              d="M200 280 Q200 200 180 180 Q160 160 160 140 Q160 120 180 100 Q200 80 220 100 Q240 120 240 140 Q240 160 220 180 Q200 200 200 280 Z"
-              fill="url(#krishnaGradient)"
-            />
-            
-            {/* Flute */}
-            <path
-              d="M220 140 L280 120 L280 130 L220 150 Z"
-              fill="url(#fluteGradient)"
-            />
-            
-            {/* Peacock Feather */}
-            <path
-              d="M180 100 Q160 80 140 90 Q120 100 140 110 Q160 120 180 100 Z"
-              fill="url(#featherGradient)"
-            />
-            
-            {/* Lotus Pond */}
-            <ellipse
-              cx="200"
-              cy="250"
-              rx="80"
-              ry="30"
-              fill="url(#waterGradient)"
-            />
-            
-            {/* Modern Lotus */}
-            <circle cx="180" cy="240" r="12" fill="url(#lotusGradient)" />
-            <circle cx="220" cy="245" r="10" fill="url(#lotusGradient)" />
-            <circle cx="200" cy="250" r="11" fill="url(#lotusGradient)" />
-            
-            {/* Gradients */}
-            <defs>
-              <linearGradient id="krishnaGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#fbbf24" stopOpacity="0.3" />
-                <stop offset="50%" stopColor="#f59e0b" stopOpacity="0.2" />
-                <stop offset="100%" stopColor="#d97706" stopOpacity="0.1" />
-              </linearGradient>
-              <linearGradient id="fluteGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.4" />
-                <stop offset="100%" stopColor="#a855f7" stopOpacity="0.3" />
-              </linearGradient>
-              <linearGradient id="featherGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#06b6d4" stopOpacity="0.4" />
-                <stop offset="50%" stopColor="#0891b2" stopOpacity="0.3" />
-                <stop offset="100%" stopColor="#0e7490" stopOpacity="0.2" />
-              </linearGradient>
-              <linearGradient id="waterGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#0ea5e9" stopOpacity="0.2" />
-                <stop offset="100%" stopColor="#0284c7" stopOpacity="0.1" />
-              </linearGradient>
-              <linearGradient id="lotusGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#f472b6" stopOpacity="0.6" />
-                <stop offset="100%" stopColor="#ec4899" stopOpacity="0.4" />
-              </linearGradient>
-            </defs>
-          </svg>
+        {/* Dreamy Glow Effect */}
+        <div className="absolute top-1/4 right-1/4 w-80 h-80 opacity-20">
+          <div className="w-full h-full bg-gradient-to-br from-purple-400/30 to-blue-400/30 rounded-full blur-3xl" />
         </div>
 
-        {/* Soft Glow Effects */}
-        <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-gradient-radial from-amber-400/10 to-transparent blur-3xl" />
-        <div className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-gradient-radial from-blue-400/10 to-transparent blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-gradient-radial from-purple-400/5 to-transparent blur-2xl" />
+        {/* Twinkling Stars - Sleep Theme */}
+        <div className="absolute inset-0">
+          {Array.from({ length: 50 }).map((_, i) => (
+            <div
+              key={i}
+              className="absolute rounded-full animate-pulse"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                width: `${1 + Math.random() * 2}px`,
+                height: `${1 + Math.random() * 2}px`,
+                backgroundColor: 'rgba(255, 255, 255, 0.3)',
+                animationDelay: `${Math.random() * 3}s`,
+                animationDuration: `${2 + Math.random() * 2}s`,
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Peaceful Moon */}
+        <div className="absolute top-1/4 right-1/4 w-32 h-32 opacity-20">
+          <div className="w-full h-full bg-gradient-to-br from-blue-200 to-indigo-300 rounded-full blur-2xl" />
+        </div>
+
+        {/* Soft Ambient Glows - Sleep Theme */}
+        <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-gradient-radial from-indigo-500/10 to-transparent blur-3xl" />
+        <div className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-gradient-radial from-purple-500/10 to-transparent blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-gradient-radial from-blue-500/5 to-transparent blur-3xl" />
       </div>
     </div>
   );
