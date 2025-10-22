@@ -1,18 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Play, Star, Users, MapPin, ArrowLeft, Search, Filter } from 'lucide-react';
+import { Star, Users, MapPin, ArrowLeft, Search, Sparkles } from 'lucide-react';
 import { BottomNav } from '@/components/BottomNav';
 import { ModernKrishnaBackground } from '@/components/ModernKrishnaBackground';
-import { FullScreenVideoPlayer } from '@/components/FullScreenVideoPlayer';
 import { gurus } from '@/data/gurus';
 
 const Gurus = () => {
   const navigate = useNavigate();
-  const [selectedVideo, setSelectedVideo] = useState<{
-    url: string;
-    title: string;
-    description: string;
-  } | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
 
@@ -86,98 +80,110 @@ const Gurus = () => {
 
         {/* Featured Gurus */}
         <div className="mb-8">
-          <h2 className="text-xl calm-heading calm-text mb-4">Featured Gurus</h2>
-          <div className="grid grid-cols-1 gap-4">
+          <div className="flex items-center gap-2 mb-4">
+            <Sparkles size={20} className="text-amber-400" />
+            <h2 className="text-xl calm-heading calm-text">Featured Spiritual Masters</h2>
+          </div>
+          <div className="grid grid-cols-1 gap-6">
             {featuredGurus.map((guru) => (
-              <div key={guru.id} className="bg-white/10 backdrop-blur-xl rounded-3xl p-6 border border-white/20">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-20 h-20 bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl flex items-center justify-center text-3xl shadow-lg">
-                    {guru.image}
+              <div key={guru.id} className="bg-white/10 backdrop-blur-xl rounded-3xl overflow-hidden border border-white/20 hover:border-amber-400/50 transition-all duration-300">
+                {/* Guru Image Header */}
+                <div className="relative h-48 bg-gradient-to-br from-amber-500/20 to-orange-600/20">
+                  <img 
+                    src={guru.imageUrl} 
+                    alt={guru.name}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+                  <span className="absolute top-4 right-4 px-3 py-1.5 bg-amber-400/90 backdrop-blur-sm text-white text-xs rounded-full font-medium shadow-lg">
+                    ✨ Featured
+                  </span>
+                </div>
+                
+                {/* Guru Info */}
+                <div className="p-6">
+                  <h3 className="text-xl calm-heading calm-text mb-2">{guru.name}</h3>
+                  <p className="text-sm calm-text-muted mb-2 calm-body font-medium">{guru.title}</p>
+                  <p className="text-sm calm-text-subtle calm-caption mb-3 leading-relaxed">{guru.description}</p>
+                  
+                  {/* Speciality Badge */}
+                  <div className="mb-4">
+                    <span className="inline-flex items-center gap-1 px-3 py-1.5 bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 text-xs rounded-full border border-purple-400/30">
+                      <Sparkles size={12} />
+                      {guru.speciality}
+                    </span>
                   </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <h3 className="text-lg calm-heading calm-text">{guru.name}</h3>
-                      <span className="px-2 py-1 bg-amber-400/20 text-amber-300 text-xs rounded-full font-light">
-                        Featured
-                      </span>
+                  
+                  {/* Stats */}
+                  <div className="flex items-center gap-4 pt-4 border-t border-white/10">
+                    <div className="flex items-center gap-1.5">
+                      <Users size={14} className="text-blue-400" />
+                      <span className="text-sm calm-text calm-caption font-medium">{guru.followers}</span>
                     </div>
-                    <p className="text-sm calm-text-muted mb-1 calm-body">{guru.title}</p>
-                    <p className="text-xs calm-text-subtle calm-caption mb-2">{guru.description}</p>
-                    <div className="flex items-center gap-4">
-                      <div className="flex items-center gap-1">
-                        <Users size={12} className="calm-text-subtle" />
-                        <span className="text-xs calm-text-subtle calm-caption">{guru.followers}</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <MapPin size={12} className="calm-text-subtle" />
-                        <span className="text-xs calm-text-subtle calm-caption">{guru.location}</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Star size={12} className="text-amber-400 fill-amber-400" />
-                        <span className="text-xs calm-text-subtle calm-caption">{guru.rating}</span>
-                      </div>
+                    <div className="flex items-center gap-1.5">
+                      <MapPin size={14} className="text-emerald-400" />
+                      <span className="text-sm calm-text-subtle calm-caption">{guru.location}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5 ml-auto">
+                      <Star size={14} className="text-amber-400 fill-amber-400" />
+                      <span className="text-sm calm-text calm-caption font-medium">{guru.rating}</span>
                     </div>
                   </div>
                 </div>
-                <button
-                  onClick={() => setSelectedVideo({
-                    url: guru.videoUrl,
-                    title: guru.name,
-                    description: guru.description
-                  })}
-                  className="w-full h-12 bg-gradient-to-r from-amber-500 to-orange-600 rounded-2xl flex items-center justify-center text-white font-light hover:from-amber-600 hover:to-orange-700 transition-all duration-300"
-                >
-                  <Play size={20} className="mr-2" />
-                  Watch Teaching
-                </button>
               </div>
             ))}
           </div>
         </div>
 
         {/* All Gurus */}
-        <div className="mb-8">
+        <div className="mb-24">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl calm-heading calm-text">All Gurus</h2>
-            <span className="text-sm calm-text-subtle calm-caption">{filteredGurus.length} gurus</span>
+            <h2 className="text-xl calm-heading calm-text">All Spiritual Masters</h2>
+            <span className="text-sm calm-text-subtle calm-caption bg-white/10 px-3 py-1 rounded-full">{filteredGurus.length} masters</span>
           </div>
-          <div className="grid grid-cols-1 gap-4">
+          <div className="grid grid-cols-2 gap-4">
             {filteredGurus.map((guru) => (
-              <div key={guru.id} className="bg-white/10 backdrop-blur-xl rounded-3xl p-6 border border-white/20">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center text-2xl shadow-lg">
-                    {guru.image}
+              <div key={guru.id} className="bg-white/10 backdrop-blur-xl rounded-3xl overflow-hidden border border-white/20 hover:border-white/40 transition-all duration-300">
+                {/* Guru Image */}
+                <div className="relative aspect-square bg-gradient-to-br from-blue-500/20 to-purple-600/20">
+                  <img 
+                    src={guru.imageUrl} 
+                    alt={guru.name}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+                  
+                  {/* Category Badge */}
+                  <span className="absolute top-2 left-2 px-2 py-1 bg-black/60 backdrop-blur-sm text-white/90 text-xs rounded-full font-light border border-white/20">
+                    {guru.category}
+                  </span>
+                  
+                  {/* Rating */}
+                  <div className="absolute top-2 right-2 flex items-center gap-1 px-2 py-1 bg-black/60 backdrop-blur-sm rounded-full">
+                    <Star size={10} className="text-amber-400 fill-amber-400" />
+                    <span className="text-xs text-white font-medium">{guru.rating}</span>
                   </div>
-                  <div className="flex-1">
-                    <h3 className="text-lg calm-heading calm-text mb-1">{guru.name}</h3>
-                    <p className="text-sm calm-text-muted mb-1 calm-body">{guru.title}</p>
-                    <p className="text-xs calm-text-subtle calm-caption mb-2">{guru.description}</p>
-                    <div className="flex items-center gap-4">
-                      <span className="px-2 py-1 bg-white/10 text-white/80 text-xs rounded-full font-light">
-                        {guru.category}
-                      </span>
-                      <div className="flex items-center gap-1">
-                        <Users size={12} className="calm-text-subtle" />
-                        <span className="text-xs calm-text-subtle calm-caption">{guru.followers}</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Star size={12} className="text-amber-400 fill-amber-400" />
-                        <span className="text-xs calm-text-subtle calm-caption">{guru.rating}</span>
-                      </div>
+                  
+                  {/* Name Overlay */}
+                  <div className="absolute bottom-0 left-0 right-0 p-3">
+                    <h3 className="text-sm calm-heading text-white mb-0.5 font-semibold leading-tight">{guru.name}</h3>
+                    <p className="text-xs text-white/80 calm-caption truncate">{guru.title}</p>
+                  </div>
+                </div>
+                
+                {/* Footer Info */}
+                <div className="p-3 bg-white/5">
+                  <div className="flex items-center justify-between text-xs">
+                    <div className="flex items-center gap-1">
+                      <Users size={12} className="text-blue-400" />
+                      <span className="calm-text-subtle calm-caption">{guru.followers}</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <MapPin size={10} className="text-emerald-400" />
+                      <span className="calm-text-subtle calm-caption text-[10px] truncate max-w-[80px]">{guru.location}</span>
                     </div>
                   </div>
                 </div>
-                <button
-                  onClick={() => setSelectedVideo({
-                    url: guru.videoUrl,
-                    title: guru.name,
-                    description: guru.description
-                  })}
-                  className="w-full h-10 bg-white/10 backdrop-blur-xl rounded-2xl flex items-center justify-center text-white font-light hover:bg-white/20 transition-all duration-300"
-                >
-                  <Play size={16} className="mr-2" />
-                  Watch Video
-                </button>
               </div>
             ))}
           </div>
@@ -186,17 +192,6 @@ const Gurus = () => {
 
       {/* Bottom Navigation */}
       <BottomNav />
-
-      {/* Full Screen Video Player */}
-      {selectedVideo && (
-        <FullScreenVideoPlayer
-          isOpen={!!selectedVideo}
-          onClose={() => setSelectedVideo(null)}
-          videoUrl={selectedVideo.url}
-          title={selectedVideo.title}
-          description={selectedVideo.description}
-        />
-      )}
     </div>
   );
 };

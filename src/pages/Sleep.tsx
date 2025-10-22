@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom';
-import { Play, Clock, Star, Headphones, Volume2, Moon, Sparkles, Heart, ArrowLeft, Timer, Zap } from 'lucide-react';
+import { Play, Clock, Star, Headphones, Volume2, Moon, Sparkles, Heart, ArrowLeft, Timer, Zap, Pause, X } from 'lucide-react';
 import { BottomNav } from '@/components/BottomNav';
 import { ModernKrishnaBackground, ModernKrishnaHero } from '@/components/ModernKrishnaBackground';
 import { FullScreenVideoPlayer } from '@/components/FullScreenVideoPlayer';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 const Sleep = () => {
   const navigate = useNavigate();
@@ -12,6 +12,52 @@ const Sleep = () => {
     title: string;
     description: string;
   } | null>(null);
+  
+  const [currentStory, setCurrentStory] = useState<{
+    id: string;
+    title: string;
+    description: string;
+    audioUrl: string;
+  } | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []);
+
+  const handlePlayStory = (story: { id: string; title: string; description: string; audioUrl: string }) => {
+    // Stop all other audio elements on the page
+    const allAudio = document.querySelectorAll('audio');
+    allAudio.forEach(audio => audio.pause());
+    
+    if (currentStory?.id === story.id && isPlaying) {
+      audioRef.current?.pause();
+      setIsPlaying(false);
+    } else {
+      if (currentStory?.id !== story.id) {
+        if (audioRef.current) {
+          audioRef.current.pause();
+        }
+        audioRef.current = new Audio(story.audioUrl);
+        setCurrentStory(story);
+      }
+      
+      audioRef.current?.play();
+      setIsPlaying(true);
+      
+      if (audioRef.current) {
+        audioRef.current.onended = () => {
+          setIsPlaying(false);
+        };
+      }
+    }
+  };
 
   const sleepStories = [
     {
@@ -232,189 +278,266 @@ const Sleep = () => {
     }
   ];
 
+  const [activeTab, setActiveTab] = useState('Sleep Stories');
+  const tabs = ['Sleep Stories', 'All', 'Meditations', 'Tools'];
+
   return (
     <div className="min-h-screen krishna-bg">
       {/* Modern Krishna Background */}
       <ModernKrishnaBackground />
       
       {/* Header */}
-      <div className="relative z-10 px-6 pt-16 pb-6">
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-3">
-            <button 
-              onClick={() => navigate('/')}
-              className="w-8 h-8 flex items-center justify-center text-white/60 hover:text-white transition-colors"
+      <div className="relative z-10 pt-12 pb-6">
+        <h1 className="text-3xl calm-heading calm-text text-center mb-6">Sleep</h1>
+
+        {/* Tabs */}
+        <div className="px-6 mb-6">
+          <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+            {tabs.map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`px-6 py-3 rounded-full font-medium text-sm whitespace-nowrap transition-all ${
+                  activeTab === tab
+                    ? 'bg-white text-purple-900 shadow-lg'
+                    : 'bg-white/10 backdrop-blur-sm text-white border border-white/20 hover:bg-white/20'
+                }`}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Bedtime Reminder Card */}
+        <div className="px-6 mb-6">
+          <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-5 border border-white/20 flex items-center gap-4 cursor-pointer hover:bg-white/15 transition-all">
+            <div className="w-14 h-14 bg-gradient-to-br from-purple-400 to-pink-400 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg">
+              <Moon size={28} className="text-white" />
+            </div>
+            <div className="flex-1">
+              <h3 className="text-white font-semibold text-base mb-1">🌙 Tonight's Mystery Awaits</h3>
+              <p className="text-white/70 text-sm italic">Your dreams will never be the same after this... Set a reminder?</p>
+            </div>
+            <ArrowLeft size={20} className="text-white/60 rotate-180" />
+          </div>
+        </div>
+
+        {/* Featured Section */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between px-6 mb-4">
+            <div>
+              <h2 className="text-xl calm-heading calm-text">✨ Bedtime Mysteries</h2>
+              <p className="text-xs text-white/60 mt-1">Close your eyes and discover...</p>
+            </div>
+            <span className="text-sm text-amber-400 font-medium">See All</span>
+          </div>
+          
+          <div className="flex gap-4 overflow-x-auto px-6 pb-4 scrollbar-hide">
+            {/* Main Featured Krishna Card */}
+            <div 
+              onClick={() => handlePlayStory({
+                id: 'radha-story',
+                title: "Radha Krishna ki shaadi kyon nhi hui",
+                description: "Unravel the mystery of divine love - why Radha and Krishna never married",
+                audioUrl: '/assets/story/radha.mp3'
+              })}
+              className="relative flex-shrink-0 w-80 cursor-pointer group"
             >
-              <ArrowLeft size={20} />
-            </button>
-            <div className="w-10 h-10 krishna-gradient rounded-full flex items-center justify-center shadow-lg">
-              <span className="text-white font-bold text-lg">🕉️</span>
-            </div>
-            <h1 className="text-2xl calm-heading krishna-text">Krishna Sleep</h1>
-          </div>
-          <Heart size={24} className="text-white/60" />
-        </div>
-
-        {/* Featured Sleep Story - Calm Style Hero */}
-        <div className="mb-8">
-          <ModernKrishnaHero type="sleep" />
-        </div>
-
-        {/* Sleep Stories Section */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl calm-heading calm-text">Sleep Stories</h2>
-            <span className="text-sm text-amber-400 font-light">See all</span>
-          </div>
-          <div className="space-y-6">
-            {sleepStories.map((story) => (
-              <div key={story.id} className="bg-white/10 backdrop-blur-xl rounded-3xl p-6 border border-white/20">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center text-3xl shadow-lg">
-                    {story.image}
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <h3 className="text-lg calm-heading calm-text">{story.title}</h3>
-                      {story.featured && (
-                        <span className="px-2 py-1 bg-amber-400/20 text-amber-300 text-xs rounded-full font-light">
-                          Featured
-                        </span>
-                      )}
-                    </div>
-                    <p className="text-sm calm-text-muted mb-1 calm-body">{story.description}</p>
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs calm-text-subtle calm-caption">by {story.author}</span>
-                      <div className="flex items-center gap-1">
-                        <Star size={12} className="text-amber-400 fill-current" />
-                        <span className="text-xs calm-text-subtle calm-caption">{story.rating}</span>
-                      </div>
-                      <span className="text-xs calm-text-subtle calm-caption">{story.duration}</span>
-                    </div>
+              <div className="relative h-72 rounded-3xl overflow-hidden shadow-2xl">
+                <img 
+                  src="/assets/images/krishna.png" 
+                  alt="Krishna Sleep Story" 
+                  className="w-full h-full object-cover"
+                />
+                
+                {/* Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                
+                {/* New Badge */}
+                <div className="absolute top-4 left-4">
+                  <span className="px-3 py-1 bg-emerald-500 text-white text-xs font-semibold rounded-full">
+                    New
+                  </span>
+                </div>
+                
+                {/* Duration Badge */}
+                <div className="absolute top-4 right-4">
+                  <div className="flex items-center gap-1 px-3 py-1 bg-black/50 backdrop-blur-sm rounded-full text-white text-xs">
+                    <Play size={12} fill="currentColor" />
+                    <span>45 min</span>
                   </div>
                 </div>
-                <button
-                  onClick={() => setSelectedVideo({
-                    url: story.youtubeEmbed,
-                    title: story.title,
-                    description: story.description
-                  })}
-                  className="w-full h-48 bg-gradient-to-br from-blue-500/20 to-purple-600/20 rounded-2xl flex items-center justify-center text-white hover:from-blue-500/30 hover:to-purple-600/30 transition-all duration-300 border border-white/20"
-                >
-                  <div className="text-center">
-                    <div className="w-16 h-16 bg-white/20 backdrop-blur-xl rounded-full flex items-center justify-center mx-auto mb-3">
-                      <Play size={24} className="text-white" />
-                    </div>
-                    <p className="text-sm font-light">Tap to watch full screen</p>
-                  </div>
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Sleep Music Section - Inline Video Players */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl calm-heading calm-text">Peaceful Sleep Bhajans</h2>
-            <span className="text-sm text-amber-400 font-light">See all</span>
-          </div>
-          <div className="grid grid-cols-1 gap-6">
-            {sleepMusic.map((music) => (
-              <div key={music.id} className="bg-white/10 backdrop-blur-xl rounded-3xl p-6 border border-white/20">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl flex items-center justify-center text-2xl shadow-lg">
-                    {music.image}
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-lg calm-heading calm-text mb-1">{music.title}</h3>
-                    <p className="text-sm calm-text-muted mb-1 calm-body">{music.description}</p>
-                    <div className="flex items-center gap-2">
-                      <span className="px-2 py-1 bg-white/10 text-white/80 text-xs rounded-full font-light">
-                        {music.category}
-                      </span>
-                      <span className="text-xs calm-text-subtle calm-caption">by {music.artist}</span>
-                      <span className="text-xs calm-text-subtle calm-caption">{music.duration}</span>
-                    </div>
+                
+                {/* Play Button Overlay */}
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="w-16 h-16 bg-white/30 backdrop-blur-xl rounded-full flex items-center justify-center">
+                    {currentStory?.id === 'radha-story' && isPlaying ? (
+                      <Pause size={28} className="text-white" fill="currentColor" />
+                    ) : (
+                      <Play size={28} className="text-white ml-1" fill="currentColor" />
+                    )}
                   </div>
                 </div>
-                <button
-                  onClick={() => setSelectedVideo({
-                    url: music.youtubeEmbed,
-                    title: music.title,
-                    description: music.description
-                  })}
-                  className="w-full h-48 bg-gradient-to-br from-amber-500/20 to-orange-600/20 rounded-2xl flex items-center justify-center text-white hover:from-amber-500/30 hover:to-orange-600/30 transition-all duration-300 border border-white/20"
-                >
-                  <div className="text-center">
-                    <div className="w-16 h-16 bg-white/20 backdrop-blur-xl rounded-full flex items-center justify-center mx-auto mb-3">
-                      <Play size={24} className="text-white" />
-                    </div>
-                    <p className="text-sm font-light">Tap to watch full screen</p>
-                  </div>
-                </button>
               </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Sleep Sounds Section */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl calm-heading calm-text">Divine Sounds</h2>
-            <span className="text-sm text-amber-400 font-light">See all</span>
-          </div>
-          <div className="grid grid-cols-1 gap-6">
-            {sleepSounds.map((sound) => (
-              <div key={sound.id} className="bg-white/10 backdrop-blur-xl rounded-3xl p-6 border border-white/20">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-teal-500 to-cyan-600 rounded-2xl flex items-center justify-center text-2xl shadow-lg">
-                    {sound.image}
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-lg calm-heading calm-text mb-1">{sound.title}</h3>
-                    <p className="text-sm calm-text-muted mb-1 calm-body">{sound.description}</p>
-                    <span className="text-xs calm-text-subtle calm-caption">{sound.duration}</span>
+              
+              {/* Story Info Below Card */}
+              <div className="mt-3 flex items-start gap-3">
+                <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 bg-gradient-to-br from-orange-400 to-pink-500">
+                  <div className="w-full h-full flex items-center justify-center text-white text-xs">
+                    DN
                   </div>
                 </div>
-                <button
-                  onClick={() => setSelectedVideo({
-                    url: sound.youtubeEmbed,
-                    title: sound.title,
-                    description: sound.description
-                  })}
-                  className="w-full h-32 bg-gradient-to-br from-teal-500/20 to-cyan-600/20 rounded-2xl flex items-center justify-center text-white hover:from-teal-500/30 hover:to-cyan-600/30 transition-all duration-300 border border-white/20"
-                >
-                  <div className="text-center">
-                    <div className="w-12 h-12 bg-white/20 backdrop-blur-xl rounded-full flex items-center justify-center mx-auto mb-2">
-                      <Play size={18} className="text-white" />
-                    </div>
-                    <p className="text-xs font-light">Tap to play</p>
+                <div className="flex-1">
+                  <h3 className="text-white font-semibold text-base mb-1">Radha Krishna ki shaadi kyon nhi hui</h3>
+                  <p className="text-white/70 text-sm">💔 The love that changed everything...</p>
+                  <div className="flex items-center gap-2 mt-1">
+                    <span className="text-xs text-amber-400">✨ Most addictive tonight</span>
                   </div>
-                </button>
+                </div>
               </div>
-            ))}
+            </div>
+
+            {/* Mahabharat Secrets Card */}
+            <div 
+              onClick={() => handlePlayStory({
+                id: 'mahabharat-secrets',
+                title: "Mahabharat Secrets",
+                description: "Discover the untold secrets and divine wisdom from the great epic Mahabharat",
+                audioUrl: '/assets/story/karan.mp3'
+              })}
+              className="relative flex-shrink-0 w-80 cursor-pointer group"
+            >
+              <div className="relative h-72 rounded-3xl overflow-hidden shadow-2xl">
+                <img 
+                  src="/assets/images/karan.png" 
+                  alt="Mahabharat Secrets" 
+                  className="w-full h-full object-cover"
+                />
+                
+                {/* Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                
+                {/* New Badge */}
+                <div className="absolute top-4 left-4">
+                  <span className="px-3 py-1 bg-emerald-500 text-white text-xs font-semibold rounded-full">
+                    New
+                  </span>
+                </div>
+                
+                {/* Duration Badge */}
+                <div className="absolute top-4 right-4">
+                  <div className="flex items-center gap-1 px-3 py-1 bg-black/50 backdrop-blur-sm rounded-full text-white text-xs">
+                    <Play size={12} fill="currentColor" />
+                    <span>30 min</span>
+                  </div>
+                </div>
+                
+                {/* Play Button Overlay */}
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="w-16 h-16 bg-white/30 backdrop-blur-xl rounded-full flex items-center justify-center">
+                    {currentStory?.id === 'mahabharat-secrets' && isPlaying ? (
+                      <Pause size={28} className="text-white" fill="currentColor" />
+                    ) : (
+                      <Play size={28} className="text-white ml-1" fill="currentColor" />
+                    )}
+                  </div>
+                </div>
+              </div>
+              
+              {/* Story Info Below Card */}
+              <div className="mt-3 flex items-start gap-3">
+                <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 bg-gradient-to-br from-red-400 to-orange-500">
+                  <div className="w-full h-full flex items-center justify-center text-white text-xs">
+                    MS
+                  </div>
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-white font-semibold text-base mb-1">Mahabharat Secrets</h3>
+                  <p className="text-white/70 text-sm">⚔️ What they never told you about Karan...</p>
+                  <div className="flex items-center gap-2 mt-1">
+                    <span className="text-xs text-red-400">🔥 5.2K listening now</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Additional Featured Cards */}
+            <div className="relative flex-shrink-0 w-80 cursor-pointer group">
+              <div className="relative h-72 rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-blue-500/20 to-purple-600/20 backdrop-blur-xl border border-white/10">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-center text-white/50">
+                    <Moon size={48} className="mx-auto mb-2" />
+                    <p className="text-sm">More stories coming soon</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Quick Sleep Actions */}
-        <div className="grid grid-cols-2 gap-4 mb-8">
-          <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-6 text-center border border-white/20 cursor-pointer hover:bg-white/20 transition-all duration-300">
-            <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
-              <Timer size={28} className="text-white" />
-            </div>
-            <h3 className="text-lg font-light text-white mb-2">Mantra Timer</h3>
-            <p className="text-sm text-white/70 font-light">Sacred chanting timer</p>
-          </div>
-          <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-6 text-center border border-white/20 cursor-pointer hover:bg-white/20 transition-all duration-300">
-            <div className="w-16 h-16 bg-gradient-to-br from-teal-500 to-cyan-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
-              <Headphones size={28} className="text-white" />
-            </div>
-            <h3 className="text-lg font-light text-white mb-2">Sleep Sounds</h3>
-            <p className="text-sm text-white/70 font-light">Divine ambient sounds</p>
-          </div>
-        </div>
       </div>
+
+      {/* Mini Audio Player - Shows when story is playing */}
+      {currentStory && (
+        <div className="fixed bottom-20 left-0 right-0 z-50 px-4">
+          <div className="bg-gradient-to-r from-indigo-900 to-purple-900 backdrop-blur-xl border border-white/20 rounded-2xl p-4 shadow-2xl">
+            <div className="flex items-center gap-4">
+              {/* Story Image */}
+              <div className="w-14 h-14 rounded-xl overflow-hidden flex-shrink-0 shadow-lg">
+                <img 
+                  src={currentStory.id === 'mahabharat-secrets' ? '/assets/images/karan.png' : '/assets/images/krishna.png'}
+                  alt="Story" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              
+              {/* Story Info */}
+              <div className="flex-1 min-w-0">
+                <h3 className="text-white font-medium text-base truncate">
+                  {currentStory.title}
+                </h3>
+                <p className="text-white/70 text-sm truncate">
+                  {currentStory.description}
+                </p>
+              </div>
+              
+              {/* Controls */}
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => {
+                    if (isPlaying) {
+                      audioRef.current?.pause();
+                      setIsPlaying(false);
+                    } else {
+                      audioRef.current?.play();
+                      setIsPlaying(true);
+                    }
+                  }}
+                  className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+                >
+                  {isPlaying ? (
+                    <Pause size={24} fill="currentColor" />
+                  ) : (
+                    <Play size={24} fill="currentColor" />
+                  )}
+                </button>
+                
+                <button
+                  onClick={() => {
+                    audioRef.current?.pause();
+                    setCurrentStory(null);
+                    setIsPlaying(false);
+                  }}
+                  className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Bottom Navigation */}
       <BottomNav />

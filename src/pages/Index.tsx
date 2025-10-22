@@ -1,22 +1,10 @@
 import { useNavigate } from 'react-router-dom';
-import { Play, Clock, Star, Gift, Check, Heart, BookOpen, Moon } from 'lucide-react';
+import { Play, Gift, Moon } from 'lucide-react';
 import { BottomNav } from '@/components/BottomNav';
-import { ModernKrishnaBackground, ModernKrishnaHero } from '@/components/ModernKrishnaBackground';
+import { ModernKrishnaBackground } from '@/components/ModernKrishnaBackground';
 
 const Index = () => {
   const navigate = useNavigate();
-  
-  // Sample data for Calm app
-  const currentStreak = 1;
-  const weeklyData = [
-    { day: 'M', completed: false },
-    { day: 'T', completed: false },
-    { day: 'W', completed: true },
-    { day: 'T', completed: false },
-    { day: 'F', completed: false },
-    { day: 'S', completed: false },
-    { day: 'S', completed: false }
-  ];
 
   return (
     <div className="min-h-screen krishna-bg">
@@ -30,159 +18,159 @@ const Index = () => {
             <div className="w-10 h-10 krishna-gradient rounded-full flex items-center justify-center shadow-lg">
               <span className="text-white font-bold text-lg">🕉️</span>
             </div>
-            <h1 className="text-2xl calm-heading krishna-text">Krishna Calm</h1>
+            <h1 className="text-2xl calm-heading krishna-text">Nishu</h1>
           </div>
           <Gift size={24} className="krishna-text-subtle" />
         </div>
 
-        {/* Daily Streak Counter */}
-        <div className="text-center mb-8">
-          <div className="relative w-40 h-40 mx-auto mb-6">
-            {/* Progress Ring */}
-            <svg className="w-40 h-40 transform -rotate-90" viewBox="0 0 100 100">
-              <circle
-                cx="50"
-                cy="50"
-                r="40"
-                stroke="rgba(255,255,255,0.2)"
-                strokeWidth="6"
-                fill="none"
-              />
-              <circle
-                cx="50"
-                cy="50"
-                r="40"
-                stroke="url(#progressGradient)"
-                strokeWidth="6"
-                fill="none"
-                strokeDasharray={`${(currentStreak / 7) * 251.2} 251.2`}
-                className="transition-all duration-1000"
-              />
-              <defs>
-                <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#fbbf24" />
-                  <stop offset="50%" stopColor="#f59e0b" />
-                  <stop offset="100%" stopColor="#d97706" />
-                </linearGradient>
-              </defs>
-            </svg>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-center">
-                <div className="text-3xl calm-heading calm-text">{currentStreak}</div>
-                <div className="text-sm calm-text-subtle calm-caption">Day</div>
-              </div>
-            </div>
-          </div>
-
-          {/* Weekly Progress */}
-          <div className="flex justify-center gap-3 mb-6">
-            {weeklyData.map((day, index) => (
-              <div
-                key={index}
-                className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
-                  day.completed 
-                    ? 'bg-gradient-to-br from-amber-400 to-orange-500 text-white shadow-lg' 
-                    : 'bg-white/10 text-white/40'
-                }`}
-              >
-                {day.completed ? <Check size={18} /> : <span className="text-sm font-light">{day.day}</span>}
-              </div>
-            ))}
-          </div>
-
-          <p className="calm-text-muted calm-body text-sm leading-relaxed max-w-xs mx-auto">
-            You're off to a great start with Krishna's divine guidance {currentStreak} day this week. Keep it up!
+        {/* Greeting */}
+        <div className="mb-8">
+          <h2 className="text-3xl calm-heading calm-text mb-2">Good Afternoon, Prarabdha</h2>
+          <p className="text-white/80 text-sm mt-2 calm-body italic">
+            Tonight, uncover secrets that were never meant to be told... 🌙✨
           </p>
         </div>
 
-        {/* Featured Collections - Calm Style */}
+        {/* Popular on Nishu */}
         <div className="mb-8">
-          <h2 className="text-xl calm-heading calm-text mb-4">Recommended Collections</h2>
-          <div className="space-y-4">
-            {/* Daily Krishna Meditation */}
-            <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-6 border border-white/20">
-              <div className="flex items-center gap-4">
-                <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
-                  <Play size={28} className="text-white" />
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h3 className="text-xl calm-heading calm-text">Popular Tonight</h3>
+              <p className="text-xs text-white/60 mt-1">🔥 Everyone's listening before sleep</p>
+            </div>
+            <span className="text-sm text-amber-400 font-medium cursor-pointer">See All</span>
+          </div>
+
+          <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
+            {/* Krishna Card */}
+            <div 
+              onClick={() => navigate('/sleep')}
+              className="relative flex-shrink-0 w-80 cursor-pointer group"
+            >
+              <div className="relative h-72 rounded-3xl overflow-hidden shadow-2xl">
+                <img 
+                  src="/assets/images/krishna.png" 
+                  alt="Divine Sleep Story" 
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                
+                {/* Duration Badge */}
+                <div className="absolute top-4 left-4">
+                  <div className="flex items-center gap-1 px-3 py-1 bg-black/50 backdrop-blur-sm rounded-full text-white text-xs">
+                    <Play size={12} fill="currentColor" />
+                    <span>45 min</span>
+                  </div>
                 </div>
+              </div>
+              
+              <div className="mt-3 flex items-start gap-3">
                 <div className="flex-1">
-                  <h3 className="text-lg font-light text-white mb-1">Daily Krishna Meditation</h3>
-                  <p className="text-sm text-white/70 mb-1">Mantra • Hare Krishna Mahamantra</p>
-                  <p className="text-xs text-white/50">Jan 24 • Divine Love Meditation</p>
-                </div>
-                <div className="text-right">
-                  <div className="text-sm font-light text-white">10 min</div>
+                  <h3 className="text-white font-semibold text-base mb-1">Radha Krishna ki shaadi kyon nhi hui</h3>
+                  <p className="text-white/70 text-sm">💔 The forbidden love that shook the heavens...</p>
+                  <p className="text-amber-400 text-xs mt-1">45 min • Most listened tonight</p>
                 </div>
               </div>
             </div>
 
-            {/* Daily Gita Wisdom */}
-            <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-6 border border-white/20">
-              <div className="flex items-center gap-4">
-                <div className="w-20 h-20 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center shadow-lg">
-                  <BookOpen size={28} className="text-white" />
+            {/* Radha Card */}
+            <div 
+              onClick={() => navigate('/discover')}
+              className="relative flex-shrink-0 w-80 cursor-pointer group"
+            >
+              <div className="relative h-72 rounded-3xl overflow-hidden shadow-2xl">
+                <img 
+                  src="/assets/images/radha.png" 
+                  alt="Radhe Music Collection" 
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                
+                {/* Duration Badge */}
+                <div className="absolute top-4 left-4">
+                  <div className="flex items-center gap-1 px-3 py-1 bg-black/50 backdrop-blur-sm rounded-full text-white text-xs">
+                    <Play size={12} fill="currentColor" />
+                    <span>29 min</span>
+                  </div>
                 </div>
+              </div>
+              
+              <div className="mt-3 flex items-start gap-3">
                 <div className="flex-1">
-                  <h3 className="text-lg font-light text-white mb-1">Daily Gita Wisdom</h3>
-                  <p className="text-sm text-white/70 mb-1">Teaching • Bhagavad Gita Chapter 2</p>
-                  <p className="text-xs text-white/50">Jan 24 • The Eternal Soul</p>
-                </div>
-                <div className="text-right">
-                  <div className="text-sm font-light text-white">8 min</div>
+                  <h3 className="text-white font-semibold text-base mb-1">Radhe - Divine Melodies</h3>
+                  <p className="text-white/70 text-sm">💫 Songs that made the gods weep...</p>
+                  <p className="text-amber-400 text-xs mt-1">29 min • Listeners dream about this</p>
                 </div>
               </div>
             </div>
+
           </div>
         </div>
 
-        {/* Category Filters - Calm Style */}
+        {/* Featured Collection */}
         <div className="mb-8">
-          <h2 className="text-xl font-light text-white mb-4">Categories</h2>
-          <div className="flex gap-3 overflow-x-auto pb-2">
-            {[
-              { name: 'Meditation', icon: '🧘‍♂️', color: 'from-blue-500 to-purple-600' },
-              { name: 'Sleep', icon: '🌙', color: 'from-slate-600 to-blue-700' },
-              { name: 'Music', icon: '🎵', color: 'from-amber-500 to-orange-600' },
-              { name: 'Wisdom', icon: '📖', color: 'from-emerald-500 to-teal-600' },
-              { name: 'Stories', icon: '📚', color: 'from-pink-500 to-rose-600' },
-              { name: 'Kids', icon: '👶', color: 'from-purple-500 to-pink-600' }
-            ].map((category, index) => (
-              <div
-                key={index}
-                className="flex-shrink-0 bg-white/10 backdrop-blur-xl rounded-2xl p-4 border border-white/20 min-w-[120px] text-center cursor-pointer hover:bg-white/20 transition-all duration-300"
-              >
-                <div className={`w-12 h-12 bg-gradient-to-br ${category.color} rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg`}>
-                  <span className="text-2xl">{category.icon}</span>
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h3 className="text-xl calm-heading calm-text">⭐ Tonight's Special</h3>
+              <p className="text-xs text-white/60 mt-1">Fall asleep to this mystery</p>
+            </div>
+            <span className="text-sm text-amber-400 font-medium cursor-pointer">See All</span>
+          </div>
+
+          <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
+            {/* Mahabharat Secrets Card */}
+            <div 
+              onClick={() => navigate('/sleep')}
+              className="relative flex-shrink-0 w-80 cursor-pointer group"
+            >
+              <div className="relative h-72 rounded-3xl overflow-hidden shadow-2xl">
+                <img 
+                  src="/assets/images/karan.png" 
+                  alt="Mahabharat Secrets" 
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                
+                {/* New Badge */}
+                <div className="absolute top-4 left-4">
+                  <span className="px-3 py-1 bg-emerald-500 text-white text-xs font-semibold rounded-full">
+                    New
+                  </span>
                 </div>
-                <h3 className="text-sm font-light text-white">{category.name}</h3>
+                
+                {/* Duration Badge */}
+                <div className="absolute top-4 right-4">
+                  <div className="flex items-center gap-1 px-3 py-1 bg-black/50 backdrop-blur-sm rounded-full text-white text-xs">
+                    <Play size={12} fill="currentColor" />
+                    <span>30 min</span>
+                  </div>
+                </div>
               </div>
-            ))}
+              
+              <div className="mt-3 flex items-start gap-3">
+                <div className="flex-1">
+                  <h3 className="text-white font-semibold text-base mb-1">Mahabharat Secrets</h3>
+                  <p className="text-white/70 text-sm">⚔️ The untold truth behind the greatest war...</p>
+                  <p className="text-amber-400 text-xs mt-1">30 min • 🔥 Trending now</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Coming Soon Card */}
+            <div className="relative flex-shrink-0 w-80 cursor-pointer group">
+              <div className="relative h-72 rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-purple-500/20 to-pink-600/20 backdrop-blur-xl border border-white/10">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-center text-white/70 p-8">
+                    <div className="text-5xl mb-4 animate-pulse">🔮</div>
+                    <p className="text-base font-medium mb-2">Coming Tomorrow Night...</p>
+                    <p className="text-sm italic text-white/60">A mystery you can't miss</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Quick Actions */}
-        <div className="grid grid-cols-2 gap-4 mb-8">
-          <div 
-            className="bg-white/10 backdrop-blur-xl rounded-3xl p-6 text-center border border-white/20 cursor-pointer hover:bg-white/20 transition-all duration-300"
-            onClick={() => navigate('/sleep')}
-          >
-            <div className="w-16 h-16 bg-gradient-to-br from-slate-600 to-blue-700 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
-              <Moon size={28} className="text-white" />
-            </div>
-            <h3 className="text-lg font-light text-white mb-2">Krishna Stories</h3>
-            <p className="text-sm text-white/70 font-light">Divine bedtime tales</p>
-          </div>
-          <div 
-            className="bg-white/10 backdrop-blur-xl rounded-3xl p-6 text-center border border-white/20 cursor-pointer hover:bg-white/20 transition-all duration-300"
-            onClick={() => navigate('/discover')}
-          >
-            <div className="w-16 h-16 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
-              <Star size={28} className="text-white" />
-            </div>
-            <h3 className="text-lg font-light text-white mb-2">Discover</h3>
-            <p className="text-sm text-white/70 font-light">Krishna teachings & bhajans</p>
-          </div>
-        </div>
       </div>
 
       {/* Bottom Navigation */}
