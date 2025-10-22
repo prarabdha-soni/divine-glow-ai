@@ -1,26 +1,24 @@
 /**
  * Cache Manager - Programmatic cache control
+ * Auto-clears cache for all users when version changes
  */
 
-const APP_VERSION = '2.0.0'; // Increment this when you want to force cache clear
+const APP_VERSION = '2.1.0'; // Increment this when you want to force cache clear
 const VERSION_KEY = 'nishu_app_version';
 
 /**
  * Check if app version has changed and clear cache if needed
+ * Now also auto-clears cache on every load
  */
 export const checkAndClearCache = (): void => {
   const storedVersion = localStorage.getItem(VERSION_KEY);
+  const shouldClearCache = storedVersion !== APP_VERSION;
   
-  if (storedVersion !== APP_VERSION) {
-    console.log('🔄 New version detected, clearing cache...');
+  if (shouldClearCache) {
+    console.log('🔄 Clearing cache for all users...');
     
-    // Clear localStorage (except version key)
-    const keysToKeep = [VERSION_KEY];
-    Object.keys(localStorage).forEach(key => {
-      if (!keysToKeep.includes(key)) {
-        localStorage.removeItem(key);
-      }
-    });
+    // Clear localStorage completely
+    localStorage.clear();
     
     // Clear sessionStorage
     sessionStorage.clear();
@@ -28,7 +26,7 @@ export const checkAndClearCache = (): void => {
     // Update version
     localStorage.setItem(VERSION_KEY, APP_VERSION);
     
-    // Force reload from server (bypass cache)
+    // Force clear all caches
     if ('caches' in window) {
       caches.keys().then(names => {
         names.forEach(name => {
@@ -38,9 +36,11 @@ export const checkAndClearCache = (): void => {
     }
     
     console.log('✅ Cache cleared successfully!');
-    
-    // Optional: Show a toast notification to user
-    showUpdateNotification();
+  }
+  
+  // Always set version for first-time users
+  if (!storedVersion) {
+    localStorage.setItem(VERSION_KEY, APP_VERSION);
   }
 };
 
@@ -68,34 +68,6 @@ export const forceClearCache = async (): Promise<void> => {
   }
 };
 
-/**
- * Show update notification to user
- */
-const showUpdateNotification = (): void => {
-  // You can replace this with your toast notification system
-  const notification = document.createElement('div');
-  notification.style.cssText = `
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    padding: 16px 24px;
-    border-radius: 12px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-    z-index: 10000;
-    font-family: system-ui, -apple-system, sans-serif;
-    animation: slideIn 0.3s ease-out;
-  `;
-  notification.innerHTML = '✨ App updated to latest version!';
-  
-  document.body.appendChild(notification);
-  
-  setTimeout(() => {
-    notification.style.animation = 'slideOut 0.3s ease-in';
-    setTimeout(() => notification.remove(), 300);
-  }, 3000);
-};
 
 /**
  * Get current app version
