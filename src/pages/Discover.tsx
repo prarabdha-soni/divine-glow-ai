@@ -43,9 +43,15 @@ const Discover = () => {
         // Create new audio
         audioRef.current = new Audio(audioUrl);
         audioRef.current.volume = 1.0;
-        // Skip first 5 seconds
-        audioRef.current.currentTime = 5;
+        audioRef.current.preload = 'auto';
         setCurrentTrack(trackId);
+        
+        // Skip first 5 seconds after metadata is loaded
+        audioRef.current.onloadedmetadata = () => {
+          if (audioRef.current) {
+            audioRef.current.currentTime = 5;
+          }
+        };
       }
       
       audioRef.current?.play();

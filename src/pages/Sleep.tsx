@@ -47,9 +47,15 @@ const Sleep = () => {
         audioRef.current = new Audio(story.audioUrl);
         // Set higher volume for better audio experience
         audioRef.current.volume = 1.0;
-        // Skip first 5 seconds
-        audioRef.current.currentTime = 5;
+        audioRef.current.preload = 'auto';
         setCurrentStory(story);
+        
+        // Skip first 5 seconds after metadata is loaded
+        audioRef.current.onloadedmetadata = () => {
+          if (audioRef.current) {
+            audioRef.current.currentTime = 5;
+          }
+        };
       }
       
       audioRef.current?.play();
