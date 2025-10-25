@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
-import { Bell, Sparkles, Play } from 'lucide-react';
+import { Bell, Sparkles, Play, Pause, X } from 'lucide-react';
 import { BottomNav } from '@/components/BottomNav';
 import { FullScreenVideoPlayer } from '@/components/FullScreenVideoPlayer';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -11,6 +11,53 @@ const Index = () => {
     title: string;
     description: string;
   } | null>(null);
+  const [currentAudio, setCurrentAudio] = useState<{
+    id: string;
+    title: string;
+    type: 'story' | 'music';
+  } | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []);
+
+  const handlePlayAudio = (id: string, audioUrl: string, title: string, type: 'story' | 'music') => {
+    // Stop all other audio elements on the page
+    const allAudio = document.querySelectorAll('audio');
+    allAudio.forEach(audio => audio.pause());
+    
+    if (currentAudio?.id === id && isPlaying) {
+      audioRef.current?.pause();
+      setIsPlaying(false);
+    } else {
+      if (currentAudio?.id !== id) {
+        if (audioRef.current) {
+          audioRef.current.pause();
+        }
+        audioRef.current = new Audio(audioUrl);
+        audioRef.current.volume = 1.0;
+        // Skip first 5 seconds
+        audioRef.current.currentTime = 5;
+        setCurrentAudio({ id, title, type });
+      }
+      
+      audioRef.current?.play();
+      setIsPlaying(true);
+      
+      if (audioRef.current) {
+        audioRef.current.onended = () => {
+          setIsPlaying(false);
+        };
+      }
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#1a1a2e] via-[#16213e] to-[#0f0f1e]">
@@ -51,11 +98,12 @@ const Index = () => {
           <div className="grid grid-cols-2 gap-3">
             {/* Radha Krishna ki shaadi kyon nhi hui */}
             <div 
-              onClick={() => setSelectedVideo({
-                url: 'https://www.youtube.com/embed/8V4X0CE7fvc?start=5',
-                title: 'Radha Krishna ki shaadi kyon nhi hui',
-                description: 'The eternal mystery of divine love'
-              })}
+              onClick={() => handlePlayAudio(
+                'radha-story',
+                '/assets/story/radha.mp3',
+                'Radha Krishna ki shaadi kyon nhi hui',
+                'story'
+              )}
               className="cursor-pointer group"
             >
               <div className="relative rounded-lg overflow-hidden shadow-lg mb-2">
@@ -79,13 +127,14 @@ const Index = () => {
               <p className="text-white/60 text-xs">Divine Love Mystery</p>
             </div>
 
-            {/* Mahabharat Secrets */}
+            {/* Karan itna mahan kaisa tha */}
             <div 
-              onClick={() => setSelectedVideo({
-                url: 'https://www.youtube.com/embed/7kKJO8LtL-M?start=5',
-                title: 'Mahabharat Secrets',
-                description: 'Untold stories from the great epic'
-              })}
+              onClick={() => handlePlayAudio(
+                'karan-story',
+                '/assets/story/karan.mp3',
+                'Karan itna mahan kaisa tha',
+                'story'
+              )}
               className="cursor-pointer group"
             >
               <div className="relative rounded-lg overflow-hidden shadow-lg mb-2">
@@ -104,8 +153,8 @@ const Index = () => {
                   40 min
                 </div>
               </div>
-              <h4 className="text-white text-sm font-medium mb-1">Mahabharat Secrets</h4>
-              <p className="text-white/60 text-xs">Epic Mysteries</p>
+              <h4 className="text-white text-sm font-medium mb-1">Karan itna mahan kaisa tha</h4>
+              <p className="text-white/60 text-xs">Epic Warrior</p>
             </div>
           </div>
         </div>
@@ -123,19 +172,50 @@ const Index = () => {
           </div>
           
           <div className="grid grid-cols-2 gap-3">
-            {/* Radhe Tere Charno Ki */}
+            {/* Ram Siya Ram */}
             <div 
-              onClick={() => setSelectedVideo({
-                url: 'https://www.youtube.com/embed/k-mHGA2lvnU?start=5',
-                title: 'Radhe Tere Charno Ki',
-                description: 'Peaceful devotional song'
-              })}
+              onClick={() => handlePlayAudio(
+                'ram-siya-ram',
+                '/assets/music/Ram Siya Ram (Lyrical) Adipurush _ Prabhas _ Sachet-Parampara,Manoj Muntashir S _Om Raut _ Bhushan K.mp3',
+                'Ram Siya Ram',
+                'music'
+              )}
+              className="cursor-pointer group"
+            >
+              <div className="relative rounded-lg overflow-hidden shadow-lg mb-2">
+                <img 
+                  src="/assets/images/krishna.png" 
+                  alt="Ram Siya Ram" 
+                  className="w-full h-24 object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="w-10 h-10 bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center">
+                    <Play size={20} fill="white" className="text-white ml-0.5" />
+                  </div>
+                </div>
+                <div className="absolute bottom-2 right-2 px-2 py-0.5 bg-black/60 backdrop-blur-sm rounded text-white text-xs">
+                  4 min
+                </div>
+              </div>
+              <h4 className="text-white text-sm font-medium mb-1">Ram Siya Ram</h4>
+              <p className="text-white/60 text-xs">Devotional Song</p>
+            </div>
+
+            {/* Shyama Aan Baso */}
+            <div 
+              onClick={() => handlePlayAudio(
+                'shyama-aan-baso',
+                '/assets/music/shyama.mp3',
+                'Shyama Aan Baso',
+                'music'
+              )}
               className="cursor-pointer group"
             >
               <div className="relative rounded-lg overflow-hidden shadow-lg mb-2">
                 <img 
                   src="/assets/images/radha.png" 
-                  alt="Radhe Tere Charno Ki" 
+                  alt="Shyama Aan Baso" 
                   className="w-full h-24 object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
@@ -148,13 +228,70 @@ const Index = () => {
                   5 min
                 </div>
               </div>
-              <h4 className="text-white text-sm font-medium mb-1">Radhe Tere Charno Ki</h4>
-              <p className="text-white/60 text-xs">Devotional Bhajan</p>
+              <h4 className="text-white text-sm font-medium mb-1">Shyama Aan Baso</h4>
+              <p className="text-white/60 text-xs">Peaceful Bhajan</p>
             </div>
           </div>
         </div>
 
       </div>
+
+      {/* Mini Audio Player - Shows when audio is playing */}
+      {currentAudio && (
+        <div className="fixed bottom-20 left-0 right-0 z-50 px-4">
+          <div className="bg-gradient-to-r from-indigo-900 to-purple-900 backdrop-blur-xl border border-white/20 rounded-2xl p-4 shadow-2xl">
+            <div className="flex items-center gap-4">
+              {/* Audio Icon */}
+              <div className="w-14 h-14 bg-gradient-to-br from-pink-500 to-purple-600 rounded-xl flex items-center justify-center text-2xl shadow-lg flex-shrink-0">
+                {currentAudio.type === 'story' ? '📖' : '🎵'}
+              </div>
+              
+              {/* Audio Info */}
+              <div className="flex-1 min-w-0">
+                <h3 className="text-white font-medium text-base truncate">
+                  {currentAudio.title}
+                </h3>
+                <p className="text-white/70 text-sm truncate">
+                  {currentAudio.type === 'story' ? 'Story' : 'Music'}
+                </p>
+              </div>
+              
+              {/* Controls */}
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => {
+                    if (isPlaying) {
+                      audioRef.current?.pause();
+                      setIsPlaying(false);
+                    } else {
+                      audioRef.current?.play();
+                      setIsPlaying(true);
+                    }
+                  }}
+                  className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+                >
+                  {isPlaying ? (
+                    <Pause size={24} fill="currentColor" />
+                  ) : (
+                    <Play size={24} fill="currentColor" />
+                  )}
+                </button>
+                
+                <button
+                  onClick={() => {
+                    audioRef.current?.pause();
+                    setCurrentAudio(null);
+                    setIsPlaying(false);
+                  }}
+                  className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Bottom Navigation */}
       <BottomNav />

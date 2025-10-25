@@ -47,6 +47,8 @@ const Sleep = () => {
         audioRef.current = new Audio(story.audioUrl);
         // Set higher volume for better audio experience
         audioRef.current.volume = 1.0;
+        // Skip first 5 seconds
+        audioRef.current.currentTime = 5;
         setCurrentStory(story);
       }
       
@@ -342,13 +344,6 @@ const Sleep = () => {
                 {/* Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
                 
-                {/* New Badge */}
-                <div className="absolute top-4 left-4">
-                  <span className="px-3 py-1 bg-emerald-500 text-white text-xs font-semibold rounded-full">
-                    New
-                  </span>
-                </div>
-                
                 {/* Duration Badge */}
                 <div className="absolute top-4 right-4">
                   <div className="flex items-center gap-1 px-3 py-1 bg-black/50 backdrop-blur-sm rounded-full text-white text-xs">
@@ -377,20 +372,17 @@ const Sleep = () => {
                   </div>
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-white font-semibold text-sm mb-0.5">Radha Krishna ki shaadi kyon nhi hui</h3>
-                  <div className="flex items-center gap-2 mt-0.5">
-                    <span className="text-xs text-amber-400">✨ Most addictive tonight</span>
-                  </div>
+                  <h3 className="text-white font-semibold text-sm">Radha Krishna ki shaadi kyon nhi hui</h3>
                 </div>
               </div>
             </div>
 
-            {/* Mahabharat Secrets Card */}
+            {/* Karan Itna Mahan Kaisa Tha Card */}
             <div 
               onClick={() => handlePlayStory({
-                id: 'mahabharat-secrets',
-                title: "Mahabharat Secrets",
-                description: "Discover the untold secrets and divine wisdom from the great epic Mahabharat",
+                id: 'karan-story',
+                title: "Karan itna mahan kaisa tha",
+                description: "Discover the greatness of the legendary warrior Karan",
                 audioUrl: '/assets/story/karan.mp3'
               })}
               className="relative flex-shrink-0 w-52 cursor-pointer group"
@@ -404,13 +396,6 @@ const Sleep = () => {
                 
                 {/* Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
-                
-                {/* New Badge */}
-                <div className="absolute top-4 left-4">
-                  <span className="px-3 py-1 bg-emerald-500 text-white text-xs font-semibold rounded-full">
-                    New
-                  </span>
-                </div>
                 
                 {/* Duration Badge */}
                 <div className="absolute top-4 right-4">
@@ -440,10 +425,7 @@ const Sleep = () => {
                   </div>
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-white font-semibold text-sm mb-0.5">Mahabharat Secrets</h3>
-                  <div className="flex items-center gap-2 mt-0.5">
-                    <span className="text-xs text-red-400">🔥 5.2K listening now</span>
-                  </div>
+                  <h3 className="text-white font-semibold text-sm">Karan itna mahan kaisa tha</h3>
                 </div>
               </div>
             </div>
@@ -501,16 +483,6 @@ const Sleep = () => {
                     </div>
                   </div>
                   
-                  <div className="flex items-center gap-3">
-                    <div className="flex items-center gap-1">
-                      <Star size={14} className="text-amber-400 fill-amber-400" />
-                      <span className="text-white text-xs font-medium">4.9</span>
-                    </div>
-                    <span className="text-white/50 text-xs">•</span>
-                    <span className="text-white/50 text-xs">2.3K plays</span>
-                    <span className="text-white/50 text-xs">•</span>
-                    <span className="text-white/50 text-xs">Divine Narrator</span>
-                  </div>
                 </div>
               </div>
             </div>

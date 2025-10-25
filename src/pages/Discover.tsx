@@ -42,6 +42,9 @@ const Discover = () => {
         
         // Create new audio
         audioRef.current = new Audio(audioUrl);
+        audioRef.current.volume = 1.0;
+        // Skip first 5 seconds
+        audioRef.current.currentTime = 5;
         setCurrentTrack(trackId);
       }
       
