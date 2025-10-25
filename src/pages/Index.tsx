@@ -81,8 +81,8 @@ const Index = () => {
         <div className="mb-4">
           <div className="relative rounded-2xl overflow-hidden shadow-xl">
             <img 
-              src="/assets/images/gemini.png" 
-              alt="Divine Harmony" 
+              src="/assets/images/korean_krishna.jpeg" 
+              alt="Krishna" 
               className="w-full h-[180px] object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
