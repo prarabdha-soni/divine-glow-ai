@@ -1,12 +1,12 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Play, ArrowLeft, MoreVertical, Shuffle, Pause, Heart, Cloud, ThumbsUp, Share2, Plus, RotateCcw, RotateCw, Square } from 'lucide-react';
 import { BottomNav } from '@/components/BottomNav';
-import { ModernKrishnaBackground } from '@/components/ModernKrishnaBackground';
 import { useState, useRef, useEffect } from 'react';
 import { krishnaMusicLibrary, getTotalDuration, getTrackCount } from '@/data/krishnaMusic';
 
 const Discover = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [currentTrack, setCurrentTrack] = useState<string | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [likedTracks, setLikedTracks] = useState<Set<string>>(new Set());
@@ -22,6 +22,32 @@ const Discover = () => {
       }
     };
   }, []);
+
+  // Auto-play track if navigated from home page
+  useEffect(() => {
+    const state = location.state as { trackId?: string; autoPlay?: boolean } | null;
+    if (state?.trackId && state?.autoPlay) {
+      // Map home page track IDs to music library tracks
+      const trackMap: Record<string, string> = {
+        'sleep-krishna': 'ram-siya-ram',
+        'focus-veena': 'ram-siya-ram',
+        'calm-anxiety': 'shyama-aan-baso',
+        'meditation': 'ram-siya-ram'
+      };
+      
+      const musicTrackId = trackMap[state.trackId] || krishnaMusicLibrary[0]?.id;
+      const track = krishnaMusicLibrary.find(t => t.id === musicTrackId);
+      
+      if (track) {
+        setTimeout(() => {
+          handlePlayTrack(track.id, track.audioUrl);
+        }, 300);
+      }
+      
+      // Clear the state so it doesn't auto-play on refresh
+      window.history.replaceState({}, document.title);
+    }
+  }, [location.state]);
 
   const handlePlayTrack = (trackId: string, audioUrl: string) => {
     // Stop all other audio elements on the page
@@ -93,29 +119,27 @@ const Discover = () => {
   };
 
   return (
-    <div className="min-h-screen krishna-bg">
-      {/* Modern Krishna Background */}
-      <ModernKrishnaBackground />
-      
-      {/* Header - Smaller */}
-      <div className="relative z-10 px-6 pt-8 pb-4">
-        <div className="flex items-center justify-between mb-4">
-          <button
-            onClick={() => navigate(-1)}
-            className="w-10 h-10 flex items-center justify-center text-white/80 hover:text-white transition-colors"
-          >
-            <ArrowLeft size={20} />
-          </button>
-          <div className="text-center">
-            <h1 className="text-lg font-semibold calm-text">Music</h1>
-            <p className="text-xs text-white/60">Sacred Melodies</p>
+    <div className="min-h-screen bg-gradient-to-b from-[#1a1a2e] via-[#16213e] to-[#0f0f1e]">
+      {/* Fixed Header */}
+      <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-b from-[#1a1a2e] to-[#1a1a2e]/95 backdrop-blur-xl border-b border-white/10">
+        <div className="px-6 pt-8 pb-4">
+          <div className="flex items-center justify-between mb-4">
+            <button
+              onClick={() => navigate(-1)}
+              className="w-10 h-10 flex items-center justify-center text-white/80 hover:text-white transition-colors"
+            >
+              <ArrowLeft size={20} />
+            </button>
+            <div className="text-center">
+              <h1 className="text-lg font-semibold calm-text">Music</h1>
+              <p className="text-xs text-white/60">Sacred Melodies</p>
+            </div>
+            <button className="w-10 h-10 flex items-center justify-center text-white/80 hover:text-white transition-colors">
+              <MoreVertical size={20} />
+            </button>
           </div>
-          <button className="w-10 h-10 flex items-center justify-center text-white/80 hover:text-white transition-colors">
-            <MoreVertical size={20} />
-          </button>
-        </div>
 
-        {/* Header Image - Radha - Smaller */}
+          {/* Header Image - Radha - Smaller */}
         <div className="mb-4 rounded-2xl overflow-hidden shadow-xl">
           <div className="relative h-48 bg-gradient-to-br from-pink-400/20 via-rose-300/20 to-orange-400/20 backdrop-blur-xl border border-white/20">
             <img 
@@ -150,14 +174,17 @@ const Discover = () => {
           </button>
         </div>
 
-        {/* Track Info */}
-        <p className="calm-text-subtle text-xs calm-caption mb-4">
-          {getTrackCount()} songs • {getTotalDuration()}
-        </p>
+          {/* Track Info */}
+          <p className="calm-text-subtle text-xs calm-caption mb-4">
+            {getTrackCount()} songs • {getTotalDuration()}
+          </p>
+        </div>
       </div>
 
-      {/* Music Track List - Spotify Style */}
-      <div className="relative z-10 px-6 pt-2 pb-32">
+      {/* Content with padding for fixed header */}
+      <div className="pt-[450px]">
+        {/* Music Track List - Spotify Style */}
+        <div className="relative z-10 px-6 pt-2 pb-32">
         <h2 className="text-white font-semibold text-lg mb-3">Your Songs</h2>
         <div className="space-y-2">
           {krishnaMusicLibrary.map((track) => {
@@ -414,10 +441,11 @@ const Discover = () => {
             </div>
           </div>
         </div>
-      )}
+        )}
 
-      {/* Bottom Navigation */}
-      <BottomNav />
+        {/* Bottom Navigation */}
+        <BottomNav />
+      </div>
     </div>
   );
 };

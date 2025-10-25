@@ -1,12 +1,12 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Play, Clock, Star, Headphones, Volume2, Moon, Sparkles, Heart, ArrowLeft, Timer, Zap, Pause, X } from 'lucide-react';
 import { BottomNav } from '@/components/BottomNav';
-import { ModernKrishnaBackground, ModernKrishnaHero } from '@/components/ModernKrishnaBackground';
 import { FullScreenVideoPlayer } from '@/components/FullScreenVideoPlayer';
 import { useState, useRef, useEffect } from 'react';
 
 const Sleep = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [selectedVideo, setSelectedVideo] = useState<{
     url: string;
     title: string;
@@ -289,19 +289,177 @@ const Sleep = () => {
   ];
 
   const [activeTab, setActiveTab] = useState('Sleep Stories');
-  const tabs = ['Sleep Stories', 'All', 'Meditations', 'Tools'];
+  const tabs = ['Sleep Stories', 'All', 'Meditations', 'Tools', 'Dance'];
+
+  const danceVideos = [
+    {
+      id: 1,
+      title: "Radha's Divine Grace",
+      description: "Sacred movements of eternal love",
+      youtubeId: "UQzwKqDpr00",
+      youtubeEmbed: "https://www.youtube.com/embed/UQzwKqDpr00?autoplay=1&rel=0",
+      thumbnail: ""
+    },
+    {
+      id: 2,
+      title: "Krishna's Celestial Dance",
+      description: "Divine energy in motion",
+      youtubeId: "2ed2mjG3CVs",
+      youtubeEmbed: "https://www.youtube.com/embed/2ed2mjG3CVs?autoplay=1&rel=0",
+      thumbnail: ""
+    }
+  ];
+
+  const [danceThumbnails, setDanceThumbnails] = useState<Record<string, string>>({});
+  const [youtubeStoryInfo, setYoutubeStoryInfo] = useState<{
+    title: string;
+    thumbnail: string;
+    description: string;
+  } | null>(null);
+  const [radhaStoryInfo, setRadhaStoryInfo] = useState<{
+    title: string;
+    thumbnail: string;
+    description: string;
+  } | null>(null);
+  const [karanStoryInfo, setKaranStoryInfo] = useState<{
+    title: string;
+    thumbnail: string;
+    description: string;
+  } | null>(null);
+  const [musicThumbnails, setMusicThumbnails] = useState<Record<string, { title: string; thumbnail: string }>>({});
+
+  // Fetch YouTube thumbnails for dance videos
+  useEffect(() => {
+    const fetchDanceThumbnails = async () => {
+      const YOUTUBE_API_KEY = 'AIzaSyBvQcLcPhoGKqhh6bRKnGHQ4By7O6ZaMjw';
+      const videoIds = danceVideos.map(v => v.youtubeId).join(',');
+      
+      try {
+        const response = await fetch(
+          `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoIds}&key=${YOUTUBE_API_KEY}`
+        );
+        const data = await response.json();
+        
+        if (data.items) {
+          const thumbnails: Record<string, string> = {};
+          data.items.forEach((item: any) => {
+            thumbnails[item.id] = item.snippet.thumbnails.high?.url || item.snippet.thumbnails.medium?.url;
+          });
+          setDanceThumbnails(thumbnails);
+        }
+      } catch (error) {
+        console.error('Error fetching dance thumbnails:', error);
+      }
+    };
+
+    fetchDanceThumbnails();
+  }, []);
+
+  // Fetch YouTube story info
+  useEffect(() => {
+    const fetchYoutubeStoryInfo = async () => {
+      const YOUTUBE_API_KEY = 'AIzaSyBvQcLcPhoGKqhh6bRKnGHQ4By7O6ZaMjw';
+      const videoIds = 'FTIWyvx4pgo,xyJrm1LVk70,Ig6lQ3pj4_8';
+      
+      try {
+        const response = await fetch(
+          `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoIds}&key=${YOUTUBE_API_KEY}`
+        );
+        const data = await response.json();
+        
+        if (data.items && data.items.length > 0) {
+          data.items.forEach((video: any) => {
+            if (video.id === 'FTIWyvx4pgo') {
+              setYoutubeStoryInfo({
+                title: video.snippet.title,
+                thumbnail: video.snippet.thumbnails.high?.url || video.snippet.thumbnails.medium?.url,
+                description: video.snippet.description
+              });
+            } else if (video.id === 'xyJrm1LVk70') {
+              setRadhaStoryInfo({
+                title: video.snippet.title,
+                thumbnail: video.snippet.thumbnails.high?.url || video.snippet.thumbnails.medium?.url,
+                description: video.snippet.description
+              });
+            } else if (video.id === 'Ig6lQ3pj4_8') {
+              setKaranStoryInfo({
+                title: video.snippet.title,
+                thumbnail: video.snippet.thumbnails.high?.url || video.snippet.thumbnails.medium?.url,
+                description: video.snippet.description
+              });
+            }
+          });
+        }
+      } catch (error) {
+        console.error('Error fetching YouTube story info:', error);
+      }
+    };
+
+    fetchYoutubeStoryInfo();
+  }, []);
+
+  // Fetch YouTube thumbnails for meditation music
+  useEffect(() => {
+    const fetchMusicThumbnails = async () => {
+      const YOUTUBE_API_KEY = 'AIzaSyBvQcLcPhoGKqhh6bRKnGHQ4By7O6ZaMjw';
+      
+      // Extract video IDs from embed URLs
+      const videoIds = sleepMusic.map(music => {
+        const match = music.youtubeEmbed.match(/embed\/([^?]+)/);
+        return match ? match[1] : null;
+      }).filter(Boolean).join(',');
+      
+      try {
+        const response = await fetch(
+          `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoIds}&key=${YOUTUBE_API_KEY}`
+        );
+        const data = await response.json();
+        
+        if (data.items) {
+          const thumbnails: Record<string, { title: string; thumbnail: string }> = {};
+          data.items.forEach((item: any) => {
+            thumbnails[item.id] = {
+              title: item.snippet.title,
+              thumbnail: item.snippet.thumbnails.high?.url || item.snippet.thumbnails.medium?.url
+            };
+          });
+          setMusicThumbnails(thumbnails);
+        }
+      } catch (error) {
+        console.error('Error fetching music thumbnails:', error);
+      }
+    };
+
+    fetchMusicThumbnails();
+  }, []);
+
+  // Handle navigation from home page to auto-open dance
+  useEffect(() => {
+    const state = location.state as { openDance?: boolean } | null;
+    if (state?.openDance) {
+      setActiveTab('Dance');
+      // Clear the state so it doesn't persist
+      window.history.replaceState({}, document.title);
+    }
+  }, [location.state]);
 
   return (
-    <div className="min-h-screen krishna-bg">
-      {/* Modern Krishna Background */}
-      <ModernKrishnaBackground />
-      
-      {/* Header - Smaller */}
-      <div className="relative z-10 pt-8 pb-4">
-        <h1 className="text-2xl calm-heading calm-text text-center mb-4">Sleep</h1>
+    <div className="min-h-screen bg-gradient-to-b from-[#1a1a2e] via-[#16213e] to-[#0f0f1e]">
+      {/* Fixed Header */}
+      <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-b from-[#1a1a2e] to-[#1a1a2e]/95 backdrop-blur-xl border-b border-white/10">
+        <div className="px-6 pt-8 pb-4">
+          <div className="flex items-center justify-between mb-4">
+            <button
+              onClick={() => navigate(-1)}
+              className="w-10 h-10 flex items-center justify-center text-white/80 hover:text-white transition-colors"
+            >
+              <ArrowLeft size={20} />
+            </button>
+            <h1 className="text-2xl calm-heading calm-text flex-1 text-center">Sleep</h1>
+            <div className="w-10"></div>
+          </div>
 
-        {/* Tabs - Smaller */}
-        <div className="px-6 mb-4">
+          {/* Tabs - Smaller */}
           <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
             {tabs.map((tab) => (
               <button
@@ -318,187 +476,370 @@ const Sleep = () => {
             ))}
           </div>
         </div>
+      </div>
 
-        {/* Featured Section */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between px-6 mb-4">
+      {/* Content with padding for fixed header */}
+      <div className="pt-[180px]">
+        {/* Bedtime Stories Section - Show for Sleep Stories and All tabs */}
+      {(activeTab === 'Sleep Stories' || activeTab === 'All') && (
+        <div className="mb-8 px-6">
+          <div className="flex items-center justify-between mb-4">
             <div>
               <h2 className="text-lg font-semibold text-white">Bedtime Mysteries</h2>
               <p className="text-xs text-white/60 mt-1">Close your eyes and discover...</p>
             </div>
-            <span className="text-sm text-amber-400 font-medium">See All</span>
           </div>
           
-          <div className="flex gap-4 overflow-x-auto px-6 pb-4 scrollbar-hide">
-            {/* Main Featured Krishna Card */}
-            <div 
-              onClick={() => handlePlayStory({
-                id: 'radha-story',
-                title: "Radha Krishna ki shaadi kyon nhi hui",
-                description: "Unravel the mystery of divine love - why Radha and Krishna never married",
-                audioUrl: '/assets/story/radha.mp3'
-              })}
-              className="relative flex-shrink-0 w-52 cursor-pointer group"
-            >
-              <div className="relative h-44 rounded-xl overflow-hidden shadow-lg">
-                <img 
-                  src="/assets/images/krishna.png" 
-                  alt="Krishna Sleep Story" 
-                  className="w-full h-full object-cover"
-                />
-                
-                {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
-                
-                {/* Duration Badge */}
-                <div className="absolute top-4 right-4">
-                  <div className="flex items-center gap-1 px-3 py-1 bg-black/50 backdrop-blur-sm rounded-full text-white text-xs">
-                    <Play size={12} fill="currentColor" />
-                    <span>45 min</span>
-                  </div>
-                </div>
-                
-                {/* Play Button Overlay */}
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="w-16 h-16 bg-white/30 backdrop-blur-xl rounded-full flex items-center justify-center">
-                    {currentStory?.id === 'radha-story' && isPlaying ? (
-                      <Pause size={28} className="text-white" fill="currentColor" />
-                    ) : (
-                      <Play size={28} className="text-white ml-1" fill="currentColor" />
-                    )}
-                  </div>
-                </div>
-              </div>
-              
-              {/* Story Info Below Card */}
-              <div className="mt-2 flex items-start gap-2">
-                <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 bg-gradient-to-br from-orange-400 to-pink-500">
-                  <div className="w-full h-full flex items-center justify-center text-white text-xs">
-                    DN
-                  </div>
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-white font-semibold text-sm">Radha Krishna ki shaadi kyon nhi hui</h3>
-                </div>
-              </div>
-            </div>
-
-            {/* Karan Itna Mahan Kaisa Tha Card */}
-            <div 
-              onClick={() => handlePlayStory({
-                id: 'karan-story',
-                title: "Karan itna mahan kaisa tha",
-                description: "Discover the greatness of the legendary warrior Karan",
-                audioUrl: '/assets/story/karan.mp3'
-              })}
-              className="relative flex-shrink-0 w-52 cursor-pointer group"
-            >
-              <div className="relative h-44 rounded-xl overflow-hidden shadow-lg">
-                <img 
-                  src="/assets/images/karan.png" 
-                  alt="Mahabharat Secrets" 
-                  className="w-full h-full object-cover"
-                />
-                
-                {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
-                
-                {/* Duration Badge */}
-                <div className="absolute top-4 right-4">
-                  <div className="flex items-center gap-1 px-3 py-1 bg-black/50 backdrop-blur-sm rounded-full text-white text-xs">
-                    <Play size={12} fill="currentColor" />
-                    <span>30 min</span>
-                  </div>
-                </div>
-                
-                {/* Play Button Overlay */}
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="w-16 h-16 bg-white/30 backdrop-blur-xl rounded-full flex items-center justify-center">
-                    {currentStory?.id === 'mahabharat-secrets' && isPlaying ? (
-                      <Pause size={28} className="text-white" fill="currentColor" />
-                    ) : (
-                      <Play size={28} className="text-white ml-1" fill="currentColor" />
-                    )}
-                  </div>
-                </div>
-              </div>
-              
-              {/* Story Info Below Card */}
-              <div className="mt-2 flex items-start gap-2">
-                <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 bg-gradient-to-br from-red-400 to-orange-500">
-                  <div className="w-full h-full flex items-center justify-center text-white text-xs">
-                    MS
-                  </div>
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-white font-semibold text-sm">Karan itna mahan kaisa tha</h3>
-                </div>
-              </div>
-            </div>
-
-            {/* Additional Featured Cards */}
-            <div className="relative flex-shrink-0 w-52 cursor-pointer group">
-              <div className="relative h-44 rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-blue-500/20 to-purple-600/20 backdrop-blur-xl border border-white/10">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center text-white/50">
-                    <Moon size={48} className="mx-auto mb-2" />
-                    <p className="text-sm">More stories coming soon</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Featured Stories Section */}
-        <div className="mb-8">
-          <div className="px-6 mb-4">
-            <h2 className="text-lg font-semibold text-white mb-1">Featured Stories</h2>
-            <p className="text-xs text-white/60">Handpicked for peaceful sleep</p>
-          </div>
-
-          <div className="px-6">
-            {/* Featured Story Card */}
-            <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:bg-white/10 transition-all cursor-pointer">
-              <div className="flex gap-4 p-4">
-                {/* Story Thumbnail */}
-                <div className="relative w-24 h-24 rounded-xl overflow-hidden flex-shrink-0 shadow-lg">
+          <div className="grid grid-cols-2 gap-4">
+            {/* Main Featured Krishna Card - Radha Krishna Story */}
+            {radhaStoryInfo ? (
+              <div 
+                onClick={() => setSelectedVideo({
+                  url: 'https://www.youtube.com/embed/xyJrm1LVk70?autoplay=1&rel=0',
+                  title: radhaStoryInfo.title,
+                  description: radhaStoryInfo.description
+                })}
+                className="relative cursor-pointer group"
+              >
+                <div className="relative h-40 rounded-2xl overflow-hidden shadow-xl">
                   <img 
-                    src="/assets/images/radha.png" 
-                    alt="Featured Story"
+                    src={radhaStoryInfo.thumbnail} 
+                    alt={radhaStoryInfo.title}
                     className="w-full h-full object-cover"
                   />
-                  {/* Play overlay */}
-                  <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                    <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                      <Play size={20} fill="white" className="text-white ml-0.5" />
-                    </div>
-                  </div>
-                  {/* Duration badge */}
-                  <div className="absolute bottom-2 right-2 px-2 py-0.5 bg-black/60 backdrop-blur-sm rounded text-white text-xs">
-                    45:30
-                  </div>
-                </div>
-
-                {/* Story Info */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-start justify-between mb-2">
-                    <div className="flex-1">
-                      <h3 className="text-white font-semibold text-base mb-1">The Divine Love of Radha Krishna</h3>
-                      <p className="text-white/60 text-xs mb-2">A soothing tale of eternal devotion that gently guides you into peaceful slumber</p>
+                  
+                  {/* Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                  
+                  {/* Duration Badge */}
+                  <div className="absolute top-4 right-4">
+                    <div className="flex items-center gap-1 px-3 py-1 bg-black/50 backdrop-blur-sm rounded-full text-white text-xs">
+                      <Play size={12} fill="currentColor" />
+                      <span>Video</span>
                     </div>
                   </div>
                   
+                  {/* Play Button Overlay */}
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="w-12 h-12 bg-white/30 backdrop-blur-xl rounded-full flex items-center justify-center">
+                      <Play size={24} className="text-white ml-1" fill="currentColor" />
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="absolute bottom-3 left-3 right-3">
+                  <h3 className="text-white text-xs font-bold line-clamp-2">{radhaStoryInfo.title}</h3>
                 </div>
               </div>
-            </div>
+            ) : (
+              <div 
+                onClick={() => handlePlayStory({
+                  id: 'radha-story',
+                  title: "Radha Krishna ki shaadi kyon nhi hui",
+                  description: "Unravel the mystery of divine love - why Radha and Krishna never married",
+                  audioUrl: '/assets/story/radha.mp3'
+                })}
+                className="relative cursor-pointer group"
+              >
+                <div className="relative h-40 rounded-2xl overflow-hidden shadow-xl">
+                  <img 
+                    src="/assets/images/krishna.png" 
+                    alt="Krishna Sleep Story" 
+                    className="w-full h-full object-cover"
+                  />
+                  
+                  {/* Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                  
+                  {/* Duration Badge */}
+                  <div className="absolute top-4 right-4">
+                    <div className="flex items-center gap-1 px-3 py-1 bg-black/50 backdrop-blur-sm rounded-full text-white text-xs">
+                      <Play size={12} fill="currentColor" />
+                      <span>Loading...</span>
+                    </div>
+                  </div>
+                  
+                  {/* Play Button Overlay */}
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="w-12 h-12 bg-white/30 backdrop-blur-xl rounded-full flex items-center justify-center">
+                      <Play size={24} className="text-white ml-1" fill="currentColor" />
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="absolute bottom-3 left-3 right-3">
+                  <h3 className="text-white text-xs font-bold line-clamp-2">Loading...</h3>
+                </div>
+              </div>
+            )}
+
+            {/* Karan Story - YouTube Shorts */}
+            {karanStoryInfo ? (
+              <div 
+                onClick={() => setSelectedVideo({
+                  url: 'https://www.youtube.com/embed/Ig6lQ3pj4_8?autoplay=1&rel=0',
+                  title: karanStoryInfo.title,
+                  description: karanStoryInfo.description
+                })}
+                className="relative cursor-pointer group"
+              >
+                <div className="relative h-40 rounded-2xl overflow-hidden shadow-xl">
+                  <img 
+                    src={karanStoryInfo.thumbnail} 
+                    alt={karanStoryInfo.title}
+                    className="w-full h-full object-cover"
+                  />
+                  
+                  {/* Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                  
+                  {/* Duration Badge */}
+                  <div className="absolute top-4 right-4">
+                    <div className="flex items-center gap-1 px-3 py-1 bg-black/50 backdrop-blur-sm rounded-full text-white text-xs">
+                      <Play size={12} fill="currentColor" />
+                      <span>Short</span>
+                    </div>
+                  </div>
+                  
+                  {/* Play Button Overlay */}
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="w-12 h-12 bg-white/30 backdrop-blur-xl rounded-full flex items-center justify-center">
+                      <Play size={24} className="text-white ml-1" fill="currentColor" />
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="absolute bottom-3 left-3 right-3">
+                  <h3 className="text-white text-xs font-bold line-clamp-2">{karanStoryInfo.title}</h3>
+                </div>
+              </div>
+            ) : (
+              <div className="relative cursor-pointer group">
+                <div className="relative h-40 rounded-2xl overflow-hidden shadow-xl">
+                  <img 
+                    src="/assets/images/karan.png" 
+                    alt="Loading..." 
+                    className="w-full h-full object-cover"
+                  />
+                  
+                  {/* Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                  
+                  {/* Duration Badge */}
+                  <div className="absolute top-4 right-4">
+                    <div className="flex items-center gap-1 px-3 py-1 bg-black/50 backdrop-blur-sm rounded-full text-white text-xs">
+                      <Play size={12} fill="currentColor" />
+                      <span>Loading...</span>
+                    </div>
+                  </div>
+                  
+                  {/* Play Button Overlay */}
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="w-12 h-12 bg-white/30 backdrop-blur-xl rounded-full flex items-center justify-center">
+                      <Play size={24} className="text-white ml-1" fill="currentColor" />
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="absolute bottom-3 left-3 right-3">
+                  <h3 className="text-white text-xs font-bold line-clamp-2">Loading...</h3>
+                </div>
+              </div>
+            )}
+
+            {/* YouTube Story Card */}
+            {youtubeStoryInfo && (
+              <div 
+                onClick={() => setSelectedVideo({
+                  url: 'https://www.youtube.com/embed/FTIWyvx4pgo?autoplay=1&rel=0',
+                  title: youtubeStoryInfo.title,
+                  description: youtubeStoryInfo.description
+                })}
+                className="relative cursor-pointer group"
+              >
+                <div className="relative h-40 rounded-2xl overflow-hidden shadow-xl">
+                  <img 
+                    src={youtubeStoryInfo.thumbnail} 
+                    alt={youtubeStoryInfo.title}
+                    className="w-full h-full object-cover"
+                  />
+                  
+                  {/* Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                  
+                  {/* Duration Badge */}
+                  <div className="absolute top-4 right-4">
+                    <div className="flex items-center gap-1 px-3 py-1 bg-black/50 backdrop-blur-sm rounded-full text-white text-xs">
+                      <Play size={12} fill="currentColor" />
+                      <span>Video</span>
+                    </div>
+                  </div>
+                  
+                  {/* Play Button Overlay */}
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="w-12 h-12 bg-white/30 backdrop-blur-xl rounded-full flex items-center justify-center">
+                      <Play size={24} className="text-white ml-1" fill="currentColor" />
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="absolute bottom-3 left-3 right-3">
+                  <h3 className="text-white text-xs font-bold line-clamp-2">{youtubeStoryInfo.title}</h3>
+                </div>
+              </div>
+            )}
           </div>
         </div>
+      )}
 
-      </div>
+      {/* Sleep Music Section - Show for Meditations and All tabs */}
+      {(activeTab === 'Meditations' || activeTab === 'All') && (
+        <div className="mb-8 px-6">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h2 className="text-lg font-semibold text-white">Sleep Music & Bhajans</h2>
+              <p className="text-xs text-white/60 mt-1">Peaceful melodies for deep rest</p>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            {sleepMusic.slice(0, 6).map((music) => {
+              // Extract video ID from embed URL
+              const match = music.youtubeEmbed.match(/embed\/([^?]+)/);
+              const videoId = match ? match[1] : null;
+              const videoInfo = videoId && musicThumbnails[videoId];
+              
+              return (
+                <div
+                  key={music.id}
+                  onClick={() => setSelectedVideo({
+                    url: music.youtubeEmbed,
+                    title: videoInfo?.title || music.title,
+                    description: music.description
+                  })}
+                  className="relative rounded-2xl overflow-hidden shadow-xl cursor-pointer group hover:scale-[1.02] transition-transform"
+                >
+                  <div className="relative h-40">
+                    {videoInfo?.thumbnail ? (
+                      <img 
+                        src={videoInfo.thumbnail} 
+                        alt={videoInfo.title}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-br from-indigo-900/40 to-purple-900/40 flex items-center justify-center">
+                        <div className="text-4xl">{music.image}</div>
+                      </div>
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                    <div className="absolute bottom-3 left-3 right-3">
+                      <h3 className="text-white text-xs font-bold mb-1 line-clamp-2">
+                        {videoInfo?.title || music.title}
+                      </h3>
+                      <p className="text-white/60 text-xs">{music.duration}</p>
+                    </div>
+                    {/* Play Button Overlay */}
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                      <div className="w-12 h-12 bg-white/30 backdrop-blur-xl rounded-full flex items-center justify-center">
+                        <Play size={24} fill="white" className="text-white ml-1" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
-      {/* Mini Audio Player - Shows when story is playing */}
-      {currentStory && (
+      {/* Sleep Sounds Section - Show for Tools and All tabs */}
+      {(activeTab === 'Tools' || activeTab === 'All') && (
+        <div className="mb-8 px-6">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h2 className="text-lg font-semibold text-white">Sleep Sounds</h2>
+              <p className="text-xs text-white/60 mt-1">Ambient sounds for peaceful rest</p>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            {sleepSounds.map((sound) => (
+              <div
+                key={sound.id}
+                onClick={() => setSelectedVideo({
+                  url: sound.youtubeEmbed,
+                  title: sound.title,
+                  description: sound.description
+                })}
+                className="relative rounded-2xl overflow-hidden shadow-xl cursor-pointer group hover:scale-[1.02] transition-transform"
+              >
+                <div className="relative h-40 bg-gradient-to-br from-cyan-900/40 to-blue-900/40">
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="text-4xl">{sound.image}</div>
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                  <div className="absolute bottom-3 left-3 right-3">
+                    <h3 className="text-white text-sm font-bold mb-1">{sound.title}</h3>
+                    <p className="text-white/60 text-xs">{sound.duration}</p>
+                  </div>
+                  {/* Play Button Overlay */}
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="w-12 h-12 bg-white/30 backdrop-blur-xl rounded-full flex items-center justify-center">
+                      <Play size={24} fill="white" className="text-white ml-1" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Dance Section - Show when Dance tab is active */}
+      {activeTab === 'Dance' && (
+        <div className="mb-8 px-6">
+            <h2 className="text-lg font-semibold text-white mb-4">Release Stress with Radhe Dance</h2>
+            <div className="grid grid-cols-2 gap-4">
+              {danceVideos.map((video) => (
+                <div
+                  key={video.id}
+                  onClick={() => setSelectedVideo({
+                    url: video.youtubeEmbed,
+                    title: video.title,
+                    description: video.description
+                  })}
+                  className="relative rounded-2xl overflow-hidden shadow-xl cursor-pointer group hover:scale-[1.02] transition-transform"
+                >
+                  <div className="relative h-64">
+                    {danceThumbnails[video.youtubeId] ? (
+                      <img 
+                        src={danceThumbnails[video.youtubeId]} 
+                        alt={video.title}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-br from-pink-900/40 to-fuchsia-900/40 flex items-center justify-center">
+                        <div className="text-6xl">💃</div>
+                      </div>
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                    <div className="absolute bottom-4 left-4 right-4">
+                      <h3 className="text-white text-base font-bold mb-1">{video.title}</h3>
+                      <p className="text-white/80 text-xs">{video.description}</p>
+                    </div>
+                    {/* Play Button Overlay */}
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                      <div className="w-16 h-16 bg-white/30 backdrop-blur-xl rounded-full flex items-center justify-center">
+                        <Play size={32} fill="white" className="text-white ml-1" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+        </div>
+      )}
+
+        {/* Mini Audio Player - Shows when story is playing */}
+        {currentStory && (
         <div className="fixed bottom-20 left-0 right-0 z-50 px-4">
           <div className="bg-gradient-to-r from-indigo-900 to-purple-900 backdrop-blur-xl border border-white/20 rounded-2xl p-4 shadow-2xl">
             <div className="flex items-center gap-4">
@@ -556,21 +897,22 @@ const Sleep = () => {
             </div>
           </div>
         </div>
-      )}
+        )}
 
-      {/* Bottom Navigation */}
-      <BottomNav />
+        {/* Bottom Navigation */}
+        <BottomNav />
 
-      {/* Full Screen Video Player */}
-      {selectedVideo && (
-        <FullScreenVideoPlayer
-          isOpen={!!selectedVideo}
-          onClose={() => setSelectedVideo(null)}
-          videoUrl={selectedVideo.url}
-          title={selectedVideo.title}
-          description={selectedVideo.description}
-        />
-      )}
+        {/* Full Screen Video Player */}
+        {selectedVideo && (
+          <FullScreenVideoPlayer
+            isOpen={!!selectedVideo}
+            onClose={() => setSelectedVideo(null)}
+            videoUrl={selectedVideo.url}
+            title={selectedVideo.title}
+            description={selectedVideo.description}
+          />
+        )}
+      </div>
     </div>
   );
 };

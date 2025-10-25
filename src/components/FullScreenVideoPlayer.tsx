@@ -22,6 +22,9 @@ export const FullScreenVideoPlayer: React.FC<FullScreenVideoPlayerProps> = ({
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
+  
+  // Check if it's a YouTube URL
+  const isYouTube = videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be');
 
   useEffect(() => {
     if (isOpen) {
@@ -100,68 +103,89 @@ export const FullScreenVideoPlayer: React.FC<FullScreenVideoPlayerProps> = ({
 
         {/* Video Container */}
         <div className="relative w-full h-full bg-black rounded-3xl overflow-hidden">
-          <video
-            ref={videoRef}
-            src={videoUrl}
-            className="w-full h-full object-cover"
-            onTimeUpdate={handleTimeUpdate}
-            onLoadedMetadata={handleLoadedMetadata}
-            onPlay={() => setIsPlaying(true)}
-            onPause={() => setIsPlaying(false)}
-            muted={isMuted}
-            loop
-          />
+          {isYouTube ? (
+            // YouTube iframe
+            <iframe
+              src={videoUrl}
+              className="w-full h-full"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          ) : (
+            // Regular video tag
+            <video
+              ref={videoRef}
+              src={videoUrl}
+              className="w-full h-full object-cover"
+              onTimeUpdate={handleTimeUpdate}
+              onLoadedMetadata={handleLoadedMetadata}
+              onPlay={() => setIsPlaying(true)}
+              onPause={() => setIsPlaying(false)}
+              muted={isMuted}
+              loop
+            />
+          )}
 
-          {/* Video Controls Overlay */}
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
-            {/* Title and Description */}
-            <div className="mb-4">
-              <h3 className="text-xl font-light text-white mb-2">{title}</h3>
-              {description && (
-                <p className="text-sm text-white/70 font-light">{description}</p>
-              )}
-            </div>
-
-            {/* Progress Bar */}
-            <div className="mb-4">
-              <div className="w-full h-1 bg-white/20 rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-gradient-to-r from-amber-400 to-orange-500 rounded-full transition-all duration-300"
-                  style={{ width: `${(currentTime / duration) * 100}%` }}
-                />
+          {/* Video Info Overlay - Only show for non-YouTube videos */}
+          {!isYouTube && (
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
+              {/* Title and Description */}
+              <div className="mb-4">
+                <h3 className="text-xl font-light text-white mb-2">{title}</h3>
+                {description && (
+                  <p className="text-sm text-white/70 font-light">{description}</p>
+                )}
               </div>
-            </div>
 
-            {/* Controls */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
+              {/* Progress Bar */}
+              <div className="mb-4">
+                <div className="w-full h-1 bg-white/20 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-gradient-to-r from-amber-400 to-orange-500 rounded-full transition-all duration-300"
+                    style={{ width: `${(currentTime / duration) * 100}%` }}
+                  />
+                </div>
+              </div>
+
+              {/* Controls */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <button
+                    onClick={togglePlay}
+                    className="w-12 h-12 bg-white/10 backdrop-blur-xl rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+                  >
+                    {isPlaying ? <Pause size={20} /> : <Play size={20} />}
+                  </button>
+                  
+                  <button
+                    onClick={toggleMute}
+                    className="w-10 h-10 bg-white/10 backdrop-blur-xl rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+                  >
+                    {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
+                  </button>
+
+                  <span className="text-sm text-white/70 font-light">
+                    {formatTime(currentTime)} / {formatTime(duration)}
+                  </span>
+                </div>
+
                 <button
-                  onClick={togglePlay}
-                  className="w-12 h-12 bg-white/10 backdrop-blur-xl rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors"
-                >
-                  {isPlaying ? <Pause size={20} /> : <Play size={20} />}
-                </button>
-                
-                <button
-                  onClick={toggleMute}
+                  onClick={toggleFullscreen}
                   className="w-10 h-10 bg-white/10 backdrop-blur-xl rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors"
                 >
-                  {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
+                  {isFullscreen ? <Minimize size={18} /> : <Maximize size={18} />}
                 </button>
-
-                <span className="text-sm text-white/70 font-light">
-                  {formatTime(currentTime)} / {formatTime(duration)}
-                </span>
               </div>
-
-              <button
-                onClick={toggleFullscreen}
-                className="w-10 h-10 bg-white/10 backdrop-blur-xl rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors"
-              >
-                {isFullscreen ? <Minimize size={18} /> : <Maximize size={18} />}
-              </button>
             </div>
-          </div>
+          )}
+          
+          {/* Show title overlay for YouTube videos */}
+          {isYouTube && (
+            <div className="absolute top-20 left-4 right-4 bg-black/50 backdrop-blur-xl rounded-xl px-4 py-2 z-10">
+              <h3 className="text-white font-semibold text-sm">{title}</h3>
+              {description && <p className="text-white/70 text-xs">{description}</p>}
+            </div>
+          )}
         </div>
       </div>
     </div>
