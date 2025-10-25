@@ -12,8 +12,8 @@ interface VisitorData {
   pageViews: Record<string, number>;
 }
 
-const ANALYTICS_KEY = 'nishu_analytics';
-const VISITOR_COUNT_KEY = 'nishu_visitor_count';
+const ANALYTICS_KEY = 'gloww_analytics';
+const VISITOR_COUNT_KEY = 'gloww_visitor_count';
 
 // Generate a unique user ID
 const generateUserId = (): string => {

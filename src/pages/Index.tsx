@@ -158,7 +158,7 @@ const Index = () => {
             <div className="flex items-center gap-2">
               <Sparkles size={20} className="text-white" />
             </div>
-            <h1 className="text-3xl font-serif italic text-white absolute left-1/2 transform -translate-x-1/2">Nishu</h1>
+            <h1 className="text-3xl font-serif italic text-white absolute left-1/2 transform -translate-x-1/2">Gloww</h1>
             <Bell size={20} className="text-white/80" />
           </div>
         </div>

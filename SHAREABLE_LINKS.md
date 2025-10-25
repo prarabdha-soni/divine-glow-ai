@@ -1,4 +1,4 @@
-# Shareable Links for Nishu App
+# Shareable Links for Gloww App
 
 ## Guru Section Links
 

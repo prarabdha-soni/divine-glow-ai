@@ -1,7 +1,6 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Play, Clock, Star, Headphones, Volume2, Moon, Sparkles, Heart, ArrowLeft, Timer, Zap, Pause, X } from 'lucide-react';
+import { Play, Clock, Star, Headphones, Volume2, Moon, Sparkles, Heart, ArrowLeft, Timer, Zap, Pause, X, Calendar } from 'lucide-react';
 import { BottomNav } from '@/components/BottomNav';
-import { FullScreenVideoPlayer } from '@/components/FullScreenVideoPlayer';
 import { useState, useRef, useEffect } from 'react';
 
 const Sleep = () => {
@@ -478,6 +477,34 @@ const Sleep = () => {
         </div>
       </div>
 
+      {/* Current Playing Video - YouTube Style */}
+      {selectedVideo && (
+        <div className="sticky top-[180px] z-40 bg-black">
+          <div className="relative w-full aspect-video">
+            <iframe
+              src={selectedVideo.url}
+              className="w-full h-full"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+          <div className="bg-gradient-to-b from-[#1a1a2e] to-[#16213e] px-4 py-3 border-b border-white/10">
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex-1">
+                <h3 className="text-white font-semibold text-sm line-clamp-2">{selectedVideo.title}</h3>
+                <p className="text-white/60 text-xs mt-1">{selectedVideo.description}</p>
+              </div>
+              <button
+                onClick={() => setSelectedVideo(null)}
+                className="w-8 h-8 flex-shrink-0 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+              >
+                <X size={16} />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Content with padding for fixed header */}
       <div className="pt-[180px]">
         {/* Bedtime Stories Section - Show for Sleep Stories and All tabs */}
@@ -494,11 +521,14 @@ const Sleep = () => {
             {/* Main Featured Krishna Card - Radha Krishna Story */}
             {radhaStoryInfo ? (
               <div 
-                onClick={() => setSelectedVideo({
-                  url: 'https://www.youtube.com/embed/xyJrm1LVk70?autoplay=1&rel=0',
-                  title: radhaStoryInfo.title,
-                  description: radhaStoryInfo.description
-                })}
+                onClick={() => {
+                  setSelectedVideo({
+                    url: 'https://www.youtube.com/embed/xyJrm1LVk70?autoplay=1&rel=0&modestbranding=1&controls=1',
+                    title: radhaStoryInfo.title,
+                    description: radhaStoryInfo.description
+                  });
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
                 className="relative cursor-pointer group"
               >
                 <div className="relative h-40 rounded-2xl overflow-hidden shadow-xl">
@@ -576,11 +606,14 @@ const Sleep = () => {
             {/* Karan Story - YouTube Shorts */}
             {karanStoryInfo ? (
               <div 
-                onClick={() => setSelectedVideo({
-                  url: 'https://www.youtube.com/embed/Ig6lQ3pj4_8?autoplay=1&rel=0',
-                  title: karanStoryInfo.title,
-                  description: karanStoryInfo.description
-                })}
+                onClick={() => {
+                  setSelectedVideo({
+                    url: 'https://www.youtube.com/embed/Ig6lQ3pj4_8?autoplay=1&rel=0&modestbranding=1&controls=1',
+                    title: karanStoryInfo.title,
+                    description: karanStoryInfo.description
+                  });
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
                 className="relative cursor-pointer group"
               >
                 <div className="relative h-40 rounded-2xl overflow-hidden shadow-xl">
@@ -650,11 +683,14 @@ const Sleep = () => {
             {/* YouTube Story Card */}
             {youtubeStoryInfo && (
               <div 
-                onClick={() => setSelectedVideo({
-                  url: 'https://www.youtube.com/embed/FTIWyvx4pgo?autoplay=1&rel=0',
-                  title: youtubeStoryInfo.title,
-                  description: youtubeStoryInfo.description
-                })}
+                onClick={() => {
+                  setSelectedVideo({
+                    url: 'https://www.youtube.com/embed/FTIWyvx4pgo?autoplay=1&rel=0&modestbranding=1&controls=1',
+                    title: youtubeStoryInfo.title,
+                    description: youtubeStoryInfo.description
+                  });
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
                 className="relative cursor-pointer group"
               >
                 <div className="relative h-40 rounded-2xl overflow-hidden shadow-xl">
@@ -711,11 +747,14 @@ const Sleep = () => {
               return (
                 <div
                   key={music.id}
-                  onClick={() => setSelectedVideo({
-                    url: music.youtubeEmbed,
-                    title: videoInfo?.title || music.title,
-                    description: music.description
-                  })}
+                  onClick={() => {
+                    setSelectedVideo({
+                      url: music.youtubeEmbed,
+                      title: videoInfo?.title || music.title,
+                      description: music.description
+                    });
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
                   className="relative rounded-2xl overflow-hidden shadow-xl cursor-pointer group hover:scale-[1.02] transition-transform"
                 >
                   <div className="relative h-40">
@@ -764,11 +803,14 @@ const Sleep = () => {
             {sleepSounds.map((sound) => (
               <div
                 key={sound.id}
-                onClick={() => setSelectedVideo({
-                  url: sound.youtubeEmbed,
-                  title: sound.title,
-                  description: sound.description
-                })}
+                onClick={() => {
+                  setSelectedVideo({
+                    url: sound.youtubeEmbed,
+                    title: sound.title,
+                    description: sound.description
+                  });
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
                 className="relative rounded-2xl overflow-hidden shadow-xl cursor-pointer group hover:scale-[1.02] transition-transform"
               >
                 <div className="relative h-40 bg-gradient-to-br from-cyan-900/40 to-blue-900/40">
@@ -801,11 +843,14 @@ const Sleep = () => {
               {danceVideos.map((video) => (
                 <div
                   key={video.id}
-                  onClick={() => setSelectedVideo({
-                    url: video.youtubeEmbed,
-                    title: video.title,
-                    description: video.description
-                  })}
+                  onClick={() => {
+                    setSelectedVideo({
+                      url: video.youtubeEmbed,
+                      title: video.title,
+                      description: video.description
+                    });
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
                   className="relative rounded-2xl overflow-hidden shadow-xl cursor-pointer group hover:scale-[1.02] transition-transform"
                 >
                   <div className="relative h-64">
@@ -901,17 +946,6 @@ const Sleep = () => {
 
         {/* Bottom Navigation */}
         <BottomNav />
-
-        {/* Full Screen Video Player */}
-        {selectedVideo && (
-          <FullScreenVideoPlayer
-            isOpen={!!selectedVideo}
-            onClose={() => setSelectedVideo(null)}
-            videoUrl={selectedVideo.url}
-            title={selectedVideo.title}
-            description={selectedVideo.description}
-          />
-        )}
       </div>
     </div>
   );
