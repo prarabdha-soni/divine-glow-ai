@@ -52,7 +52,7 @@ const Index = () => {
             {/* Radha Krishna ki shaadi kyon nhi hui */}
             <div 
               onClick={() => setSelectedVideo({
-                url: 'https://www.youtube.com/embed/8V4X0CE7fvc',
+                url: 'https://www.youtube.com/embed/8V4X0CE7fvc?start=5',
                 title: 'Radha Krishna ki shaadi kyon nhi hui',
                 description: 'The eternal mystery of divine love'
               })}
@@ -82,7 +82,7 @@ const Index = () => {
             {/* Mahabharat Secrets */}
             <div 
               onClick={() => setSelectedVideo({
-                url: 'https://www.youtube.com/embed/7kKJO8LtL-M',
+                url: 'https://www.youtube.com/embed/7kKJO8LtL-M?start=5',
                 title: 'Mahabharat Secrets',
                 description: 'Untold stories from the great epic'
               })}
@@ -126,7 +126,7 @@ const Index = () => {
             {/* Radhe Tere Charno Ki */}
             <div 
               onClick={() => setSelectedVideo({
-                url: 'https://www.youtube.com/embed/k-mHGA2lvnU',
+                url: 'https://www.youtube.com/embed/k-mHGA2lvnU?start=5',
                 title: 'Radhe Tere Charno Ki',
                 description: 'Peaceful devotional song'
               })}

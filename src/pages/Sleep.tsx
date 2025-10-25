@@ -45,6 +45,8 @@ const Sleep = () => {
           audioRef.current.pause();
         }
         audioRef.current = new Audio(story.audioUrl);
+        // Set higher volume for better audio experience
+        audioRef.current.volume = 1.0;
         setCurrentStory(story);
       }
       
@@ -69,7 +71,7 @@ const Sleep = () => {
       image: "🪈",
       featured: true,
       rating: 4.9,
-      youtubeEmbed: "https://www.youtube.com/embed/5qap5aO4i9A"
+      youtubeEmbed: "https://www.youtube.com/embed/5qap5aO4i9A?start=5"
     },
     {
       id: 2,
@@ -80,7 +82,7 @@ const Sleep = () => {
       image: "💕",
       featured: false,
       rating: 4.8,
-      youtubeEmbed: "https://www.youtube.com/embed/8V4X0CE7fvc"
+      youtubeEmbed: "https://www.youtube.com/embed/8V4X0CE7fvc?start=5"
     },
     {
       id: 3,
@@ -91,7 +93,7 @@ const Sleep = () => {
       image: "🌙",
       featured: false,
       rating: 4.7,
-      youtubeEmbed: "https://www.youtube.com/embed/4Y0lBuQOCIw"
+      youtubeEmbed: "https://www.youtube.com/embed/4Y0lBuQOCIw?start=5"
     },
     {
       id: 4,
@@ -102,7 +104,7 @@ const Sleep = () => {
       image: "🏔️",
       featured: false,
       rating: 4.8,
-      youtubeEmbed: "https://www.youtube.com/embed/7kKJO8LtL-M"
+      youtubeEmbed: "https://www.youtube.com/embed/7kKJO8LtL-M?start=5"
     },
     {
       id: 5,
@@ -113,7 +115,7 @@ const Sleep = () => {
       image: "🌲",
       featured: false,
       rating: 4.6,
-      youtubeEmbed: "https://www.youtube.com/embed/4Y0lBuQOCIw"
+      youtubeEmbed: "https://www.youtube.com/embed/4Y0lBuQOCIw?start=5"
     },
     {
       id: 6,
@@ -124,7 +126,7 @@ const Sleep = () => {
       image: "👶",
       featured: false,
       rating: 4.9,
-      youtubeEmbed: "https://www.youtube.com/embed/8VVbqI2OjFA"
+      youtubeEmbed: "https://www.youtube.com/embed/8VVbqI2OjFA?start=5"
     }
   ];
 
@@ -137,7 +139,7 @@ const Sleep = () => {
       image: "🕉️",
       category: "Bhajan",
       artist: "Bhumika Sharma",
-      youtubeEmbed: "https://www.youtube.com/embed/k-mHGA2lvnU"
+      youtubeEmbed: "https://www.youtube.com/embed/k-mHGA2lvnU?start=5"
     },
     {
       id: 2,
@@ -147,7 +149,7 @@ const Sleep = () => {
       image: "🌙",
       category: "Bhajan",
       artist: "Divine Chants",
-      youtubeEmbed: "https://www.youtube.com/embed/bqRTmMl6VbU"
+      youtubeEmbed: "https://www.youtube.com/embed/bqRTmMl6VbU?start=5"
     },
     {
       id: 3,
@@ -157,7 +159,7 @@ const Sleep = () => {
       image: "😴",
       category: "Bhajan",
       artist: "Devotional Music",
-      youtubeEmbed: "https://www.youtube.com/embed/fZWbEI4s_00"
+      youtubeEmbed: "https://www.youtube.com/embed/fZWbEI4s_00?start=5"
     },
     {
       id: 4,
@@ -167,7 +169,7 @@ const Sleep = () => {
       image: "💕",
       category: "Bhajan",
       artist: "Slow + Reverb",
-      youtubeEmbed: "https://www.youtube.com/embed/8V4X0CE7fvc"
+      youtubeEmbed: "https://www.youtube.com/embed/8V4X0CE7fvc?start=5"
     },
     {
       id: 5,
@@ -177,7 +179,7 @@ const Sleep = () => {
       image: "🙏",
       category: "Mantra",
       artist: "ISKCON Devotees",
-      youtubeEmbed: "https://www.youtube.com/embed/7kKJO8LtL-M"
+      youtubeEmbed: "https://www.youtube.com/embed/7kKJO8LtL-M?start=5"
     },
     {
       id: 6,
@@ -187,7 +189,7 @@ const Sleep = () => {
       image: "🪈",
       category: "Flute",
       artist: "Divine Music",
-      youtubeEmbed: "https://www.youtube.com/embed/5qap5aO4i9A"
+      youtubeEmbed: "https://www.youtube.com/embed/5qap5aO4i9A?start=5"
     },
     {
       id: 7,
@@ -197,7 +199,7 @@ const Sleep = () => {
       image: "🕉️",
       category: "Mantra",
       artist: "Spiritual Masters",
-      youtubeEmbed: "https://www.youtube.com/embed/8VVbqI2OjFA"
+      youtubeEmbed: "https://www.youtube.com/embed/8VVbqI2OjFA?start=5"
     },
     {
       id: 8,
@@ -207,7 +209,7 @@ const Sleep = () => {
       image: "🌲",
       category: "Nature",
       artist: "Nature Sounds",
-      youtubeEmbed: "https://www.youtube.com/embed/4Y0lBuQOCIw"
+      youtubeEmbed: "https://www.youtube.com/embed/4Y0lBuQOCIw?start=5"
     }
   ];
 
@@ -218,7 +220,7 @@ const Sleep = () => {
       duration: "∞",
       description: "Sacred temple bells for peaceful sleep",
       image: "🔔",
-      youtubeEmbed: "https://www.youtube.com/embed/4Y0lBuQOCIw"
+      youtubeEmbed: "https://www.youtube.com/embed/4Y0lBuQOCIw?start=5"
     },
     {
       id: 2,
@@ -226,7 +228,7 @@ const Sleep = () => {
       duration: "∞",
       description: "Gentle flowing water sounds",
       image: "🌊",
-      youtubeEmbed: "https://www.youtube.com/embed/4Y0lBuQOCIw"
+      youtubeEmbed: "https://www.youtube.com/embed/4Y0lBuQOCIw?start=5"
     },
     {
       id: 3,
@@ -234,7 +236,7 @@ const Sleep = () => {
       duration: "∞",
       description: "Sacred forest ambience",
       image: "🌲",
-      youtubeEmbed: "https://www.youtube.com/embed/4Y0lBuQOCIw"
+      youtubeEmbed: "https://www.youtube.com/embed/4Y0lBuQOCIw?start=5"
     },
     {
       id: 4,
@@ -242,7 +244,7 @@ const Sleep = () => {
       duration: "∞",
       description: "Divine peacock sounds",
       image: "🦚",
-      youtubeEmbed: "https://www.youtube.com/embed/5qap5aO4i9A"
+      youtubeEmbed: "https://www.youtube.com/embed/5qap5aO4i9A?start=5"
     },
     {
       id: 5,
@@ -250,7 +252,7 @@ const Sleep = () => {
       duration: "∞",
       description: "Gentle devotional chants",
       image: "🙏",
-      youtubeEmbed: "https://www.youtube.com/embed/7kKJO8LtL-M"
+      youtubeEmbed: "https://www.youtube.com/embed/7kKJO8LtL-M?start=5"
     },
     {
       id: 6,
@@ -258,7 +260,7 @@ const Sleep = () => {
       duration: "∞",
       description: "Krishna's divine flute",
       image: "🪈",
-      youtubeEmbed: "https://www.youtube.com/embed/5qap5aO4i9A"
+      youtubeEmbed: "https://www.youtube.com/embed/5qap5aO4i9A?start=5"
     },
     {
       id: 7,
@@ -266,7 +268,7 @@ const Sleep = () => {
       duration: "∞",
       description: "Gentle rain sounds in sacred Vrindavan",
       image: "🌧️",
-      youtubeEmbed: "https://www.youtube.com/embed/4Y0lBuQOCIw"
+      youtubeEmbed: "https://www.youtube.com/embed/4Y0lBuQOCIw?start=5"
     },
     {
       id: 8,
@@ -274,7 +276,7 @@ const Sleep = () => {
       duration: "∞",
       description: "Sacred Om vibrations for deep sleep",
       image: "🕉️",
-      youtubeEmbed: "https://www.youtube.com/embed/8VVbqI2OjFA"
+      youtubeEmbed: "https://www.youtube.com/embed/8VVbqI2OjFA?start=5"
     }
   ];
 
@@ -328,9 +330,9 @@ const Sleep = () => {
                 description: "Unravel the mystery of divine love - why Radha and Krishna never married",
                 audioUrl: '/assets/story/radha.mp3'
               })}
-              className="relative flex-shrink-0 w-64 cursor-pointer group"
+              className="relative flex-shrink-0 w-52 cursor-pointer group"
             >
-              <div className="relative h-56 rounded-2xl overflow-hidden shadow-xl">
+              <div className="relative h-44 rounded-xl overflow-hidden shadow-lg">
                 <img 
                   src="/assets/images/krishna.png" 
                   alt="Krishna Sleep Story" 
@@ -391,9 +393,9 @@ const Sleep = () => {
                 description: "Discover the untold secrets and divine wisdom from the great epic Mahabharat",
                 audioUrl: '/assets/story/karan.mp3'
               })}
-              className="relative flex-shrink-0 w-64 cursor-pointer group"
+              className="relative flex-shrink-0 w-52 cursor-pointer group"
             >
-              <div className="relative h-56 rounded-2xl overflow-hidden shadow-xl">
+              <div className="relative h-44 rounded-xl overflow-hidden shadow-lg">
                 <img 
                   src="/assets/images/karan.png" 
                   alt="Mahabharat Secrets" 
@@ -447,8 +449,8 @@ const Sleep = () => {
             </div>
 
             {/* Additional Featured Cards */}
-            <div className="relative flex-shrink-0 w-64 cursor-pointer group">
-              <div className="relative h-56 rounded-2xl overflow-hidden shadow-xl bg-gradient-to-br from-blue-500/20 to-purple-600/20 backdrop-blur-xl border border-white/10">
+            <div className="relative flex-shrink-0 w-52 cursor-pointer group">
+              <div className="relative h-44 rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-blue-500/20 to-purple-600/20 backdrop-blur-xl border border-white/10">
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="text-center text-white/50">
                     <Moon size={48} className="mx-auto mb-2" />
