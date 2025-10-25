@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ArrowLeft, Radio, Calendar, Play, Clock } from 'lucide-react';
+import { ArrowLeft, Radio, Calendar, Play, Clock, X } from 'lucide-react';
 import { BottomNav } from '@/components/BottomNav';
 import { useNavigate } from 'react-router-dom';
 
@@ -95,6 +95,7 @@ const LiveAarti = () => {
   const liveContent = [
     {
       id: 1,
+      aartiId: 'vaishno-devi',
       title: "Maa Vaishno Devi Bhawan - Live Darshan",
       scholar: "Shri Mata Vaishno Devi Shrine Board",
       type: "aarti",
@@ -104,6 +105,7 @@ const LiveAarti = () => {
     },
     {
       id: 2,
+      aartiId: 'haridwar',
       title: "Ganga Aarti - Haridwar",
       scholar: "Har Ki Pauri, Haridwar",
       type: "aarti",
@@ -113,6 +115,7 @@ const LiveAarti = () => {
     },
     {
       id: 3,
+      aartiId: 'varanasi',
       title: "Ganga Aarti - Varanasi (Assi Ghat)",
       scholar: "Assi Ghat, Kashi",
       type: "aarti",
@@ -122,6 +125,7 @@ const LiveAarti = () => {
     },
     {
       id: 4,
+      aartiId: 'mahakaleshwar',
       title: "Mahakaleshwar Bhasma Aarti - Ujjain",
       scholar: "Mahakaleshwar Jyotirlinga Temple",
       type: "aarti",
@@ -131,6 +135,7 @@ const LiveAarti = () => {
     },
     {
       id: 5,
+      aartiId: 'ram-mandir',
       title: "Shri Ram Lalla Sringaar Aarti - Ayodhya",
       scholar: "Ram Mandir, Ayodhya",
       type: "aarti",
@@ -140,6 +145,7 @@ const LiveAarti = () => {
     },
     {
       id: 6,
+      aartiId: 'shirdi',
       title: "Sai Baba Live Darshan & Aarti",
       scholar: "Shirdi Sai Baba Temple",
       type: "aarti",
@@ -198,7 +204,15 @@ const LiveAarti = () => {
     const video = liveContent.find(v => v.youtubeId === videoId);
     if (video) {
       setSelectedVideo(video);
+      // Scroll to top smoothly to show the video player
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+  };
+
+  const handleVideoClick = (video: typeof liveContent[0]) => {
+    setSelectedVideo(video);
+    // Scroll to top smoothly to show the video player
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -221,6 +235,46 @@ const LiveAarti = () => {
           </div>
         </div>
       </div>
+
+      {/* Current Playing Video - YouTube Style */}
+      {selectedVideo && (
+        <div className="sticky top-[80px] z-40 bg-black">
+          <div className="relative w-full aspect-video">
+            <iframe
+              src={`https://www.youtube.com/embed/${selectedVideo.youtubeId}?autoplay=1&rel=0&modestbranding=1&controls=1`}
+              className="w-full h-full"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+          <div className="bg-gradient-to-b from-[#1a1a2e] to-[#16213e] px-4 py-3 border-b border-white/10">
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex-1">
+                <div className="flex items-center gap-2 mb-1">
+                  {selectedVideo.isLive && (
+                    <div className="px-2 py-0.5 bg-red-500 text-white text-xs font-bold rounded-full flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span>
+                      LIVE
+                    </div>
+                  )}
+                  <h3 className="text-white font-semibold text-sm line-clamp-2">{selectedVideo.title}</h3>
+                </div>
+                <p className="text-white/60 text-xs">{selectedVideo.scholar}</p>
+                <div className="flex items-center gap-2 mt-1">
+                  <Calendar size={12} className="text-orange-400" />
+                  <span className="text-orange-400 text-xs">{selectedVideo.timing}</span>
+                </div>
+              </div>
+              <button
+                onClick={() => setSelectedVideo(null)}
+                className="w-8 h-8 flex-shrink-0 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+              >
+                <X size={16} />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="pt-32 pb-24">
         {/* Current Time & Info Cards */}
@@ -334,7 +388,7 @@ const LiveAarti = () => {
             {filteredContent.filter(item => item.isLive).map((item) => (
               <div
                 key={item.id}
-                onClick={() => setSelectedVideo(item)}
+                onClick={() => handleVideoClick(item)}
                 className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl border border-white/20 rounded-2xl overflow-hidden cursor-pointer hover:scale-[1.02] transition-transform"
               >
                 <div className="relative aspect-video">
@@ -362,9 +416,20 @@ const LiveAarti = () => {
                 <div className="p-4">
                   <h3 className="text-white font-semibold text-base mb-1">{item.title}</h3>
                   <p className="text-white/70 text-sm mb-2">{item.scholar}</p>
-                  <div className="flex items-center gap-2">
-                    <Calendar size={14} className="text-orange-400" />
-                    <span className="text-orange-400 text-xs">{item.timing}</span>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Calendar size={14} className="text-orange-400" />
+                      <span className="text-orange-400 text-xs">{item.timing}</span>
+                    </div>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/aarti/${item.aartiId}`);
+                      }}
+                      className="px-3 py-1 bg-white/10 hover:bg-white/20 text-white text-xs rounded-full transition-colors"
+                    >
+                      Details
+                    </button>
                   </div>
                 </div>
               </div>
@@ -380,7 +445,7 @@ const LiveAarti = () => {
               {filteredContent.filter(item => !item.isLive).map((item) => (
                 <div
                   key={item.id}
-                  onClick={() => setSelectedVideo(item)}
+                  onClick={() => handleVideoClick(item)}
                   className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl p-4 cursor-pointer hover:bg-white/10 transition-colors"
                 >
                   <div className="flex gap-3">
@@ -409,35 +474,6 @@ const LiveAarti = () => {
           </div>
         )}
       </div>
-
-      {/* Full Screen Video Player */}
-      {selectedVideo && (
-        <div className="fixed inset-0 z-50 bg-black">
-          <div className="relative w-full h-full">
-            {/* Close Button */}
-            <button
-              onClick={() => setSelectedVideo(null)}
-              className="absolute top-4 right-4 z-10 w-10 h-10 bg-black/50 backdrop-blur-xl rounded-full flex items-center justify-center text-white"
-            >
-              <ArrowLeft size={20} />
-            </button>
-            
-            {/* Video Info */}
-            <div className="absolute top-4 left-4 z-10 bg-black/50 backdrop-blur-xl rounded-xl px-4 py-2">
-              <h3 className="text-white font-semibold text-sm">{selectedVideo.title}</h3>
-              <p className="text-white/70 text-xs">{selectedVideo.scholar}</p>
-            </div>
-
-            {/* YouTube Embed */}
-            <iframe
-              src={`https://www.youtube.com/embed/${selectedVideo.youtubeId}?autoplay=1&rel=0`}
-              className="w-full h-full"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
-          </div>
-        </div>
-      )}
 
       {/* Bottom Navigation */}
       <BottomNav />

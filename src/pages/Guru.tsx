@@ -115,8 +115,16 @@ const Guru = () => {
       <div className="px-6 pb-24 pt-4">
         {guruCollections.map((guru) => (
           <div key={guru.id} className="mb-12">
-            {/* Guru Name Header */}
-            <h2 className="text-2xl font-bold text-white mb-4">{guru.name}</h2>
+            {/* Guru Name Header - Clickable */}
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-2xl font-bold text-white">{guru.name}</h2>
+              <button
+                onClick={() => navigate(`/guru/${guru.id}`)}
+                className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-sm rounded-full transition-colors"
+              >
+                View All
+              </button>
+            </div>
 
             {/* Videos Grid */}
             <div className="grid grid-cols-2 gap-4">

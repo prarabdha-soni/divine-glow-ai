@@ -9,6 +9,8 @@ import Sleep from "./pages/Sleep";
 import Discover from "./pages/Discover";
 import LiveAarti from "./pages/LiveAarti";
 import Guru from "./pages/Guru";
+import GuruDetail from "./pages/GuruDetail";
+import AartiDetail from "./pages/AartiDetail";
 import NotFound from "./pages/NotFound";
 import { initializeAnalytics, trackPageView } from "./utils/analytics";
 
@@ -46,6 +48,8 @@ const App = () => {
             <Route path="/discover" element={<Discover />} />
             <Route path="/live-aarti" element={<LiveAarti />} />
             <Route path="/guru" element={<Guru />} />
+            <Route path="/guru/:guruId" element={<GuruDetail />} />
+            <Route path="/aarti/:aartiId" element={<AartiDetail />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
