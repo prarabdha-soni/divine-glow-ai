@@ -209,21 +209,21 @@ const Discover = () => {
       {currentTrack && !showFullPlayer && (
         <div 
           onClick={() => setShowFullPlayer(true)}
-          className="fixed bottom-20 left-0 right-0 z-50 px-4 cursor-pointer"
+          className="fixed bottom-20 left-0 right-0 z-50 cursor-pointer"
         >
-          <div className="bg-gradient-to-r from-indigo-900 to-purple-900 backdrop-blur-xl border border-white/20 rounded-2xl p-4 shadow-2xl hover:scale-[1.02] transition-transform">
-            <div className="flex items-center gap-4">
+          <div className="bg-gradient-to-r from-indigo-900 to-purple-900 backdrop-blur-xl border-t border-white/20 shadow-2xl hover:bg-indigo-900/90 transition-colors">
+            <div className="flex items-center gap-3 px-4 py-2">
               {/* Album Art */}
-              <div className="w-14 h-14 bg-gradient-to-br from-pink-500 to-purple-600 rounded-xl flex items-center justify-center text-2xl shadow-lg flex-shrink-0">
+              <div className="w-10 h-10 bg-gradient-to-br from-pink-500 to-purple-600 rounded-lg flex items-center justify-center text-lg shadow-lg flex-shrink-0">
                 🎵
               </div>
               
               {/* Track Info */}
               <div className="flex-1 min-w-0">
-                <h3 className="text-white font-medium text-base truncate">
+                <h3 className="text-white font-medium text-sm truncate">
                   {krishnaMusicLibrary.find(t => t.id === currentTrack)?.title}
                 </h3>
-                <p className="text-white/70 text-sm truncate">
+                <p className="text-white/70 text-xs truncate">
                   {krishnaMusicLibrary.find(t => t.id === currentTrack)?.artist}
                 </p>
               </div>
@@ -241,12 +241,12 @@ const Discover = () => {
                       setIsPlaying(true);
                     }
                   }}
-                  className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+                  className="w-9 h-9 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors"
                 >
                   {isPlaying ? (
-                    <Pause size={24} fill="currentColor" />
+                    <Pause size={20} fill="currentColor" />
                   ) : (
-                    <Play size={24} fill="currentColor" />
+                    <Play size={20} fill="currentColor" />
                   )}
                 </button>
                 
@@ -257,9 +257,9 @@ const Discover = () => {
                     setCurrentTrack(null);
                     setIsPlaying(false);
                   }}
-                  className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+                  className="w-9 h-9 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors"
                 >
-                  <MoreVertical size={20} />
+                  <MoreVertical size={18} />
                 </button>
               </div>
             </div>

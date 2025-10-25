@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Home, Moon, Search } from 'lucide-react';
+import { Home, Moon, Search, ShoppingBag } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface NavItemProps {
@@ -48,6 +48,12 @@ export const BottomNav = () => {
           label="Discover" 
           active={location.pathname === '/discover'}
           onClick={() => navigate('/discover')}
+        />
+        <NavItem 
+          icon={<ShoppingBag size={24} />} 
+          label="Store" 
+          active={location.pathname === '/store'}
+          onClick={() => navigate('/store')}
         />
       </div>
     </nav>
