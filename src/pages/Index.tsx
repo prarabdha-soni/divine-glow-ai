@@ -49,19 +49,19 @@ const Index = () => {
           </div>
           
           <div className="grid grid-cols-2 gap-3">
-            {/* Radha Krishna Love Story */}
+            {/* Radha Krishna ki shaadi kyon nhi hui */}
             <div 
               onClick={() => setSelectedVideo({
                 url: 'https://www.youtube.com/embed/8V4X0CE7fvc',
-                title: 'Radha Krishna Love Story',
-                description: 'The eternal tale of divine love'
+                title: 'Radha Krishna ki shaadi kyon nhi hui',
+                description: 'The eternal mystery of divine love'
               })}
               className="cursor-pointer group"
             >
               <div className="relative rounded-lg overflow-hidden shadow-lg mb-2">
                 <img 
                   src="/assets/images/radha.png" 
-                  alt="Radha Krishna Love Story" 
+                  alt="Radha Krishna Story" 
                   className="w-full h-24 object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
@@ -75,37 +75,8 @@ const Index = () => {
                   30 min
                 </div>
               </div>
-              <h4 className="text-white text-sm font-medium mb-1">Radha Krishna Love</h4>
-              <p className="text-white/60 text-xs">Divine Romance</p>
-            </div>
-
-            {/* Krishna's Flute */}
-            <div 
-              onClick={() => setSelectedVideo({
-                url: 'https://www.youtube.com/embed/5qap5aO4i9A',
-                title: "Krishna's Flute",
-                description: 'Melodious tales of the divine flute'
-              })}
-              className="cursor-pointer group"
-            >
-              <div className="relative rounded-lg overflow-hidden shadow-lg mb-2">
-                <img 
-                  src="/assets/images/krishna.png" 
-                  alt="Krishna's Flute" 
-                  className="w-full h-24 object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  <div className="w-10 h-10 bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center">
-                    <Play size={20} fill="white" className="text-white ml-0.5" />
-                  </div>
-                </div>
-                <div className="absolute bottom-2 right-2 px-2 py-0.5 bg-black/60 backdrop-blur-sm rounded text-white text-xs">
-                  45 min
-                </div>
-              </div>
-              <h4 className="text-white text-sm font-medium mb-1">Krishna's Flute</h4>
-              <p className="text-white/60 text-xs">Divine Melodies</p>
+              <h4 className="text-white text-sm font-medium mb-1">Radha Krishna ki shaadi kyon nhi hui</h4>
+              <p className="text-white/60 text-xs">Divine Love Mystery</p>
             </div>
 
             {/* Mahabharat Secrets */}
@@ -135,35 +106,6 @@ const Index = () => {
               </div>
               <h4 className="text-white text-sm font-medium mb-1">Mahabharat Secrets</h4>
               <p className="text-white/60 text-xs">Epic Mysteries</p>
-            </div>
-
-            {/* Vrindavan Tales */}
-            <div 
-              onClick={() => setSelectedVideo({
-                url: 'https://www.youtube.com/embed/4Y0lBuQOCIw',
-                title: 'Vrindavan Tales',
-                description: 'Stories from the sacred land'
-              })}
-              className="cursor-pointer group"
-            >
-              <div className="relative rounded-lg overflow-hidden shadow-lg mb-2">
-                <img 
-                  src="/assets/images/gemini.png" 
-                  alt="Vrindavan Tales" 
-                  className="w-full h-24 object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  <div className="w-10 h-10 bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center">
-                    <Play size={20} fill="white" className="text-white ml-0.5" />
-                  </div>
-                </div>
-                <div className="absolute bottom-2 right-2 px-2 py-0.5 bg-black/60 backdrop-blur-sm rounded text-white text-xs">
-                  35 min
-                </div>
-              </div>
-              <h4 className="text-white text-sm font-medium mb-1">Vrindavan Tales</h4>
-              <p className="text-white/60 text-xs">Sacred Stories</p>
             </div>
           </div>
         </div>
@@ -206,95 +148,8 @@ const Index = () => {
                   5 min
                 </div>
               </div>
-              <h4 className="text-white text-sm font-medium mb-1">Radhe Tere Charno</h4>
-              <p className="text-white/60 text-xs">Bhajan</p>
-            </div>
-
-            {/* Krishna Bhajan */}
-            <div 
-              onClick={() => setSelectedVideo({
-                url: 'https://www.youtube.com/embed/fZWbEI4s_00',
-                title: 'Saanvla Salona',
-                description: 'Beautiful Krishna bhajan'
-              })}
-              className="cursor-pointer group"
-            >
-              <div className="relative rounded-lg overflow-hidden shadow-lg mb-2">
-                <img 
-                  src="/assets/images/krishna.png" 
-                  alt="Krishna Bhajan" 
-                  className="w-full h-24 object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  <div className="w-10 h-10 bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center">
-                    <Play size={20} fill="white" className="text-white ml-0.5" />
-                  </div>
-                </div>
-                <div className="absolute bottom-2 right-2 px-2 py-0.5 bg-black/60 backdrop-blur-sm rounded text-white text-xs">
-                  8 min
-                </div>
-              </div>
-              <h4 className="text-white text-sm font-medium mb-1">Saanvla Salona</h4>
-              <p className="text-white/60 text-xs">Devotional</p>
-            </div>
-
-            {/* Hare Krishna Mahamantra */}
-            <div 
-              onClick={() => setSelectedVideo({
-                url: 'https://www.youtube.com/embed/7kKJO8LtL-M',
-                title: 'Hare Krishna Mahamantra',
-                description: 'Powerful mantra meditation'
-              })}
-              className="cursor-pointer group"
-            >
-              <div className="relative rounded-lg overflow-hidden shadow-lg mb-2">
-                <img 
-                  src="/assets/images/gemini.png" 
-                  alt="Hare Krishna" 
-                  className="w-full h-24 object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  <div className="w-10 h-10 bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center">
-                    <Play size={20} fill="white" className="text-white ml-0.5" />
-                  </div>
-                </div>
-                <div className="absolute bottom-2 right-2 px-2 py-0.5 bg-black/60 backdrop-blur-sm rounded text-white text-xs">
-                  30 min
-                </div>
-              </div>
-              <h4 className="text-white text-sm font-medium mb-1">Hare Krishna</h4>
-              <p className="text-white/60 text-xs">Mantra</p>
-            </div>
-
-            {/* Krishna Flute Music */}
-            <div 
-              onClick={() => setSelectedVideo({
-                url: 'https://www.youtube.com/embed/5qap5aO4i9A',
-                title: 'Krishna Flute Music',
-                description: 'Divine flute melodies'
-              })}
-              className="cursor-pointer group"
-            >
-              <div className="relative rounded-lg overflow-hidden shadow-lg mb-2">
-                <img 
-                  src="/assets/images/krishna.png" 
-                  alt="Flute Music" 
-                  className="w-full h-24 object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  <div className="w-10 h-10 bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center">
-                    <Play size={20} fill="white" className="text-white ml-0.5" />
-                  </div>
-                </div>
-                <div className="absolute bottom-2 right-2 px-2 py-0.5 bg-black/60 backdrop-blur-sm rounded text-white text-xs">
-                  20 min
-                </div>
-              </div>
-              <h4 className="text-white text-sm font-medium mb-1">Krishna Flute</h4>
-              <p className="text-white/60 text-xs">Instrumental</p>
+              <h4 className="text-white text-sm font-medium mb-1">Radhe Tere Charno Ki</h4>
+              <p className="text-white/60 text-xs">Devotional Bhajan</p>
             </div>
           </div>
         </div>

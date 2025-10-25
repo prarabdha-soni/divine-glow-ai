@@ -376,7 +376,6 @@ const Sleep = () => {
                 </div>
                 <div className="flex-1">
                   <h3 className="text-white font-semibold text-sm mb-0.5">Radha Krishna ki shaadi kyon nhi hui</h3>
-                  <p className="text-white/70 text-xs">💔 The love that changed everything...</p>
                   <div className="flex items-center gap-2 mt-0.5">
                     <span className="text-xs text-amber-400">✨ Most addictive tonight</span>
                   </div>
@@ -440,7 +439,6 @@ const Sleep = () => {
                 </div>
                 <div className="flex-1">
                   <h3 className="text-white font-semibold text-sm mb-0.5">Mahabharat Secrets</h3>
-                  <p className="text-white/70 text-xs">⚔️ What they never told you about Karan...</p>
                   <div className="flex items-center gap-2 mt-0.5">
                     <span className="text-xs text-red-400">🔥 5.2K listening now</span>
                   </div>
