@@ -286,18 +286,18 @@ const Sleep = () => {
       {/* Modern Krishna Background */}
       <ModernKrishnaBackground />
       
-      {/* Header */}
-      <div className="relative z-10 pt-12 pb-6">
-        <h1 className="text-3xl calm-heading calm-text text-center mb-6">Sleep</h1>
+      {/* Header - Smaller */}
+      <div className="relative z-10 pt-8 pb-4">
+        <h1 className="text-2xl calm-heading calm-text text-center mb-4">Sleep</h1>
 
-        {/* Tabs */}
-        <div className="px-6 mb-6">
-          <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+        {/* Tabs - Smaller */}
+        <div className="px-6 mb-4">
+          <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
             {tabs.map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-6 py-3 rounded-full font-medium text-sm whitespace-nowrap transition-all ${
+                className={`px-4 py-2 rounded-full font-medium text-xs whitespace-nowrap transition-all ${
                   activeTab === tab
                     ? 'bg-white text-purple-900 shadow-lg'
                     : 'bg-white/10 backdrop-blur-sm text-white border border-white/20 hover:bg-white/20'
@@ -309,25 +309,11 @@ const Sleep = () => {
           </div>
         </div>
 
-        {/* Bedtime Reminder Card */}
-        <div className="px-6 mb-6">
-          <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-5 border border-white/20 flex items-center gap-4 cursor-pointer hover:bg-white/15 transition-all">
-            <div className="w-14 h-14 bg-gradient-to-br from-purple-400 to-pink-400 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg">
-              <Moon size={28} className="text-white" />
-            </div>
-            <div className="flex-1">
-              <h3 className="text-white font-semibold text-base mb-1">🌙 Tonight's Mystery Awaits</h3>
-              <p className="text-white/70 text-sm italic">Your dreams will never be the same after this... Set a reminder?</p>
-            </div>
-            <ArrowLeft size={20} className="text-white/60 rotate-180" />
-          </div>
-        </div>
-
         {/* Featured Section */}
         <div className="mb-8">
           <div className="flex items-center justify-between px-6 mb-4">
             <div>
-              <h2 className="text-xl calm-heading calm-text">✨ Bedtime Mysteries</h2>
+              <h2 className="text-lg font-semibold text-white">Bedtime Mysteries</h2>
               <p className="text-xs text-white/60 mt-1">Close your eyes and discover...</p>
             </div>
             <span className="text-sm text-amber-400 font-medium">See All</span>
@@ -342,9 +328,9 @@ const Sleep = () => {
                 description: "Unravel the mystery of divine love - why Radha and Krishna never married",
                 audioUrl: '/assets/story/radha.mp3'
               })}
-              className="relative flex-shrink-0 w-80 cursor-pointer group"
+              className="relative flex-shrink-0 w-64 cursor-pointer group"
             >
-              <div className="relative h-72 rounded-3xl overflow-hidden shadow-2xl">
+              <div className="relative h-56 rounded-2xl overflow-hidden shadow-xl">
                 <img 
                   src="/assets/images/krishna.png" 
                   alt="Krishna Sleep Story" 
@@ -382,16 +368,16 @@ const Sleep = () => {
               </div>
               
               {/* Story Info Below Card */}
-              <div className="mt-3 flex items-start gap-3">
-                <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 bg-gradient-to-br from-orange-400 to-pink-500">
+              <div className="mt-2 flex items-start gap-2">
+                <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 bg-gradient-to-br from-orange-400 to-pink-500">
                   <div className="w-full h-full flex items-center justify-center text-white text-xs">
                     DN
                   </div>
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-white font-semibold text-base mb-1">Radha Krishna ki shaadi kyon nhi hui</h3>
-                  <p className="text-white/70 text-sm">💔 The love that changed everything...</p>
-                  <div className="flex items-center gap-2 mt-1">
+                  <h3 className="text-white font-semibold text-sm mb-0.5">Radha Krishna ki shaadi kyon nhi hui</h3>
+                  <p className="text-white/70 text-xs">💔 The love that changed everything...</p>
+                  <div className="flex items-center gap-2 mt-0.5">
                     <span className="text-xs text-amber-400">✨ Most addictive tonight</span>
                   </div>
                 </div>
@@ -406,9 +392,9 @@ const Sleep = () => {
                 description: "Discover the untold secrets and divine wisdom from the great epic Mahabharat",
                 audioUrl: '/assets/story/karan.mp3'
               })}
-              className="relative flex-shrink-0 w-80 cursor-pointer group"
+              className="relative flex-shrink-0 w-64 cursor-pointer group"
             >
-              <div className="relative h-72 rounded-3xl overflow-hidden shadow-2xl">
+              <div className="relative h-56 rounded-2xl overflow-hidden shadow-xl">
                 <img 
                   src="/assets/images/karan.png" 
                   alt="Mahabharat Secrets" 
@@ -446,16 +432,16 @@ const Sleep = () => {
               </div>
               
               {/* Story Info Below Card */}
-              <div className="mt-3 flex items-start gap-3">
-                <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 bg-gradient-to-br from-red-400 to-orange-500">
+              <div className="mt-2 flex items-start gap-2">
+                <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 bg-gradient-to-br from-red-400 to-orange-500">
                   <div className="w-full h-full flex items-center justify-center text-white text-xs">
                     MS
                   </div>
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-white font-semibold text-base mb-1">Mahabharat Secrets</h3>
-                  <p className="text-white/70 text-sm">⚔️ What they never told you about Karan...</p>
-                  <div className="flex items-center gap-2 mt-1">
+                  <h3 className="text-white font-semibold text-sm mb-0.5">Mahabharat Secrets</h3>
+                  <p className="text-white/70 text-xs">⚔️ What they never told you about Karan...</p>
+                  <div className="flex items-center gap-2 mt-0.5">
                     <span className="text-xs text-red-400">🔥 5.2K listening now</span>
                   </div>
                 </div>
@@ -463,12 +449,67 @@ const Sleep = () => {
             </div>
 
             {/* Additional Featured Cards */}
-            <div className="relative flex-shrink-0 w-80 cursor-pointer group">
-              <div className="relative h-72 rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-blue-500/20 to-purple-600/20 backdrop-blur-xl border border-white/10">
+            <div className="relative flex-shrink-0 w-64 cursor-pointer group">
+              <div className="relative h-56 rounded-2xl overflow-hidden shadow-xl bg-gradient-to-br from-blue-500/20 to-purple-600/20 backdrop-blur-xl border border-white/10">
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="text-center text-white/50">
                     <Moon size={48} className="mx-auto mb-2" />
                     <p className="text-sm">More stories coming soon</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Featured Stories Section */}
+        <div className="mb-8">
+          <div className="px-6 mb-4">
+            <h2 className="text-lg font-semibold text-white mb-1">Featured Stories</h2>
+            <p className="text-xs text-white/60">Handpicked for peaceful sleep</p>
+          </div>
+
+          <div className="px-6">
+            {/* Featured Story Card */}
+            <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:bg-white/10 transition-all cursor-pointer">
+              <div className="flex gap-4 p-4">
+                {/* Story Thumbnail */}
+                <div className="relative w-24 h-24 rounded-xl overflow-hidden flex-shrink-0 shadow-lg">
+                  <img 
+                    src="/assets/images/radha.png" 
+                    alt="Featured Story"
+                    className="w-full h-full object-cover"
+                  />
+                  {/* Play overlay */}
+                  <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+                    <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
+                      <Play size={20} fill="white" className="text-white ml-0.5" />
+                    </div>
+                  </div>
+                  {/* Duration badge */}
+                  <div className="absolute bottom-2 right-2 px-2 py-0.5 bg-black/60 backdrop-blur-sm rounded text-white text-xs">
+                    45:30
+                  </div>
+                </div>
+
+                {/* Story Info */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-start justify-between mb-2">
+                    <div className="flex-1">
+                      <h3 className="text-white font-semibold text-base mb-1">The Divine Love of Radha Krishna</h3>
+                      <p className="text-white/60 text-xs mb-2">A soothing tale of eternal devotion that gently guides you into peaceful slumber</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-1">
+                      <Star size={14} className="text-amber-400 fill-amber-400" />
+                      <span className="text-white text-xs font-medium">4.9</span>
+                    </div>
+                    <span className="text-white/50 text-xs">•</span>
+                    <span className="text-white/50 text-xs">2.3K plays</span>
+                    <span className="text-white/50 text-xs">•</span>
+                    <span className="text-white/50 text-xs">Divine Narrator</span>
                   </div>
                 </div>
               </div>

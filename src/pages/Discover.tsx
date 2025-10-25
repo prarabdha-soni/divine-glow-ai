@@ -88,27 +88,27 @@ const Discover = () => {
       {/* Modern Krishna Background */}
       <ModernKrishnaBackground />
       
-      {/* Header */}
-      <div className="relative z-10 px-6 pt-12 pb-6">
-        <div className="flex items-center justify-between mb-6">
+      {/* Header - Smaller */}
+      <div className="relative z-10 px-6 pt-8 pb-4">
+        <div className="flex items-center justify-between mb-4">
           <button
             onClick={() => navigate(-1)}
             className="w-10 h-10 flex items-center justify-center text-white/80 hover:text-white transition-colors"
           >
-            <ArrowLeft size={24} />
+            <ArrowLeft size={20} />
           </button>
           <div className="text-center">
-            <h1 className="text-xl font-semibold calm-text">Radhe</h1>
-            <p className="text-xs text-white/60 mt-1">Sacred Secrets Collection</p>
+            <h1 className="text-lg font-semibold calm-text">Music</h1>
+            <p className="text-xs text-white/60">Sacred Melodies</p>
           </div>
           <button className="w-10 h-10 flex items-center justify-center text-white/80 hover:text-white transition-colors">
-            <MoreVertical size={24} />
+            <MoreVertical size={20} />
           </button>
         </div>
 
-        {/* Header Image - Radha */}
-        <div className="mb-6 rounded-3xl overflow-hidden shadow-2xl">
-          <div className="relative h-80 bg-gradient-to-br from-pink-400/20 via-rose-300/20 to-orange-400/20 backdrop-blur-xl border border-white/20">
+        {/* Header Image - Radha - Smaller */}
+        <div className="mb-4 rounded-2xl overflow-hidden shadow-xl">
+          <div className="relative h-48 bg-gradient-to-br from-pink-400/20 via-rose-300/20 to-orange-400/20 backdrop-blur-xl border border-white/20">
             <img 
               src="/assets/images/radha.png" 
               alt="Radhe" 
@@ -116,45 +116,41 @@ const Discover = () => {
             />
             {/* Gradient overlay for better text readability */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-            <div className="absolute bottom-0 left-0 right-0 p-6">
-              <h3 className="text-3xl calm-heading text-white drop-shadow-lg">राधे तेरे चरणों की</h3>
-              <p className="text-sm text-white/90 mt-2 drop-shadow-md">Divine Devotional Music</p>
+            <div className="absolute bottom-0 left-0 right-0 p-4">
+              <h3 className="text-xl calm-heading text-white drop-shadow-lg">राधे तेरे चरणों की</h3>
+              <p className="text-xs text-white/90 mt-1 drop-shadow-md">Divine Devotional Music</p>
             </div>
           </div>
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex gap-4 mb-6">
+        {/* Action Buttons - Smaller */}
+        <div className="flex gap-3 mb-4">
           <button
             onClick={handlePlayAll}
-            className="flex-1 bg-white text-purple-900 rounded-full py-4 px-6 flex items-center justify-center gap-2 font-semibold hover:bg-gray-100 transition-colors shadow-lg"
+            className="flex-1 bg-white text-purple-900 rounded-full py-3 px-5 flex items-center justify-center gap-2 font-semibold hover:bg-gray-100 transition-colors shadow-lg text-sm"
           >
-            <Play size={20} fill="currentColor" />
-            Play
+            <Play size={18} fill="currentColor" />
+            Play All
           </button>
           <button
             onClick={handleShuffle}
-            className="flex-1 bg-white/10 backdrop-blur-xl text-white rounded-full py-4 px-6 flex items-center justify-center gap-2 font-semibold border border-white/20 hover:bg-white/20 transition-colors"
+            className="flex-1 bg-white/10 backdrop-blur-xl text-white rounded-full py-3 px-5 flex items-center justify-center gap-2 font-semibold border border-white/20 hover:bg-white/20 transition-colors text-sm"
           >
-            <Shuffle size={20} />
+            <Shuffle size={18} />
             Shuffle
           </button>
         </div>
 
-        {/* Description */}
-        <p className="calm-text-muted text-base leading-relaxed mb-4 calm-body italic">
-          ✨ These melodies hold secrets whispered only at midnight... Will you listen?
-        </p>
-
         {/* Track Info */}
-        <p className="calm-text-subtle text-sm calm-caption mb-6">
-          {getTrackCount()} tracks, {getTotalDuration()}
+        <p className="calm-text-subtle text-xs calm-caption mb-4">
+          {getTrackCount()} songs • {getTotalDuration()}
         </p>
       </div>
 
-      {/* Track List */}
-      <div className="relative z-10 bg-gradient-to-b from-white/5 to-transparent px-6 pt-4 pb-32">
-        <div className="space-y-1">
+      {/* Music Track List - Spotify Style */}
+      <div className="relative z-10 px-6 pt-2 pb-32">
+        <h2 className="text-white font-semibold text-lg mb-3">Your Songs</h2>
+        <div className="space-y-2">
           {krishnaMusicLibrary.map((track) => {
             const isCurrentTrack = currentTrack === track.id;
             const isTrackPlaying = isCurrentTrack && isPlaying;
@@ -164,38 +160,47 @@ const Discover = () => {
               <div
                 key={track.id}
                 onClick={() => handlePlayTrack(track.id, track.audioUrl)}
-                className="py-4 flex items-center justify-between group hover:bg-white/5 rounded-xl px-3 transition-all cursor-pointer"
+                className="bg-white/5 hover:bg-white/10 rounded-lg p-3 flex items-center gap-3 group cursor-pointer transition-all"
               >
-                <div className="flex-1">
-                  <h3 className="calm-text font-medium text-base mb-1">
-                    {track.title}
-                  </h3>
-                  <div className="flex items-center gap-2">
-                    <p className="calm-text-muted text-sm">{track.artist}</p>
+                {/* Album Art / Thumbnail */}
+                <div className="relative w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded flex items-center justify-center flex-shrink-0 shadow-md">
+                  <img 
+                    src="/assets/images/radha.png" 
+                    alt={track.title}
+                    className="w-full h-full object-cover rounded"
+                  />
+                  {/* Play overlay */}
+                  <div className={`absolute inset-0 bg-black/40 rounded flex items-center justify-center transition-opacity ${isTrackPlaying ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
+                    {isTrackPlaying ? (
+                      <Pause size={20} fill="white" className="text-white" />
+                    ) : (
+                      <Play size={20} fill="white" className="text-white" />
+                    )}
                   </div>
                 </div>
                 
-                <div className="flex items-center gap-4">
-                  <span className="calm-text-subtle text-sm calm-caption">{track.duration}</span>
-                  
-                  <div className="w-8 h-8 flex items-center justify-center calm-text-muted">
-                    {isTrackPlaying ? (
-                      <Pause size={20} fill="currentColor" className="text-amber-400" />
-                    ) : (
-                      <Play size={20} className="opacity-0 group-hover:opacity-100 transition-opacity" />
-                    )}
-                  </div>
+                {/* Track Info */}
+                <div className="flex-1 min-w-0">
+                  <h3 className={`font-medium text-sm mb-0.5 truncate ${isTrackPlaying ? 'text-amber-400' : 'text-white'}`}>
+                    {track.title}
+                  </h3>
+                  <p className="text-white/60 text-xs truncate">{track.artist}</p>
+                </div>
+                
+                {/* Duration and Like */}
+                <div className="flex items-center gap-3">
+                  <span className="text-white/50 text-xs">{track.duration}</span>
                   
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       toggleLike(track.id);
                     }}
-                    className="w-8 h-8 flex items-center justify-center transition-colors"
+                    className={`w-8 h-8 flex items-center justify-center transition-all ${isLiked ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}
                   >
                     <Heart
-                      size={20}
-                      className={isLiked ? 'fill-amber-400 text-amber-400' : 'calm-text-subtle hover:calm-text'}
+                      size={18}
+                      className={isLiked ? 'fill-amber-400 text-amber-400' : 'text-white/60 hover:text-white'}
                     />
                   </button>
                 </div>

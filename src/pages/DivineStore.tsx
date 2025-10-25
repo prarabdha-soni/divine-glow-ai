@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import { ArrowLeft, Heart, Star, Plus, Minus, Sparkles } from 'lucide-react';
+import { ArrowLeft, Heart, Star, Sparkles } from 'lucide-react';
 import { BottomNav } from '@/components/BottomNav';
 import { useNavigate } from 'react-router-dom';
 
 const DivineStore = () => {
   const navigate = useNavigate();
-  const [quantity, setQuantity] = useState(1);
   const [isLiked, setIsLiked] = useState(false);
   const [selectedSize, setSelectedSize] = useState('50ml');
 
@@ -193,44 +192,6 @@ const DivineStore = () => {
                 <p className="text-white/80 text-sm">Breathe deeply and relax into sleep</p>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Sticky Bottom - Price and Add to Cart */}
-      <div className="fixed bottom-0 left-0 right-0 bg-[#1a1a2e]/98 backdrop-blur-xl border-t border-white/10 p-4 shadow-2xl">
-        <div className="flex items-center gap-4">
-          {/* Quantity Selector */}
-          <div className="flex items-center gap-2 bg-white/10 rounded-xl p-1">
-            <button
-              onClick={() => setQuantity(Math.max(1, quantity - 1))}
-              className="w-9 h-9 bg-white/10 rounded-lg flex items-center justify-center text-white hover:bg-white/20 transition-colors"
-            >
-              <Minus size={16} />
-            </button>
-            <span className="text-white font-semibold w-8 text-center">{quantity}</span>
-            <button
-              onClick={() => setQuantity(quantity + 1)}
-              className="w-9 h-9 bg-white/10 rounded-lg flex items-center justify-center text-white hover:bg-white/20 transition-colors"
-            >
-              <Plus size={16} />
-            </button>
-          </div>
-
-          {/* Price and Add Button */}
-          <div className="flex-1 flex items-center justify-between gap-3">
-            <div>
-              <p className="text-white/60 text-xs">Total Price</p>
-              <div className="flex items-center gap-2">
-                <span className="text-white text-2xl font-bold">₹{currentPrice * quantity}</span>
-                {product.originalPrice && (
-                  <span className="text-white/40 text-sm line-through">₹{product.originalPrice * quantity}</span>
-                )}
-              </div>
-            </div>
-            <button className="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-lg font-semibold rounded-xl hover:shadow-2xl transition-all hover:scale-105">
-              Add to Cart
-            </button>
           </div>
         </div>
       </div>

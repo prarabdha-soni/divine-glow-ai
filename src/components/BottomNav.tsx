@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Home, Moon, Search, ShoppingBag } from 'lucide-react';
+import { Home, Moon, Music, ShoppingBag } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface NavItemProps {
@@ -44,8 +44,8 @@ export const BottomNav = () => {
           onClick={() => navigate('/sleep')}
         />
         <NavItem 
-          icon={<Search size={24} />} 
-          label="Discover" 
+          icon={<Music size={24} />} 
+          label="Music" 
           active={location.pathname === '/discover'}
           onClick={() => navigate('/discover')}
         />
