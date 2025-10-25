@@ -492,7 +492,6 @@ const Sleep = () => {
             <div className="flex items-start justify-between gap-3">
               <div className="flex-1">
                 <h3 className="text-white font-semibold text-sm line-clamp-2">{selectedVideo.title}</h3>
-                <p className="text-white/60 text-xs mt-1">{selectedVideo.description}</p>
               </div>
               <button
                 onClick={() => setSelectedVideo(null)}
