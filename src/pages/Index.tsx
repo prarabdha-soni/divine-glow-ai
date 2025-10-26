@@ -3,9 +3,13 @@ import { Bell, Sparkles, Play, Pause, X } from 'lucide-react';
 import { BottomNav } from '@/components/BottomNav';
 import { FullScreenVideoPlayer } from '@/components/FullScreenVideoPlayer';
 import { useState, useRef, useEffect } from 'react';
+import { useAge } from '@/contexts/AgeContext';
+import { AgeSelectionScreen } from '@/components/AgeSelectionScreen';
+import { kidsSections } from '@/data/kidsVideos';
 
 const Index = () => {
   const navigate = useNavigate();
+  const { hasSelectedAge, ageGroup } = useAge();
   const [showWelcome, setShowWelcome] = useState(true);
   const [canDismissWelcome, setCanDismissWelcome] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState<{
@@ -20,6 +24,7 @@ const Index = () => {
   } | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [videoThumbnails, setVideoThumbnails] = useState<Record<string, string>>({});
 
   useEffect(() => {
     return () => {
@@ -29,6 +34,43 @@ const Index = () => {
       }
     };
   }, []);
+
+  // Fetch YouTube thumbnails for kids videos
+  useEffect(() => {
+    if (ageGroup !== 'kids') return;
+
+    const fetchThumbnails = async () => {
+      try {
+        const apiKey = 'AIzaSyBvQcLcPhoGKqhh6bRKnGHQ4By7O6ZaMjw';
+        
+        // Collect all video IDs from all kids sections
+        const allVideoIds = kidsSections.flatMap(section => 
+          section.videos.map(video => video.youtubeId)
+        );
+        
+        if (allVideoIds.length > 0) {
+          const response = await fetch(
+            `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${allVideoIds.join(',')}&key=${apiKey}`
+          );
+          const data = await response.json();
+          
+          if (data.items) {
+            const thumbnails: Record<string, string> = {};
+            data.items.forEach((item: any) => {
+              thumbnails[item.id] = item.snippet.thumbnails.high?.url || 
+                                    item.snippet.thumbnails.medium?.url ||
+                                    item.snippet.thumbnails.default?.url;
+            });
+            setVideoThumbnails(thumbnails);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching thumbnails:', error);
+      }
+    };
+
+    fetchThumbnails();
+  }, [ageGroup]);
 
   // Allow dismissal after 3 seconds (compulsory viewing)
   useEffect(() => {
@@ -90,6 +132,20 @@ const Index = () => {
       }
     }
   };
+
+  const handleVideoClick = (youtubeId: string, title: string, description: string) => {
+    setSelectedVideo({
+      url: `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0&modestbranding=1&controls=1`,
+      title: title,
+      description: description
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Show age selection screen if user hasn't selected age yet
+  if (!hasSelectedAge) {
+    return <AgeSelectionScreen />;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#1a1a2e] via-[#16213e] to-[#0f0f1e]">
@@ -179,7 +235,8 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Live Section */}
+        {/* Live Section - Only for adults (40+) */}
+        {ageGroup === 'adult' && (
         <div className="mb-8">
           <h2 className="text-2xl font-bold text-white mb-4">Live</h2>
           <div className="grid grid-cols-2 gap-4">
@@ -219,8 +276,10 @@ const Index = () => {
 
           </div>
         </div>
+        )}
 
-        {/* Sound Therapy Section */}
+        {/* Sound Therapy Section - For youth and adults */}
+        {(ageGroup === 'youth' || ageGroup === 'adult') && (
         <div className="mb-8">
           <h2 className="text-2xl font-bold text-white mb-4">Sound Therapy</h2>
           <div className="grid grid-cols-1 gap-4">
@@ -289,8 +348,91 @@ const Index = () => {
             </div>
           </div>
         </div>
+        )}
 
-        {/* Dance Section */}
+        {/* Kids Section - YouTube Style with Real Thumbnails */}
+        {ageGroup === 'kids' && (
+          <>
+            {/* Current Playing Video - YouTube Style */}
+            {selectedVideo && (
+              <div className="sticky top-20 z-40 bg-black mb-4 -mx-6">
+                <div className="relative w-full aspect-video">
+                  <iframe
+                    src={selectedVideo.url}
+                    className="w-full h-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+                <div className="bg-gradient-to-b from-[#1a1a2e] to-[#16213e] px-4 py-3 border-b border-white/10">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex-1">
+                      <h3 className="text-white font-semibold text-sm line-clamp-2">{selectedVideo.title}</h3>
+                      <p className="text-white/60 text-xs mt-1">{selectedVideo.description}</p>
+                    </div>
+                    <button
+                      onClick={() => setSelectedVideo(null)}
+                      className="w-8 h-8 flex-shrink-0 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+                    >
+                      <X size={16} />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* 5 Sections with YouTube Thumbnails */}
+            {kidsSections.map((section, index) => (
+              <div key={section.id} className={index === kidsSections.length - 1 ? "mb-24" : "mb-10"}>
+                <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+                  <span>{section.emoji}</span>
+                  {section.title}
+                </h2>
+                
+                {/* Videos Grid - YouTube Style */}
+                <div className="grid grid-cols-2 gap-4">
+                  {section.videos.map((video) => (
+                    <div
+                      key={video.id}
+                      onClick={() => handleVideoClick(video.youtubeId, video.title, section.title)}
+                      className="relative rounded-lg overflow-hidden cursor-pointer group transition-transform hover:scale-[1.05]"
+                    >
+                      <div className="relative aspect-video">
+                        {videoThumbnails[video.youtubeId] ? (
+                          <img 
+                            src={videoThumbnails[video.youtubeId]} 
+                            alt={video.title}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
+                            <div className="w-12 h-12 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
+                          </div>
+                        )}
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all"></div>
+                        
+                        {/* Play Button Overlay */}
+                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                          <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center">
+                            <Play size={24} fill="black" className="text-black ml-1" />
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {/* Video Title */}
+                      <div className="mt-2">
+                        <h3 className="text-white text-sm font-medium line-clamp-2">{video.title}</h3>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </>
+        )}
+
+        {/* Dance Section - For youth and adults */}
+        {(ageGroup === 'youth' || ageGroup === 'adult') && (
         <div className="mb-24">
           <h2 className="text-2xl font-bold text-white mb-4">Dance</h2>
           <div className="grid grid-cols-2 gap-4">
@@ -343,6 +485,7 @@ const Index = () => {
             </div>
           </div>
         </div>
+        )}
 
       </div>
 

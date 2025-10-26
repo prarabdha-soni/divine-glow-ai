@@ -11,8 +11,10 @@ import LiveAarti from "./pages/LiveAarti";
 import Guru from "./pages/Guru";
 import GuruDetail from "./pages/GuruDetail";
 import AartiDetail from "./pages/AartiDetail";
+import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import { initializeAnalytics, trackPageView } from "./utils/analytics";
+import { AgeProvider } from "./contexts/AgeContext";
 
 const queryClient = new QueryClient();
 
@@ -37,24 +39,27 @@ const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <AnalyticsTracker />
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/sleep" element={<Sleep />} />
-            <Route path="/discover" element={<Discover />} />
-            <Route path="/live-aarti" element={<LiveAarti />} />
-            <Route path="/guru" element={<Guru />} />
-            <Route path="/guru/:guruId" element={<GuruDetail />} />
-            <Route path="/aarti/:aartiId" element={<AartiDetail />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
+      <AgeProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <AnalyticsTracker />
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/sleep" element={<Sleep />} />
+              <Route path="/discover" element={<Discover />} />
+              <Route path="/live-aarti" element={<LiveAarti />} />
+              <Route path="/guru" element={<Guru />} />
+              <Route path="/guru/:guruId" element={<GuruDetail />} />
+              <Route path="/aarti/:aartiId" element={<AartiDetail />} />
+              <Route path="/profile" element={<Profile />} />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </AgeProvider>
     </QueryClientProvider>
   );
 };
