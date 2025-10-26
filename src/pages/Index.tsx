@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { Bell, Sparkles, Play, Pause, X } from 'lucide-react';
+import { Bell, Sparkles, Play, Pause, X, Maximize } from 'lucide-react';
 import { BottomNav } from '@/components/BottomNav';
 import { FullScreenVideoPlayer } from '@/components/FullScreenVideoPlayer';
 import { useState, useRef, useEffect } from 'react';
@@ -142,6 +142,79 @@ const Index = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleFullScreenVideo = (youtubeId: string, title: string, description: string) => {
+    // Open video in fullscreen with rotation
+    const fullscreenUrl = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0&modestbranding=1&controls=1&fs=1`;
+    
+    // Create fullscreen overlay
+    const overlay = document.createElement('div');
+    overlay.style.cssText = `
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    `;
+    
+    const iframe = document.createElement('iframe');
+    iframe.style.cssText = `
+      width: 100vw;
+      height: 100vh;
+      border: none;
+    `;
+    iframe.src = fullscreenUrl;
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen';
+    iframe.allowFullscreen = true;
+    
+    const closeBtn = document.createElement('button');
+    closeBtn.innerHTML = '✕';
+    closeBtn.style.cssText = `
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      background: rgba(255,255,255,0.2);
+      border: none;
+      border-radius: 50%;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 10000;
+    `;
+    closeBtn.onclick = () => {
+      document.body.removeChild(overlay);
+      if (document.exitFullscreen) {
+        document.exitFullscreen().catch(() => {});
+      }
+    };
+    
+    overlay.appendChild(iframe);
+    overlay.appendChild(closeBtn);
+    document.body.appendChild(overlay);
+    
+    // Request fullscreen
+    if (overlay.requestFullscreen) {
+      overlay.requestFullscreen().then(() => {
+        // Try to lock orientation to landscape
+        try {
+          const orientation = screen.orientation as any;
+          if (orientation && orientation.lock) {
+            orientation.lock('landscape').catch(() => {
+              // Orientation lock failed, continue anyway
+            });
+          }
+        } catch (e) {
+          // Orientation lock not supported
+        }
+      }).catch(() => {
+        // Fullscreen failed, continue anyway
+      });
+    }
+  };
+
   // Show age selection screen if user hasn't selected age yet
   if (!hasSelectedAge) {
     return <AgeSelectionScreen />;
@@ -220,20 +293,50 @@ const Index = () => {
         </div>
       </div>
 
-      {/* Scrollable Content */}
-      <div className="pt-24 px-6 pb-24">
+      {/* Content Area with padding for header */}
+      <div className="pt-24">
 
-        {/* Hero Image Section */}
-        <div className="mb-8">
-          <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-            <img 
-              src="/assets/images/korean_krishna.jpeg" 
-              alt="Krishna" 
-              className="w-full h-[240px] object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+        {/* Kids Section - Video Player at Top (Like Guru Page) */}
+        {ageGroup === 'kids' && selectedVideo && (
+          <div className="sticky top-24 z-40 bg-black mb-4">
+            <div className="relative w-full aspect-video">
+              <iframe
+                src={selectedVideo.url}
+                className="w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+            <div className="bg-gradient-to-b from-[#1a1a2e] to-[#16213e] px-4 py-3 border-b border-white/10">
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex-1">
+                  <h3 className="text-white font-semibold text-sm line-clamp-2">{selectedVideo.title}</h3>
+                  <p className="text-white/60 text-xs mt-1">{selectedVideo.description}</p>
+                </div>
+                <button
+                  onClick={() => setSelectedVideo(null)}
+                  className="w-8 h-8 flex-shrink-0 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+            </div>
           </div>
-        </div>
+        )}
+
+        {/* Scrollable Content with padding */}
+        <div className="px-6 pb-24">
+          {/* Hero Image Section */}
+          <div className="mb-8">
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl">
+              <img 
+                src="/assets/images/korean_krishna.jpeg" 
+                alt="Krishna" 
+                className="w-full h-[240px] object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+            </div>
+          </div>
 
         {/* Live Section - Only for adults (40+) */}
         {ageGroup === 'adult' && (
@@ -350,90 +453,75 @@ const Index = () => {
         </div>
         )}
 
-        {/* Kids Section - YouTube Style with Real Thumbnails */}
-        {ageGroup === 'kids' && (
-          <>
-            {/* Current Playing Video - YouTube Style */}
-            {selectedVideo && (
-              <div className="sticky top-20 z-40 bg-black mb-4 -mx-6">
-                <div className="relative w-full aspect-video">
-                  <iframe
-                    src={selectedVideo.url}
-                    className="w-full h-full"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
-                </div>
-                <div className="bg-gradient-to-b from-[#1a1a2e] to-[#16213e] px-4 py-3 border-b border-white/10">
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="flex-1">
-                      <h3 className="text-white font-semibold text-sm line-clamp-2">{selectedVideo.title}</h3>
-                      <p className="text-white/60 text-xs mt-1">{selectedVideo.description}</p>
-                    </div>
-                    <button
-                      onClick={() => setSelectedVideo(null)}
-                      className="w-8 h-8 flex-shrink-0 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors"
-                    >
-                      <X size={16} />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
+          {/* Kids Section - YouTube Style with Real Thumbnails */}
+          {ageGroup === 'kids' && (
+            <>
+              {/* 5 Sections with YouTube Thumbnails */}
+              {kidsSections.map((section, index) => (
+                <div key={section.id} className={index === kidsSections.length - 1 ? "mb-24" : "mb-10"}>
+                  <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+                    <span>{section.emoji}</span>
+                    {section.title}
+                  </h2>
+                  
+                  {/* Videos Grid - YouTube Style */}
+                  <div className="grid grid-cols-2 gap-4">
+                    {section.videos.map((video) => (
+                      <div
+                        key={video.id}
+                        className="relative rounded-lg overflow-hidden cursor-pointer group transition-transform hover:scale-[1.05]"
+                      >
+                        <div 
+                          className="relative aspect-video"
+                          onClick={() => handleVideoClick(video.youtubeId, video.title, section.title)}
+                        >
+                          {videoThumbnails[video.youtubeId] ? (
+                            <img 
+                              src={videoThumbnails[video.youtubeId]} 
+                              alt={video.title}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
+                              <div className="w-12 h-12 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
+                            </div>
+                          )}
+                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all"></div>
+                          
+                          {/* Play Button Overlay */}
+                          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                            <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center">
+                              <Play size={24} fill="black" className="text-black ml-1" />
+                            </div>
+                          </div>
 
-            {/* 5 Sections with YouTube Thumbnails */}
-            {kidsSections.map((section, index) => (
-              <div key={section.id} className={index === kidsSections.length - 1 ? "mb-24" : "mb-10"}>
-                <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-                  <span>{section.emoji}</span>
-                  {section.title}
-                </h2>
-                
-                {/* Videos Grid - YouTube Style */}
-                <div className="grid grid-cols-2 gap-4">
-                  {section.videos.map((video) => (
-                    <div
-                      key={video.id}
-                      onClick={() => handleVideoClick(video.youtubeId, video.title, section.title)}
-                      className="relative rounded-lg overflow-hidden cursor-pointer group transition-transform hover:scale-[1.05]"
-                    >
-                      <div className="relative aspect-video">
-                        {videoThumbnails[video.youtubeId] ? (
-                          <img 
-                            src={videoThumbnails[video.youtubeId]} 
-                            alt={video.title}
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <div className="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
-                            <div className="w-12 h-12 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
-                          </div>
-                        )}
-                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all"></div>
+                          {/* Fullscreen Button - Top Right */}
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleFullScreenVideo(video.youtubeId, video.title, section.title);
+                            }}
+                            className="absolute top-2 right-2 w-8 h-8 bg-black/60 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10 hover:bg-black/80"
+                          >
+                            <Maximize size={16} className="text-white" />
+                          </button>
+                        </div>
                         
-                        {/* Play Button Overlay */}
-                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                          <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center">
-                            <Play size={24} fill="black" className="text-black ml-1" />
-                          </div>
+                        {/* Video Title */}
+                        <div className="mt-2">
+                          <h3 className="text-white text-sm font-medium line-clamp-2">{video.title}</h3>
                         </div>
                       </div>
-                      
-                      {/* Video Title */}
-                      <div className="mt-2">
-                        <h3 className="text-white text-sm font-medium line-clamp-2">{video.title}</h3>
-                      </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
-          </>
-        )}
+              ))}
+            </>
+          )}
 
-        {/* Dance Section - For youth and adults */}
-        {(ageGroup === 'youth' || ageGroup === 'adult') && (
-        <div className="mb-24">
+          {/* Dance Section - For youth and adults */}
+          {(ageGroup === 'youth' || ageGroup === 'adult') && (
+          <div className="mb-24">
           <h2 className="text-2xl font-bold text-white mb-4">Dance</h2>
           <div className="grid grid-cols-2 gap-4">
             {/* Morning Leela */}
@@ -483,10 +571,10 @@ const Index = () => {
                 </div>
               </div>
             </div>
+            </div>
           </div>
+          )}
         </div>
-        )}
-
       </div>
 
       {/* Mini Audio Player - Shows when audio is playing */}

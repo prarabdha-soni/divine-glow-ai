@@ -11,12 +11,6 @@ export interface KidsSection {
   videos: KidsVideo[];
 }
 
-// Helper function to extract YouTube video ID from URL
-const getYouTubeId = (url: string): string => {
-  const match = url.match(/[?&]v=([^&]+)|youtu\.be\/([^?&]+)|\/embed\/([^?&]+)/);
-  return match ? (match[1] || match[2] || match[3]) : '';
-};
-
 export const kidsSections: KidsSection[] = [
   {
     id: 'birth-early-life',
@@ -25,18 +19,28 @@ export const kidsSections: KidsSection[] = [
     videos: [
       {
         id: 'birth-1',
-        title: "The Story Of Lord Krishna's Birth",
-        youtubeId: getYouTubeId('https://www.youtube.com/watch?v=E2YHHyyNjUE'),
+        title: "The Story Of Lord Krishna's Birth (English)",
+        youtubeId: 'E2YHHyyNjUE',
       },
       {
         id: 'birth-2',
-        title: "Bal Krishna - The Birth of Lord Krishna Story",
-        youtubeId: getYouTubeId('https://www.youtube.com/watch?v=by3gk158Uwc'),
+        title: "Birth & Childhood Days of Lord Krishna",
+        youtubeId: '4c0LGHV_Gt8',
       },
       {
         id: 'birth-3',
-        title: "Birth of Krishna - Animated/Cartoon Story",
-        youtubeId: getYouTubeId('https://www.youtube.com/watch?v=n5cfEU_DtTA'),
+        title: "Birth of Lord Krishna | Rescue from Mathura To Gokul",
+        youtubeId: '8OQkFbj1E0Y',
+      },
+      {
+        id: 'birth-4',
+        title: "The Birth of Krishna – A Story of Miracles",
+        youtubeId: 'QwIz-0cGIwI',
+      },
+      {
+        id: 'birth-5',
+        title: "Krishna Birth - Episode 1 | Mythological Stories",
+        youtubeId: 'Lw4DEG-domc',
       },
     ],
   },
@@ -47,43 +51,28 @@ export const kidsSections: KidsSection[] = [
     videos: [
       {
         id: 'episode-1',
-        title: 'Little Krishna - The Legendary Warrior',
-        youtubeId: getYouTubeId('https://www.youtube.com/watch?v=MzUEg7jExj0'),
+        title: 'Little Krishna | All Episodes (English)',
+        youtubeId: '_YQY0RftEWE',
       },
       {
         id: 'episode-2',
-        title: 'Little Krishna | All Episodes (Full Mythology)',
-        youtubeId: getYouTubeId('https://www.youtube.com/watch?v=_YQY0RftEWE'),
+        title: 'Little Krishna - The Legendary Warrior (English)',
+        youtubeId: 'MzUEg7jExj0',
       },
       {
         id: 'episode-3',
-        title: 'Little Krishna | Maakhan Ka Hungama',
-        youtubeId: getYouTubeId('https://www.youtube.com/watch?v=H46vC6Qp67U'),
+        title: 'Little Krishna - Episode 1 Attack Of Serpent King',
+        youtubeId: 'z1p7Lo8nwNI',
       },
       {
         id: 'episode-4',
-        title: 'Little Krishna - Attack Of Serpent King',
-        youtubeId: getYouTubeId('https://www.youtube.com/watch?v=z1p7Lo8nwNI'),
-      },
-      {
-        id: 'episode-5',
-        title: 'Little Krishna - End of Kalia',
-        youtubeId: getYouTubeId('https://www.youtube.com/watch?v=2m0VxAMdx9M'),
+        title: 'Little Krishna - Episode 10 The Charge Of The War Elephants',
+        youtubeId: '3ion7RrSffU',
       },
       {
         id: 'episode-6',
-        title: 'The Magical Adventures of Young Krishna',
-        youtubeId: getYouTubeId('https://www.youtube.com/watch?v=zXt61RiM978'),
-      },
-      {
-        id: 'episode-7',
-        title: "Little Krishna - Krishna's Birthday",
-        youtubeId: getYouTubeId('https://www.youtube.com/watch?v=28BABrXObHY'),
-      },
-      {
-        id: 'episode-8',
-        title: 'Little Krishna Saves the Village',
-        youtubeId: getYouTubeId('https://www.youtube.com/watch?v=Thcfb4eqPUc'),
+        title: 'Little Krishna | Maakhan Ka Hungama',
+        youtubeId: 'H46vC6Qp67U',
       },
     ],
   },
@@ -94,23 +83,18 @@ export const kidsSections: KidsSection[] = [
     videos: [
       {
         id: 'miracle-1',
-        title: 'Krishna and the Butter Thieves Story',
-        youtubeId: getYouTubeId('https://www.youtube.com/watch?v=IafVRCvTOgg'),
+        title: 'Krishna Aur Kans | First Stereoscopic Animated Film',
+        youtubeId: 'erMieJ30XAc',
       },
       {
         id: 'miracle-2',
-        title: 'Balarama and Krishna Childhood Stories',
-        youtubeId: getYouTubeId('https://www.youtube.com/watch?v=LgS6IKlcWnQ'),
+        title: 'Krishna Full Animated Movie 2020',
+        youtubeId: 'CaTV1GaarHI',
       },
       {
-        id: 'miracle-3',
-        title: 'Krishna and Gopis Story for Children',
-        youtubeId: getYouTubeId('https://www.youtube.com/watch?v=QCpq7A3P2nA'),
-      },
-      {
-        id: 'miracle-4',
+        id: 'miracle-6',
         title: 'Lord Krishna Stories - Krishna and Sudama',
-        youtubeId: getYouTubeId('https://www.youtube.com/watch?v=BjLwcmIkBSQ'),
+        youtubeId: 'BjLwcmIkBSQ',
       },
     ],
   },
@@ -121,18 +105,8 @@ export const kidsSections: KidsSection[] = [
     videos: [
       {
         id: 'movie-1',
-        title: 'Krishna Aur Kans | Animated',
-        youtubeId: getYouTubeId('https://www.youtube.com/watch?v=erMieJ30XAc'),
-      },
-      {
-        id: 'movie-2',
-        title: 'Krishna Animated Movie With English Subtitles',
-        youtubeId: getYouTubeId('https://www.youtube.com/watch?v=yMNgy0cQFiA'),
-      },
-      {
-        id: 'movie-3',
-        title: 'Shree Krishna Bal Leela',
-        youtubeId: getYouTubeId('https://www.youtube.com/watch?v=kIMHu2O7v5c'),
+        title: 'Krishna Full Animated Movie 2019 | Pen Bhakti',
+        youtubeId: 'pZLoapT--zE',
       },
     ],
   },
@@ -143,13 +117,8 @@ export const kidsSections: KidsSection[] = [
     videos: [
       {
         id: 'audio-1',
-        title: 'Lord Krishna Stories for Kids - Shemaroo Kids',
-        youtubeId: getYouTubeId('https://www.youtube.com/watch?v=_jUjEKwWgtc'),
-      },
-      {
-        id: 'audio-2',
-        title: 'Little Krishna | The Terrible Storm (Audio Book)',
-        youtubeId: getYouTubeId('https://www.youtube.com/watch?v=G5BR5V2aOYY'),
+        title: 'A Divine Tale of Prophecy and Miracles',
+        youtubeId: 'uV7v29xZ3a8',
       },
     ],
   },
