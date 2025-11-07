@@ -4,6 +4,7 @@
 
 You can now share direct links to individual gurus:
 
+
 ### Base URL: `/guru/:guruId`
 
 - **Indresh Ji**: `/guru/indresh-ji`

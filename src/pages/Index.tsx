@@ -295,10 +295,9 @@ const Index = () => {
 
       {/* Content Area with padding for header */}
       <div className="pt-24">
-
-        {/* Kids Section - Video Player at Top (Like Guru Page) */}
+        {/* Kids Section - Video Player at Top (Exactly Like Guru Page) */}
         {ageGroup === 'kids' && selectedVideo && (
-          <div className="sticky top-24 z-40 bg-black mb-4">
+          <div className="sticky top-0 z-40 bg-black">
             <div className="relative w-full aspect-video">
               <iframe
                 src={selectedVideo.url}
@@ -324,19 +323,21 @@ const Index = () => {
           </div>
         )}
 
-        {/* Scrollable Content with padding */}
-        <div className="px-6 pb-24">
-          {/* Hero Image Section */}
-          <div className="mb-8">
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-              <img 
-                src="/assets/images/korean_krishna.jpeg" 
-                alt="Krishna" 
-                className="w-full h-[240px] object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+        {/* Scrollable Content - Guru Page Style */}
+        <div className={ageGroup === 'kids' ? "px-6 pb-24 pt-4" : "px-6 pb-24"}>
+          {/* Hero Image Section - Only for non-kids */}
+          {ageGroup !== 'kids' && (
+            <div className="mb-8">
+              <div className="relative rounded-3xl overflow-hidden shadow-2xl">
+                <img 
+                  src="/assets/images/korean_krishna.jpeg" 
+                  alt="Krishna" 
+                  className="w-full h-[240px] object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+              </div>
             </div>
-          </div>
+          )}
 
         {/* Live Section - Only for adults (40+) */}
         {ageGroup === 'adult' && (

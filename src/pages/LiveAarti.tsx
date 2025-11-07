@@ -16,14 +16,31 @@ interface TempleSchedule {
   aartis: AartiSchedule[];
 }
 
+interface LiveContentItem {
+  id: number;
+  aartiId: string;
+  title: string;
+  scholar: string;
+  type: string;
+  youtubeId: string;
+  isLive: boolean;
+  timing: string;
+}
+
 const LiveAarti = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [currentTime, setCurrentTime] = useState(new Date());
   const [videoThumbnails, setVideoThumbnails] = useState<Record<string, string>>({});
+  const [mahakalAartis, setMahakalAartis] = useState<LiveContentItem[]>([]);
+  const [isLoadingMahakal, setIsLoadingMahakal] = useState(false);
+  const [saiBabaAartis, setSaiBabaAartis] = useState<LiveContentItem[]>([]);
+  const [isLoadingSaiBaba, setIsLoadingSaiBaba] = useState(false);
   
   // YouTube API Key
   const YOUTUBE_API_KEY = "AIzaSyBvQcLcPhoGKqhh6bRKnGHQ4By7O6ZaMjw";
+  const DARSHAN_TEMPLE_CHANNEL = "darshantemple";
+  const SAI_BABA_CHANNEL = "therealsoulshirdisai";
 
   // Update current time every minute
   useEffect(() => {
@@ -92,7 +109,7 @@ const LiveAarti = () => {
   };
 
   // Curated list of live aarti streams from famous temples
-  const liveContent = [
+  const baseLiveContent: LiveContentItem[] = [
     {
       id: 1,
       aartiId: 'vaishno-devi',
@@ -124,16 +141,6 @@ const LiveAarti = () => {
       timing: "Daily Morning & Evening"
     },
     {
-      id: 4,
-      aartiId: 'mahakaleshwar',
-      title: "Mahakaleshwar Bhasma Aarti - Ujjain",
-      scholar: "Mahakaleshwar Jyotirlinga Temple",
-      type: "aarti",
-      youtubeId: "5Wyg0zNlyp4",
-      isLive: true,
-      timing: "Daily 4:00 AM Bhasma Aarti"
-    },
-    {
       id: 5,
       aartiId: 'ram-mandir',
       title: "Shri Ram Lalla Sringaar Aarti - Ayodhya",
@@ -142,23 +149,529 @@ const LiveAarti = () => {
       youtubeId: "9airRIcDGWA",
       isLive: true,
       timing: "Daily Multiple Aartis"
-    },
-    {
-      id: 6,
-      aartiId: 'shirdi',
-      title: "Sai Baba Live Darshan & Aarti",
-      scholar: "Shirdi Sai Baba Temple",
-      type: "aarti",
-      youtubeId: "0ogMwBJEoqk",
-      isLive: true,
-      timing: "24/7 Live Darshan"
     }
   ];
+
+  // Combined live content with dynamically fetched Mahakal and Sai Baba aartis
+  const liveContent = [...mahakalAartis, ...saiBabaAartis, ...baseLiveContent];
+
+  // Fetch Mahakal live aarti and bhasma aarti from Darshan Temple channel
+  useEffect(() => {
+    const fetchMahakalAartis = async () => {
+      setIsLoadingMahakal(true);
+      try {
+        // Step 1: Get channel ID from handle (@darshantemple)
+        // Try multiple methods to find the channel
+        let channelId: string | null = null;
+        
+        // Method 1: Search by handle
+        try {
+          const searchResponse = await fetch(
+            `https://www.googleapis.com/youtube/v3/search?part=snippet&q=@${DARSHAN_TEMPLE_CHANNEL}&type=channel&key=${YOUTUBE_API_KEY}&maxResults=1`
+          );
+          const searchData = await searchResponse.json();
+          if (searchData.items && searchData.items.length > 0) {
+            channelId = searchData.items[0].snippet.channelId;
+          }
+        } catch (e) {
+          console.log('Method 1 failed, trying alternative');
+        }
+        
+        // Method 2: Search by channel name
+        if (!channelId) {
+          try {
+            const searchResponse2 = await fetch(
+              `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${DARSHAN_TEMPLE_CHANNEL}&type=channel&key=${YOUTUBE_API_KEY}&maxResults=5`
+            );
+            const searchData2 = await searchResponse2.json();
+            if (searchData2.items) {
+              // Find the most relevant channel
+              const relevantChannel = searchData2.items.find((item: any) => 
+                item.snippet.title.toLowerCase().includes('darshan') || 
+                item.snippet.title.toLowerCase().includes('temple')
+              );
+              if (relevantChannel) {
+                channelId = relevantChannel.snippet.channelId;
+              } else if (searchData2.items.length > 0) {
+                channelId = searchData2.items[0].snippet.channelId;
+              }
+            }
+          } catch (e) {
+            console.log('Method 2 failed');
+          }
+        }
+        
+        // Method 3: Try forUsername (legacy)
+        if (!channelId) {
+          try {
+            const channelResponse = await fetch(
+              `https://www.googleapis.com/youtube/v3/channels?part=id&forUsername=${DARSHAN_TEMPLE_CHANNEL}&key=${YOUTUBE_API_KEY}`
+            );
+            const channelData = await channelResponse.json();
+            if (channelData.items && channelData.items.length > 0) {
+              channelId = channelData.items[0].id;
+            }
+          } catch (e) {
+            console.log('Method 3 failed');
+          }
+        }
+        
+        if (channelId) {
+          await fetchStreamsFromChannel(channelId);
+        } else {
+          console.warn('Could not find channel ID for', DARSHAN_TEMPLE_CHANNEL);
+        }
+      } catch (error) {
+        console.error('Error fetching Mahakal aartis:', error);
+      } finally {
+        setIsLoadingMahakal(false);
+      }
+    };
+
+    const fetchStreamsFromChannel = async (channelId: string) => {
+      try {
+        // Step 2: Get channel's uploads playlist ID
+        let uploadsPlaylistId: string | null = null;
+        try {
+          const channelInfoResponse = await fetch(
+            `https://www.googleapis.com/youtube/v3/channels?part=contentDetails&id=${channelId}&key=${YOUTUBE_API_KEY}`
+          );
+          const channelInfo = await channelInfoResponse.json();
+          if (channelInfo.items && channelInfo.items.length > 0) {
+            uploadsPlaylistId = channelInfo.items[0].contentDetails?.relatedPlaylists?.uploads;
+          }
+        } catch (e) {
+          console.log('Could not get uploads playlist');
+        }
+
+        const allVideos: LiveContentItem[] = [];
+        let videoIdSet = new Set<string>();
+
+        // Method 1: Get recent videos from uploads playlist and filter
+        if (uploadsPlaylistId) {
+          try {
+            const playlistResponse = await fetch(
+              `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${uploadsPlaylistId}&key=${YOUTUBE_API_KEY}&maxResults=20&order=date`
+            );
+            const playlistData = await playlistResponse.json();
+
+            if (playlistData.items) {
+              playlistData.items.forEach((item: any) => {
+                const videoId = item.snippet.resourceId.videoId;
+                if (!videoIdSet.has(videoId)) {
+                  videoIdSet.add(videoId);
+                  const title = item.snippet.title.toLowerCase();
+                  const isBhasmaAarti = title.includes('bhasma');
+                  const isLiveAarti = title.includes('live') || title.includes('mahakal') || title.includes('aarti');
+                  
+                  if (isBhasmaAarti || isLiveAarti) {
+                    // Check if it's actually live
+                    const isLive = item.snippet.liveBroadcastContent === 'live';
+                    
+                    allVideos.push({
+                      id: 1000 + allVideos.length,
+                      aartiId: `mahakal-${isBhasmaAarti ? 'bhasma' : 'live'}-${allVideos.length}`,
+                      title: item.snippet.title,
+                      scholar: "Mahakaleshwar Jyotirlinga Temple, Ujjain",
+                      type: "aarti",
+                      youtubeId: videoId,
+                      isLive: isLive,
+                      timing: isBhasmaAarti ? "Daily 4:00 AM Bhasma Aarti" : (isLive ? "Live Aarti" : "Recent Aarti")
+                    });
+                  }
+                }
+              });
+            }
+          } catch (e) {
+            console.log('Error fetching from uploads playlist:', e);
+          }
+        }
+
+        // Method 2: Search for specific queries
+        const searchQueries = [
+          'mahakal live aarti',
+          'bhasma aarti',
+          'mahakaleshwar aarti'
+        ];
+
+        for (const query of searchQueries) {
+          // Search for live streams
+          try {
+            const searchResponse = await fetch(
+              `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&q=${encodeURIComponent(query)}&type=video&eventType=live&key=${YOUTUBE_API_KEY}&maxResults=5&order=date`
+            );
+            const searchData = await searchResponse.json();
+
+            if (searchData.items) {
+              searchData.items.forEach((item: any) => {
+                const videoId = item.id.videoId;
+                if (!videoIdSet.has(videoId)) {
+                  videoIdSet.add(videoId);
+                  const title = item.snippet.title.toLowerCase();
+                  const isBhasmaAarti = title.includes('bhasma');
+                  const isLiveAarti = title.includes('live') || title.includes('mahakal');
+                  
+                  if (isBhasmaAarti || isLiveAarti) {
+                    allVideos.push({
+                      id: 1000 + allVideos.length,
+                      aartiId: `mahakal-${isBhasmaAarti ? 'bhasma' : 'live'}-${allVideos.length}`,
+                      title: item.snippet.title,
+                      scholar: "Mahakaleshwar Jyotirlinga Temple, Ujjain",
+                      type: "aarti",
+                      youtubeId: videoId,
+                      isLive: true,
+                      timing: isBhasmaAarti ? "Daily 4:00 AM Bhasma Aarti" : "Live Aarti"
+                    });
+                  }
+                }
+              });
+            }
+          } catch (e) {
+            console.log('Error searching for live streams:', e);
+          }
+
+          // Also check for recent videos (not just live)
+          try {
+            const recentResponse = await fetch(
+              `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&q=${encodeURIComponent(query)}&type=video&key=${YOUTUBE_API_KEY}&maxResults=3&order=date`
+            );
+            const recentData = await recentResponse.json();
+
+            if (recentData.items) {
+              recentData.items.forEach((item: any) => {
+                const videoId = item.id.videoId;
+                if (!videoIdSet.has(videoId)) {
+                  videoIdSet.add(videoId);
+                  const title = item.snippet.title.toLowerCase();
+                  const isBhasmaAarti = title.includes('bhasma');
+                  const isLiveAarti = title.includes('live') || title.includes('mahakal');
+                  
+                  if (isBhasmaAarti || isLiveAarti) {
+                    allVideos.push({
+                      id: 1000 + allVideos.length,
+                      aartiId: `mahakal-${isBhasmaAarti ? 'bhasma' : 'live'}-${allVideos.length}`,
+                      title: item.snippet.title,
+                      scholar: "Mahakaleshwar Jyotirlinga Temple, Ujjain",
+                      type: "aarti",
+                      youtubeId: videoId,
+                      isLive: false,
+                      timing: isBhasmaAarti ? "Daily 4:00 AM Bhasma Aarti" : "Recent Aarti"
+                    });
+                  }
+                }
+              });
+            }
+          } catch (e) {
+            console.log('Error searching for recent videos:', e);
+          }
+        }
+
+        // Remove duplicates and limit to most relevant ones
+        const uniqueVideos = Array.from(new Map(allVideos.map(v => [v.youtubeId, v])).values());
+        const sortedVideos = uniqueVideos.sort((a, b) => {
+          // Prioritize bhasma aarti and live streams
+          const aPriority = a.title.toLowerCase().includes('bhasma') ? 2 : (a.isLive ? 1 : 0);
+          const bPriority = b.title.toLowerCase().includes('bhasma') ? 2 : (b.isLive ? 1 : 0);
+          return bPriority - aPriority;
+        });
+
+        // Take top 2-3 most relevant videos
+        setMahakalAartis(sortedVideos.slice(0, 3));
+      } catch (error) {
+        console.error('Error fetching streams from channel:', error);
+      }
+    };
+
+    fetchMahakalAartis();
+    
+    // Refresh daily - check if it's a new day
+    const checkDailyRefresh = () => {
+      const lastFetchDate = localStorage.getItem('mahakalAartiLastFetch');
+      const today = new Date().toDateString();
+      
+      if (lastFetchDate !== today) {
+        fetchMahakalAartis();
+        localStorage.setItem('mahakalAartiLastFetch', today);
+      }
+    };
+
+    // Check on mount and set up daily check
+    checkDailyRefresh();
+    const dailyCheckInterval = setInterval(checkDailyRefresh, 3600000); // Check every hour
+
+    return () => clearInterval(dailyCheckInterval);
+  }, []);
+
+  // Fetch Sai Baba aarti from Real Soul Shirdi Sai channel
+  useEffect(() => {
+    const fetchSaiBabaAartis = async () => {
+      setIsLoadingSaiBaba(true);
+      try {
+        // Step 1: Get channel ID from handle (@therealsoulshirdisai)
+        let channelId: string | null = null;
+        
+        // Method 1: Search by handle
+        try {
+          const searchResponse = await fetch(
+            `https://www.googleapis.com/youtube/v3/search?part=snippet&q=@${SAI_BABA_CHANNEL}&type=channel&key=${YOUTUBE_API_KEY}&maxResults=1`
+          );
+          const searchData = await searchResponse.json();
+          if (searchData.items && searchData.items.length > 0) {
+            channelId = searchData.items[0].snippet.channelId;
+          }
+        } catch (e) {
+          console.log('Method 1 failed, trying alternative');
+        }
+        
+        // Method 2: Search by channel name
+        if (!channelId) {
+          try {
+            const searchResponse2 = await fetch(
+              `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${SAI_BABA_CHANNEL}&type=channel&key=${YOUTUBE_API_KEY}&maxResults=5`
+            );
+            const searchData2 = await searchResponse2.json();
+            if (searchData2.items) {
+              const relevantChannel = searchData2.items.find((item: any) => 
+                item.snippet.title.toLowerCase().includes('sai') || 
+                item.snippet.title.toLowerCase().includes('shirdi')
+              );
+              if (relevantChannel) {
+                channelId = relevantChannel.snippet.channelId;
+              } else if (searchData2.items.length > 0) {
+                channelId = searchData2.items[0].snippet.channelId;
+              }
+            }
+          } catch (e) {
+            console.log('Method 2 failed');
+          }
+        }
+        
+        // Method 3: Try forUsername (legacy)
+        if (!channelId) {
+          try {
+            const channelResponse = await fetch(
+              `https://www.googleapis.com/youtube/v3/channels?part=id&forUsername=${SAI_BABA_CHANNEL}&key=${YOUTUBE_API_KEY}`
+            );
+            const channelData = await channelResponse.json();
+            if (channelData.items && channelData.items.length > 0) {
+              channelId = channelData.items[0].id;
+            }
+          } catch (e) {
+            console.log('Method 3 failed');
+          }
+        }
+        
+        if (channelId) {
+          await fetchStreamsFromChannel(channelId);
+        } else {
+          console.warn('Could not find channel ID for', SAI_BABA_CHANNEL);
+        }
+      } catch (error) {
+        console.error('Error fetching Sai Baba aartis:', error);
+      } finally {
+        setIsLoadingSaiBaba(false);
+      }
+    };
+
+    const fetchStreamsFromChannel = async (channelId: string) => {
+      try {
+        // Step 2: Get channel's uploads playlist ID
+        let uploadsPlaylistId: string | null = null;
+        try {
+          const channelInfoResponse = await fetch(
+            `https://www.googleapis.com/youtube/v3/channels?part=contentDetails&id=${channelId}&key=${YOUTUBE_API_KEY}`
+          );
+          const channelInfo = await channelInfoResponse.json();
+          if (channelInfo.items && channelInfo.items.length > 0) {
+            uploadsPlaylistId = channelInfo.items[0].contentDetails?.relatedPlaylists?.uploads;
+          }
+        } catch (e) {
+          console.log('Could not get uploads playlist');
+        }
+
+        const allVideos: LiveContentItem[] = [];
+        let videoIdSet = new Set<string>();
+
+        // Method 1: Get recent videos from uploads playlist and filter
+        if (uploadsPlaylistId) {
+          try {
+            const playlistResponse = await fetch(
+              `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${uploadsPlaylistId}&key=${YOUTUBE_API_KEY}&maxResults=20&order=date`
+            );
+            const playlistData = await playlistResponse.json();
+
+            if (playlistData.items) {
+              playlistData.items.forEach((item: any) => {
+                const videoId = item.snippet.resourceId.videoId;
+                if (!videoIdSet.has(videoId)) {
+                  videoIdSet.add(videoId);
+                  const title = item.snippet.title.toLowerCase();
+                  const isAarti = title.includes('aarti') || title.includes('kakad') || 
+                                 title.includes('madhyan') || title.includes('dhoop') || 
+                                 title.includes('shej') || title.includes('sai');
+                  
+                  if (isAarti) {
+                    // Check if it's actually live
+                    const isLive = item.snippet.liveBroadcastContent === 'live';
+                    
+                    // Determine aarti type from title
+                    let aartiType = 'aarti';
+                    let timing = "Live Aarti";
+                    if (title.includes('kakad')) {
+                      aartiType = 'kakad';
+                      timing = "Daily 5:00 AM Kakad Aarti";
+                    } else if (title.includes('madhyan')) {
+                      aartiType = 'madhyan';
+                      timing = "Daily 12:00 PM Madhyan Aarti";
+                    } else if (title.includes('dhoop')) {
+                      aartiType = 'dhoop';
+                      timing = "Daily 6:30 PM Dhoop Aarti";
+                    } else if (title.includes('shej')) {
+                      aartiType = 'shej';
+                      timing = "Daily 10:00 PM Shej Aarti";
+                    }
+                    
+                    allVideos.push({
+                      id: 2000 + allVideos.length, // Start from 2000 to avoid conflicts
+                      aartiId: `sai-baba-${aartiType}-${allVideos.length}`,
+                      title: item.snippet.title,
+                      scholar: "Shirdi Sai Baba Temple",
+                      type: "aarti",
+                      youtubeId: videoId,
+                      isLive: isLive,
+                      timing: isLive ? timing : "Recent Aarti"
+                    });
+                  }
+                }
+              });
+            }
+          } catch (e) {
+            console.log('Error fetching from uploads playlist:', e);
+          }
+        }
+
+        // Method 2: Search for specific queries
+        const searchQueries = [
+          'sai baba aarti',
+          'sai baba live',
+          'shirdi aarti',
+          'kakad aarti',
+          'dhoop aarti'
+        ];
+
+        for (const query of searchQueries) {
+          // Search for live streams
+          try {
+            const searchResponse = await fetch(
+              `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&q=${encodeURIComponent(query)}&type=video&eventType=live&key=${YOUTUBE_API_KEY}&maxResults=5&order=date`
+            );
+            const searchData = await searchResponse.json();
+
+            if (searchData.items) {
+              searchData.items.forEach((item: any) => {
+                const videoId = item.id.videoId;
+                if (!videoIdSet.has(videoId)) {
+                  videoIdSet.add(videoId);
+                  const title = item.snippet.title.toLowerCase();
+                  const isAarti = title.includes('aarti') || title.includes('sai');
+                  
+                  if (isAarti) {
+                    allVideos.push({
+                      id: 2000 + allVideos.length,
+                      aartiId: `sai-baba-live-${allVideos.length}`,
+                      title: item.snippet.title,
+                      scholar: "Shirdi Sai Baba Temple",
+                      type: "aarti",
+                      youtubeId: videoId,
+                      isLive: true,
+                      timing: "Live Aarti"
+                    });
+                  }
+                }
+              });
+            }
+          } catch (e) {
+            console.log('Error searching for live streams:', e);
+          }
+
+          // Also check for recent videos (not just live)
+          try {
+            const recentResponse = await fetch(
+              `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&q=${encodeURIComponent(query)}&type=video&key=${YOUTUBE_API_KEY}&maxResults=3&order=date`
+            );
+            const recentData = await recentResponse.json();
+
+            if (recentData.items) {
+              recentData.items.forEach((item: any) => {
+                const videoId = item.id.videoId;
+                if (!videoIdSet.has(videoId)) {
+                  videoIdSet.add(videoId);
+                  const title = item.snippet.title.toLowerCase();
+                  const isAarti = title.includes('aarti') || title.includes('sai');
+                  
+                  if (isAarti) {
+                    allVideos.push({
+                      id: 2000 + allVideos.length,
+                      aartiId: `sai-baba-recent-${allVideos.length}`,
+                      title: item.snippet.title,
+                      scholar: "Shirdi Sai Baba Temple",
+                      type: "aarti",
+                      youtubeId: videoId,
+                      isLive: false,
+                      timing: "Recent Aarti"
+                    });
+                  }
+                }
+              });
+            }
+          } catch (e) {
+            console.log('Error searching for recent videos:', e);
+          }
+        }
+
+        // Remove duplicates and limit to most relevant ones
+        const uniqueVideos = Array.from(new Map(allVideos.map(v => [v.youtubeId, v])).values());
+        const sortedVideos = uniqueVideos.sort((a, b) => {
+          // Prioritize live streams and specific aarti types
+          const aPriority = a.isLive ? 2 : (a.title.toLowerCase().includes('kakad') || a.title.toLowerCase().includes('dhoop') ? 1 : 0);
+          const bPriority = b.isLive ? 2 : (b.title.toLowerCase().includes('kakad') || b.title.toLowerCase().includes('dhoop') ? 1 : 0);
+          return bPriority - aPriority;
+        });
+
+        // Take top 3-4 most relevant videos
+        setSaiBabaAartis(sortedVideos.slice(0, 4));
+      } catch (error) {
+        console.error('Error fetching streams from channel:', error);
+      }
+    };
+
+    fetchSaiBabaAartis();
+    
+    // Refresh daily - check if it's a new day
+    const checkDailyRefresh = () => {
+      const lastFetchDate = localStorage.getItem('saiBabaAartiLastFetch');
+      const today = new Date().toDateString();
+      
+      if (lastFetchDate !== today) {
+        fetchSaiBabaAartis();
+        localStorage.setItem('saiBabaAartiLastFetch', today);
+      }
+    };
+
+    // Check on mount and set up daily check
+    checkDailyRefresh();
+    const dailyCheckInterval = setInterval(checkDailyRefresh, 3600000); // Check every hour
+
+    return () => clearInterval(dailyCheckInterval);
+  }, []);
 
   // Fetch YouTube thumbnails
   useEffect(() => {
     const fetchThumbnails = async () => {
-      const videoIds = liveContent.map(content => content.youtubeId).join(',');
+      const allContent = [...mahakalAartis, ...saiBabaAartis, ...baseLiveContent];
+      const videoIds = allContent.map(content => content.youtubeId).join(',');
+      
+      if (!videoIds) return;
       
       try {
         const response = await fetch(
@@ -171,15 +684,17 @@ const LiveAarti = () => {
           data.items.forEach((item: any) => {
             thumbnails[item.id] = item.snippet.thumbnails.high?.url || item.snippet.thumbnails.medium?.url;
           });
-          setVideoThumbnails(thumbnails);
+          setVideoThumbnails(prev => ({ ...prev, ...thumbnails }));
         }
       } catch (error) {
         console.error('Error fetching thumbnails:', error);
       }
     };
 
-    fetchThumbnails();
-  }, []);
+    if (mahakalAartis.length > 0 || saiBabaAartis.length > 0 || baseLiveContent.length > 0) {
+      fetchThumbnails();
+    }
+  }, [mahakalAartis, saiBabaAartis]);
 
   const filteredContent = selectedCategory === 'all' 
     ? liveContent 
@@ -190,17 +705,46 @@ const LiveAarti = () => {
   const scheduleWithNext = getScheduleWithNextAarti();
 
   // Map temple names to video IDs
-  const getVideoForTemple = (templeName: string) => {
+  const getVideoForTemple = (templeName: string, aartiName?: string) => {
+    if (templeName === "Mahakaleshwar Temple") {
+      // Find Mahakal aarti video (prefer bhasma aarti)
+      const bhasmaAarti = mahakalAartis.find(a => a.title.toLowerCase().includes('bhasma'));
+      if (bhasmaAarti) return bhasmaAarti.youtubeId;
+      if (mahakalAartis.length > 0) return mahakalAartis[0].youtubeId;
+    }
+    
+    if (templeName === "Shirdi Sai Baba") {
+      // Find Sai Baba aarti video based on aarti name
+      if (aartiName) {
+        const aartiNameLower = aartiName.toLowerCase();
+        if (aartiNameLower.includes('kakad')) {
+          const kakadAarti = saiBabaAartis.find(a => a.title.toLowerCase().includes('kakad'));
+          if (kakadAarti) return kakadAarti.youtubeId;
+        } else if (aartiNameLower.includes('madhyan')) {
+          const madhyanAarti = saiBabaAartis.find(a => a.title.toLowerCase().includes('madhyan'));
+          if (madhyanAarti) return madhyanAarti.youtubeId;
+        } else if (aartiNameLower.includes('dhoop')) {
+          const dhoopAarti = saiBabaAartis.find(a => a.title.toLowerCase().includes('dhoop'));
+          if (dhoopAarti) return dhoopAarti.youtubeId;
+        } else if (aartiNameLower.includes('shej')) {
+          const shejAarti = saiBabaAartis.find(a => a.title.toLowerCase().includes('shej'));
+          if (shejAarti) return shejAarti.youtubeId;
+        }
+      }
+      // Fallback to any live Sai Baba aarti
+      const liveAarti = saiBabaAartis.find(a => a.isLive);
+      if (liveAarti) return liveAarti.youtubeId;
+      if (saiBabaAartis.length > 0) return saiBabaAartis[0].youtubeId;
+    }
+    
     const templeVideoMap: Record<string, string> = {
-      "Shirdi Sai Baba": "0ogMwBJEoqk",
-      "Mahakaleshwar Temple": "5Wyg0zNlyp4",
       "ISKCON Vrindavan": "IKNfQl0-4wk"
     };
-    return templeVideoMap[templeName] || liveContent[0].youtubeId;
+    return templeVideoMap[templeName] || (liveContent.length > 0 ? liveContent[0].youtubeId : "");
   };
 
   const handleAartiClick = (templeName: string, aartiName: string) => {
-    const videoId = getVideoForTemple(templeName);
+    const videoId = getVideoForTemple(templeName, aartiName);
     const video = liveContent.find(v => v.youtubeId === videoId);
     if (video) {
       setSelectedVideo(video);
@@ -289,7 +833,9 @@ const LiveAarti = () => {
           <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl p-4 text-center">
             <Radio size={24} className="mx-auto mb-2 text-red-500 animate-pulse" />
             <p className="text-white/60 text-xs mb-1">Live Streams</p>
-            <p className="text-white font-bold text-lg">{liveContent.filter(c => c.isLive).length}</p>
+            <p className="text-white font-bold text-lg">
+              {(isLoadingMahakal || isLoadingSaiBaba) ? '...' : liveContent.filter(c => c.isLive).length}
+            </p>
           </div>
           <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl p-4 text-center">
             <Calendar size={24} className="mx-auto mb-2 text-orange-400" />
@@ -383,6 +929,12 @@ const LiveAarti = () => {
           <div className="flex items-center gap-2 mb-3">
             <Radio size={16} className="text-red-500 animate-pulse" />
             <h2 className="text-lg font-semibold text-white">Live Now</h2>
+            {(isLoadingMahakal || isLoadingSaiBaba) && (
+              <span className="text-xs text-white/60 ml-2">
+                {isLoadingMahakal && isLoadingSaiBaba ? 'Loading aartis...' : 
+                 isLoadingMahakal ? 'Loading Mahakal aartis...' : 'Loading Sai Baba aartis...'}
+              </span>
+            )}
           </div>
           <div className="grid gap-4">
             {filteredContent.filter(item => item.isLive).map((item) => (
